@@ -23,7 +23,7 @@
 \newcommand{\hlkwd}[1]{\textcolor[rgb]{0,0,0.51}{#1}}
 \end_preamble
 \language english
-\inputencoding default
+\inputencoding auto
 \font_roman default
 \font_sans default
 \font_typewriter default
@@ -1214,6 +1214,104 @@ Ramaze::Template
 
 \begin_layout Subsection
 Engines
+\end_layout
+
+\begin_layout Subsection
+Ezamar
+\end_layout
+
+\begin_layout Standard
+Ezamar is the templating engine shipped with Ramaze, it's a very simple
+ implementation mainly utilizing normal Ruby String interpolation.
+\end_layout
+
+\begin_layout Standard
+As an example, let's see hello world using all basic features of this engine.
+\end_layout
+
+\begin_layout LyX-Code
+<html>
+\end_layout
+
+\begin_layout LyX-Code
+<head><title>Hello, World!</title></head>
+\end_layout
+
+\begin_layout LyX-Code
+<body>
+\end_layout
+
+\begin_layout LyX-Code
+<h1>Hello, World!</h1>
+\end_layout
+
+\begin_layout LyX-Code
+<?r 10.times do |i| ?>
+\end_layout
+
+\begin_layout LyX-Code
+  <p>#{ordinal(i)} times i've said hello</p>
+\end_layout
+
+\begin_layout LyX-Code
+<?r end ?>
+\end_layout
+
+\begin_layout Standard
+To summarize:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="2" columns="2">
+<features>
+<column alignment="left" valignment="top" width="0">
+<column alignment="left" valignment="top" width="0">
+<row>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+#{expression}
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+Interpolates like in normal Ruby String and shows in result.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+<?r expression ?>
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+Only execute <expression> is sourrounded by semicolon.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection

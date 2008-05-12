@@ -1,0 +1,916 @@
+#LyX 1.5.2 created this file. For more info see http://www.lyx.org/
+\lyxformat 276
+\begin_document
+\begin_header
+\textclass article
+\begin_preamble
+\usepackage{color}
+\usepackage{alltt}
+
+\newcommand{\hlstd}[1]{\textcolor[rgb]{0,0,0}{#1}}
+\newcommand{\hlnum}[1]{\textcolor[rgb]{0.16,0.16,1}{#1}}
+\newcommand{\hlesc}[1]{\textcolor[rgb]{1,0,1}{#1}}
+\newcommand{\hlstr}[1]{\textcolor[rgb]{1,0,0}{#1}}
+\newcommand{\hldstr}[1]{\textcolor[rgb]{0.51,0.51,0}{#1}}
+\newcommand{\hlslc}[1]{\textcolor[rgb]{0.51,0.51,0.51}{\it{#1}}}
+\newcommand{\hlcom}[1]{\textcolor[rgb]{0.51,0.51,0.51}{\it{#1}}}
+\newcommand{\hldir}[1]{\textcolor[rgb]{0,0.51,0}{#1}}
+\newcommand{\hlsym}[1]{\textcolor[rgb]{0,0,0}{#1}}
+\newcommand{\hlline}[1]{\textcolor[rgb]{0.33,0.33,0.33}{#1}}
+\newcommand{\hlkwa}[1]{\textcolor[rgb]{0,0,0}{\bf{#1}}}
+\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.51,0,0}{#1}}
+\newcommand{\hlkwc}[1]{\textcolor[rgb]{0,0,0}{\bf{#1}}}
+\newcommand{\hlkwd}[1]{\textcolor[rgb]{0,0,0.51}{#1}}
+\end_preamble
+\language english
+\inputencoding default
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics default
+\paperfontsize 12
+\spacing single
+\papersize a4paper
+\use_geometry true
+\use_amsmath 1
+\use_esint 1
+\cite_engine basic
+\use_bibtopic false
+\paperorientation portrait
+\leftmargin 2.5cm
+\topmargin 2.5cm
+\rightmargin 2.5cm
+\bottommargin 2.5cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\defskip medskip
+\quotes_language polish
+\papercolumns 1
+\papersides 1
+\paperpagestyle fancy
+\tracking_changes false
+\output_changes false
+\author "" 
+\author "" 
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Ramaze
+\end_layout
+
+\begin_layout Author
+Michael Fellinger
+\end_layout
+
+\begin_layout Abstract
+A detailed in-depth walk through the features and behaviours of Ramaze.
+ This document covers Ramaze::Controller, Ramaze::Helper, Ramaze::Template
+ and Ramaze::Action and their interaction with each other.
+\end_layout
+
+\begin_layout Abstract
+\begin_inset LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Abstract
+
+\newpage
+
+\end_layout
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Subsection
+About Ramaze
+\end_layout
+
+\begin_layout Standard
+Ramaze is a modular web application framework, it provides you with just
+ about everything to make your daily development simple and fun.
+\end_layout
+
+\begin_layout Standard
+Making programming fun is a concept popularized by the Ruby programming
+ language in which Ramaze is written.
+ This document assumes at least basic knowledge about Ruby.
+ If you do not know what Ruby is yet, visit 
+\begin_inset LatexCommand url
+target "http://ruby-lang.org"
+
+\end_inset
+
+ and find out, but beware, it may change your life.
+\end_layout
+
+\begin_layout Subsubsection
+Important Links
+\end_layout
+
+\begin_layout Standard
+Naturally for an open source web framework, apart from reading the source
+ most help can be found online.
+ So here are some links to provide more information on all the topics covered
+ in this book.
+\end_layout
+
+\begin_layout Standard
+\begin_inset LatexCommand url
+target "http://ramaze.net"
+
+\end_inset
+
+ provides further documentation, screencasts, links and news.
+\end_layout
+
+\begin_layout Standard
+\begin_inset LatexCommand url
+target "http://ramaze.googlegroups.com"
+
+\end_inset
+
+ hosts the mailing list for discussion with the developers and users of
+ the framework.
+\end_layout
+
+\begin_layout Subsection
+About the author
+\end_layout
+
+\begin_layout Standard
+Michael Fellinger (a.k.a manveru) is initiator and core developer of the Ramaze
+ framework.
+\end_layout
+
+\begin_layout Standard
+His programming language of choice is, as you might have guessed already,
+ Ruby.
+\end_layout
+
+\begin_layout Standard
+Michael lives in Tokyo/Japan since 2006, but is Austrian, whenever you find
+ strange English in this article, blame it on the daily influence of Engrish
+ and that German is his native language.
+\end_layout
+
+\begin_layout Standard
+
+\newpage
+
+\end_layout
+
+\begin_layout Section
+Ramaze
+\end_layout
+
+\begin_layout Standard
+As mentioned above, Ramaze is a web application framework, but also features
+ a readable open source codebase licensed under the Ruby license (optional
+ GPLv2).
+\end_layout
+
+\begin_layout Standard
+The strenghts of Ramaze, as described by its users, are a free style of
+ development, enjoying all the benefits of the underlying Ruby programming
+ language without having the library getting into your way of doing things
+ but instead helping you along as you require it.
+\end_layout
+
+\begin_layout Subsection
+Installation Prerequisits
+\end_layout
+
+\begin_layout List
+\labelwidthstring 00.00.0000
+Ruby 
+\begin_inset LatexCommand url
+target "http://ruby-lang.org"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout List
+\labelwidthstring 00.00.0000
+Rubygems 
+\begin_inset LatexCommand url
+target "http://rubygems.org"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout List
+\labelwidthstring 00.00.0000
+rack 
+\begin_inset LatexCommand url
+target "http://rack.rubyforge.org"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout List
+\labelwidthstring 00.00.0000
+ramaze 
+\begin_inset LatexCommand url
+target "http://ramaze.net"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Installing
+\end_layout
+
+\begin_layout Standard
+Installing Ramaze should be very simple on most systems.
+ I will cover a couple of ways here.
+\end_layout
+
+\begin_layout Subsubsection
+On Windows
+\end_layout
+
+\begin_layout Subsubsection
+On OSX
+\end_layout
+
+\begin_layout Subsubsection
+On Linux
+\end_layout
+
+\begin_layout Standard
+Issue your package manager to install a package commonly called 
+\begin_inset Quotes pld
+\end_inset
+
+rubygems
+\begin_inset Quotes prd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subparagraph
+ArchLinux
+\end_layout
+
+\begin_layout LyX-Code
+$ pacman -S rubygems
+\end_layout
+
+\begin_layout Subparagraph
+Debian
+\end_layout
+
+\begin_layout LyX-Code
+$ apt-get install rubygems
+\end_layout
+
+\begin_layout Standard
+Now that you have rubygems installed, there are a few useful steps to make
+ rubygems run without root permissions by installing them into your home
+ or otherwise by you controlled directory.
+\end_layout
+
+\begin_layout Standard
+I strongly recommend doing this as it simplifies further diving into the
+ ruby ecosystem without having to use sudo or switch to root via su.
+\end_layout
+
+\begin_layout Standard
+Simply add following lines to your ~/.bashrc or ~/.zshrc
+\end_layout
+
+\begin_layout LyX-Code
+export RUBYOPT=-rubygems
+\end_layout
+
+\begin_layout LyX-Code
+export GEM_HOME="$HOME/.gems"
+\end_layout
+
+\begin_layout LyX-Code
+export GEM_PATH="$GEM_HOME"
+\end_layout
+
+\begin_layout LyX-Code
+export PATH="$HOME/.gems/bin:$PATH"
+\end_layout
+
+\begin_layout Standard
+Once you have done that you can simply run
+\end_layout
+
+\begin_layout LyX-Code
+gem install ramaze
+\end_layout
+
+\begin_layout Standard
+And Ramaze will be installed.
+\end_layout
+
+\begin_layout Subsubsection
+On Linux (manual)
+\end_layout
+
+\begin_layout Standard
+Download and install from http://rubygems.org
+\end_layout
+
+\begin_layout List
+\labelwidthstring 00.00.0000
+Visit 
+\begin_inset LatexCommand url
+target "http://rubyforge.org/frs/?group_id=126"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+and download the latest version as tgz.
+\end_layout
+
+\begin_layout Section
+Basic Usage
+\end_layout
+
+\begin_layout Subsection
+Hello, World!
+\end_layout
+
+\begin_layout Standard
+A short introductionary example is always 
+\begin_inset Quotes pld
+\end_inset
+
+Hello world
+\begin_inset Quotes prd
+\end_inset
+
+, in Ramaze this looks like following.
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset External
+	template RubyCode
+	filename source/hello_world.rb
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+First we require rubygems, the package managing wrapper that allows us to
+ require the ramaze library and framework.
+ Next we define a Controller and method that will show up when accessing
+ 
+\begin_inset Quotes pld
+\end_inset
+
+http://localhost:7000/
+\begin_inset Quotes prd
+\end_inset
+
+, 7000 being the default port of Ramaze.
+\end_layout
+
+\begin_layout Subsection
+Configuration
+\end_layout
+
+\begin_layout Standard
+Configuration is mainly done by the Ramaze::Global singleton.
+ It's an instance of Option::Holder, containing a rather large list of options
+ and their defaults.
+ Every option is documented in minimal style and the defaults should make
+ clear in most cases how to set these options.
+\end_layout
+
+\begin_layout Standard
+Configuration can be done either from Environment variables or command-line
+ arguments or directly in your source.
+\end_layout
+
+\begin_layout Standard
+Let's see the different ways, three variations of how to set your port in
+ source first.
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset External
+	template RubyCode
+	filename source/global/various_source.rb
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+now by commandline arguments
+\end_layout
+
+\begin_layout LyX-Code
+$ ruby start.rb --port 8080
+\end_layout
+
+\begin_layout Standard
+and finally using an environment variable
+\end_layout
+
+\begin_layout LyX-Code
+$ RAMAZE_PORT=8080 ruby start.rb
+\end_layout
+
+\begin_layout Subsection
+Application with multiple files
+\end_layout
+
+\begin_layout Standard
+The convention for larger applications consists of a basic (voluntary) directory
+ structure.
+\end_layout
+
+\begin_layout LyX-Code
+/
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+start.rb
+\end_layout
+
+\begin_layout LyX-Code
+public/
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+favicon.ico
+\end_layout
+
+\begin_layout LyX-Code
+robots.txt
+\end_layout
+
+\end_deeper
+\begin_layout LyX-Code
+model/
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+user.rb
+\end_layout
+
+\end_deeper
+\begin_layout LyX-Code
+view/
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+index.xhtml
+\end_layout
+
+\begin_layout LyX-Code
+user/
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+index.xhtml
+\end_layout
+
+\begin_layout LyX-Code
+view.xhtml
+\end_layout
+
+\begin_layout LyX-Code
+new.xhtml
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout LyX-Code
+controller/
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+main.rb
+\end_layout
+
+\begin_layout LyX-Code
+user.rb
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Standard
+Following this layout is fully up to you, but it is recommended to make
+ it easier for other people to jump right into your code and understand
+ things.
+\end_layout
+
+\begin_layout Subsubsection
+Some directory conventions in detail
+\end_layout
+
+\begin_layout Standard
+There are two special cases you should be aware of before starting, /public
+ and /view are defaults in Ramaze, set in Ramaze::Global.public_root and
+ Ramaze::Global.view_root respectively, they are relative to Ramaze::Global.root
+\end_layout
+
+\begin_layout Standard
+To illustrate this, see following example:
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset External
+	template RubyCode
+	filename source/global/directory_convention_inspect.rb
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In practical terms this means that templates are found in the /view directory
+ while static files are served from /public
+\end_layout
+
+\begin_layout Standard
+The rest of the conventions are not connected to any defaults and you will
+ have to manually require your .rb files from start.rb, or however your file
+ is named that contains 
+\begin_inset Quotes pld
+\end_inset
+
+Ramaze.start
+\begin_inset Quotes prd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+
+\newpage
+
+\end_layout
+
+\begin_layout Section
+Ramaze::Controller
+\end_layout
+
+\begin_layout Subsection
+What, exactly, is a Controller anyway?
+\end_layout
+
+\begin_layout Standard
+The first thing you will encounter when starting out with Ramaze is the
+ Controller.
+ This is because the Controller is the central structure in most web application
+s and for that reason you should know as much as possible about it.
+\end_layout
+
+\begin_layout Standard
+To start out, let's take a look at the basic structure of a usual Controller
+ with a hello world example.
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset External
+	template RubyCode
+	filename source/controller/main_controller.rb
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+So we have a class MainController that inherits from Ramaze::Controller,
+ I won't go into details yet what exactly this inheritance means, but it
+ basically integrates your new class into your application.
+\end_layout
+
+\begin_layout Standard
+What you see next is a method called index, containing a simple String.
+\end_layout
+
+\begin_layout Standard
+To fully understand this snippet we will have to understand the concept
+ of mapping in Ramaze.
+ If you are familiar with other web frameworks, you will know about routing,
+ and for those of you who don't, let me explain routing real quick, since
+ it's the principle applied here as well.
+\end_layout
+
+\begin_layout Standard
+So routing basically means, when you get a request from a client to ``/user/song
+s'', the routing will see if you have defined any routes matching this path
+ and executes whatever you specified as the result.
+\end_layout
+
+\begin_layout Standard
+What Ramaze does with mapping is a little bit more sophisticated in order
+ to lift work off the shoulders of the programmer and only make him do manual
+ routing to refine the results of this automatic procedure.
+\end_layout
+
+\begin_layout Standard
+So given a Controller named UserController, Ramaze will route to it with
+ the path ,,/user'', UserNameController would be put at ,,/user_name'' and
+ so on.
+ In this case we have picked the only exception, that is MainController
+ and is mapped at ,,/'' by default.
+\end_layout
+
+\begin_layout Standard
+We will see in the next example how to change this default mapping, since
+ defaults may be good, but nothing beats configurability when needed.
+\end_layout
+
+\begin_layout Subsection
+Remapping
+\end_layout
+
+\begin_layout Standard
+In order to change the default mapping, you can simply use the Controller::map(p
+ath, [path2, ...]) method.
+ This also allows you to map one Controller on multiple paths.
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset External
+	template RubyCode
+	filename source/controller/change_mapping.rb
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This example simply shows how you can use the map method, but let's see
+ a nicer way to do the same using the default mapping.
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset External
+	template RubyCode
+	filename source/controller/default_mapping_1.rb
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+So instead of defining a Controller that is by default mapped to 
+\begin_inset Quotes pld
+\end_inset
+
+/
+\begin_inset Quotes prd
+\end_inset
+
+ and remapping to 
+\begin_inset Quotes pld
+\end_inset
+
+/article
+\begin_inset Quotes prd
+\end_inset
+
+, we can just name it ArticleController and Ramze will take the part of
+ your classes name before 
+\begin_inset Quotes pld
+\end_inset
+
+Controller
+\begin_inset Quotes prd
+\end_inset
+
+ and convert it to a mapping by doing a simple snake case transformation.
+\end_layout
+
+\begin_layout Standard
+Sticking to this kind of defaults makes your code a lot more readable, as
+ people know which Controller will map to which URL without even checking
+ first.
+\end_layout
+
+\begin_layout Subsection
+Controller class methods
+\end_layout
+
+\begin_layout Subsubsection
+Controller::startup
+\end_layout
+
+\begin_layout Subsubsection
+Controller::map
+\end_layout
+
+\begin_layout Subsubsection
+Controller::at
+\end_layout
+
+\begin_layout Subsubsection
+Controller::layout
+\end_layout
+
+\begin_layout Subsubsection
+Controller::template
+\end_layout
+
+\begin_layout Subsubsection
+Controller::check_path
+\end_layout
+
+\begin_layout Subsubsection
+Controller::engine
+\end_layout
+
+\begin_layout Subsubsection
+Controller::current
+\end_layout
+
+\begin_layout Subsubsection
+Controller::handle
+\end_layout
+
+\begin_layout Subsubsection
+Controller::relevant_ancestors
+\end_layout
+
+\begin_layout Subsubsection
+Controller::render
+\end_layout
+
+\begin_layout Standard
+
+\newpage
+
+\end_layout
+
+\begin_layout Section
+Ramaze::Helper
+\end_layout
+
+\begin_layout Standard
+Helpers are modules for inclusion into controllers or other classes.
+\end_layout
+
+\begin_layout Subsection
+Using a helper
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset External
+	template RubyCode
+	filename ruby/using_helper_1.rb
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Rules for helpers
+\end_layout
+
+\begin_layout Standard
+Methods are private.
+\end_layout
+
+\begin_layout Subsection
+How to create your own helper
+\end_layout
+
+\begin_layout Standard
+Creating helpers is simple.
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset External
+	template RubyCode
+	filename ruby/how_to_create_your_own_helper_1.rb
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Exposing methods to routing
+\end_layout
+
+\begin_layout Standard
+
+\newpage
+
+\end_layout
+
+\begin_layout Section
+Ramaze::Action
+\end_layout
+
+\begin_layout Standard
+Action is one of the core parts of Ramaze, a recipe for rendering combinations
+ of controllers, methods and templates.
+\end_layout
+
+\begin_layout Subsection
+What is an Action
+\end_layout
+
+\begin_layout Standard
+An Action, at the lowest level, is a Struct
+\end_layout
+
+\begin_layout Subsection
+Create an Action
+\end_layout
+
+\begin_layout Standard
+Creating an Action can be verbose and is usually not required outside the
+ direct proximity within the codeflow.
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset External
+	template RubyCode
+	filename ruby/create_an_action_1.rb
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Render an Action
+\end_layout
+
+\begin_layout Standard
+We did all this just to render an Action, so let's do that already.
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset External
+	template RubyCode
+	filename ruby/render_an_action_1.rb
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\newpage
+
+\end_layout
+
+\begin_layout Section
+Ramaze::Template
+\end_layout
+
+\begin_layout Subsection
+Engines
+\end_layout
+
+\begin_layout Subsection
+How to create your own engine
+\end_layout
+
+\end_body
+\end_document

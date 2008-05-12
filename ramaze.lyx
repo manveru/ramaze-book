@@ -56,7 +56,7 @@
 \paperpagestyle fancy
 \tracking_changes true
 \output_changes false
-\author "" 
+\author "Michael Fellinger" m.fellinger@gmail.com
 \author "" 
 \end_header
 
@@ -70,13 +70,13 @@ Ramaze
 Michael Fellinger
 \end_layout
 
-\begin_layout Abstract
+\begin_layout Standard
 A detailed in-depth walk through the features and behaviours of Ramaze.
  This document covers Ramaze::Controller, Ramaze::Helper, Ramaze::Template
  and Ramaze::Action and their interaction with each other.
 \end_layout
 
-\begin_layout Abstract
+\begin_layout Standard
 \begin_inset LatexCommand tableofcontents
 
 \end_inset
@@ -84,7 +84,7 @@ A detailed in-depth walk through the features and behaviours of Ramaze.
 
 \end_layout
 
-\begin_layout Abstract
+\begin_layout Standard
 
 \newpage
 
@@ -107,7 +107,7 @@ Ramaze is a modular web application framework, it provides you with just
 Making programming fun is a concept popularized by the Ruby programming
  language in which Ramaze is written.
  This document assumes at least basic knowledge about Ruby.
- If you do not know what Ruby is yet, visit 
+ If you do not know what Ruby is yet, visit
 \begin_inset LatexCommand url
 target "http://ruby-lang.org"
 
@@ -195,7 +195,11 @@ Installation Prerequisits
 
 \begin_layout List
 \labelwidthstring 00.00.0000
-Ruby 
+Ruby
+\change_inserted 0 1210597700
+ 
+\change_unchanged
+
 \begin_inset LatexCommand url
 target "http://ruby-lang.org"
 
@@ -206,7 +210,11 @@ target "http://ruby-lang.org"
 
 \begin_layout List
 \labelwidthstring 00.00.0000
-Rubygems 
+Rubygems
+\change_inserted 0 1210597700
+ 
+\change_unchanged
+
 \begin_inset LatexCommand url
 target "http://rubygems.org"
 
@@ -217,7 +225,11 @@ target "http://rubygems.org"
 
 \begin_layout List
 \labelwidthstring 00.00.0000
-rack 
+rack
+\change_inserted 0 1210597699
+ 
+\change_unchanged
+
 \begin_inset LatexCommand url
 target "http://rack.rubyforge.org"
 
@@ -228,7 +240,11 @@ target "http://rack.rubyforge.org"
 
 \begin_layout List
 \labelwidthstring 00.00.0000
-ramaze 
+ramaze
+\change_inserted 0 1210597698
+ 
+\change_unchanged
+
 \begin_inset LatexCommand url
 target "http://ramaze.net"
 
@@ -259,7 +275,7 @@ On Linux
 \end_layout
 
 \begin_layout Standard
-Issue your package manager to install a package commonly called 
+Issue your package manager to install a package commonly called
 \begin_inset Quotes pld
 \end_inset
 
@@ -339,7 +355,11 @@ Download and install from http://rubygems.org
 
 \begin_layout List
 \labelwidthstring 00.00.0000
-Visit 
+Visit
+\change_inserted 0 1210597707
+ 
+\change_unchanged
+
 \begin_inset LatexCommand url
 target "http://rubyforge.org/frs/?group_id=126"
 
@@ -367,7 +387,7 @@ Ramaze is developed in a git repository, so if you want to get the latest
 
 \begin_layout Standard
 Installing the gem is only recommended if you want to have a version of
- ramaze that 
+ ramaze that
 \begin_inset Quotes pld
 \end_inset
 
@@ -385,7 +405,11 @@ Latest as tarball
 
 \begin_layout Standard
 You can download a tarball directly from github, the location of our Ramaze
- repository is at 
+ repository is at
+\change_inserted 0 1210597709
+ 
+\change_unchanged
+
 \begin_inset LatexCommand htmlurl
 target "http://github.com/manveru/ramaze"
 
@@ -443,7 +467,7 @@ Setting up your environment after installation
 \begin_layout Standard
 Now that you have the latest version of Ramaze, you have to tell Ruby how
  to find it.
- One of the simplest ways is to add a file called 
+ One of the simplest ways is to add a file called
 \begin_inset Quotes pld
 \end_inset
 
@@ -455,15 +479,8 @@ ramaze.rb
 \end_layout
 
 \begin_layout LyX-Code
-$ sudo echo 'require 
-\begin_inset Quotes prd
-\end_inset
-
-/path/to/ramaze/lib/ramaze.rb
-\begin_inset Quotes prd
-\end_inset
-
-' > `ruby -e 'puts $:.grep(/site_ruby$/)'`/ramaze.rb
+$ sudo echo 'require "/path/to/ramaze/lib/ramaze.rb"' > `ruby -e 'puts $:.grep(/si
+te_ruby$/)'`/ramaze.rb
 \end_layout
 
 \begin_layout Standard
@@ -494,7 +511,7 @@ x86_64-linux|...) directories are for compiled extensions and shouldn't be
 \end_layout
 
 \begin_layout Standard
-Create a new file as superuser in the path named 
+Create a new file as superuser in the path named
 \begin_inset Quotes pld
 \end_inset
 
@@ -511,7 +528,7 @@ ramaze.rb
 \end_layout
 
 \begin_layout Standard
-This way, everytime you say 
+This way, everytime you say
 \begin_inset Quotes pld
 \end_inset
 
@@ -532,7 +549,7 @@ Hello, World!
 \end_layout
 
 \begin_layout Standard
-A short introductionary example is always 
+A short introductionary example is always
 \begin_inset Quotes pld
 \end_inset
 
@@ -557,7 +574,6 @@ Hello world
 First we require rubygems, the package managing wrapper that allows us to
  require the ramaze library and framework.
  Next we define a Controller and method that will show up when accessing
- 
 \begin_inset Quotes pld
 \end_inset
 
@@ -645,6 +661,10 @@ Find a way to dynamically insert the output of `ls -R lib/proto`.
 \begin_deeper
 \begin_layout LyX-Code
 start.rb
+\end_layout
+
+\begin_layout LyX-Code
+ramaze.ru
 \end_layout
 
 \begin_layout LyX-Code
@@ -752,7 +772,7 @@ In practical terms this means that templates are found in the /view directory
 \begin_layout Standard
 The rest of the conventions are not connected to any defaults and you will
  have to manually require your .rb files from start.rb, or however your file
- is named that contains 
+ is named that contains
 \begin_inset Quotes pld
 \end_inset
 
@@ -898,7 +918,7 @@ This example simply shows how you can use the map method, but let's see
 \end_layout
 
 \begin_layout Standard
-So instead of defining a Controller that is by default mapped to 
+So instead of defining a Controller that is by default mapped to
 \begin_inset Quotes pld
 \end_inset
 
@@ -906,7 +926,7 @@ So instead of defining a Controller that is by default mapped to
 \begin_inset Quotes prd
 \end_inset
 
- and remapping to 
+ and remapping to
 \begin_inset Quotes pld
 \end_inset
 
@@ -915,7 +935,7 @@ So instead of defining a Controller that is by default mapped to
 \end_inset
 
 , we can just name it ArticleController and Ramze will take the part of
- your classes name before 
+ your classes name before
 \begin_inset Quotes pld
 \end_inset
 
@@ -1221,40 +1241,33 @@ Ezamar
 \end_layout
 
 \begin_layout Standard
-Ezamar is the templating engine shipped with Ramaze, it's a very simple
- implementation mainly utilizing normal Ruby String interpolation.
+Ezamar is the default templating engine shipped with Ramaze, it's a very
+ simple implementation but offers you most things you will demand from templatin
+g.
 \end_layout
 
 \begin_layout Standard
-As an example, let's see hello world using all basic features of this engine.
+One of the advantages of Ezamar is quite fast execution based on the optimized
+ String interpolation in Ruby.
 \end_layout
 
-\begin_layout LyX-Code
-<html>
+\begin_layout Standard
+Also, your templates will work out of the box, you don't have to install
+ anything besides Ramaze.
 \end_layout
 
-\begin_layout LyX-Code
-<head><title>Hello, World!</title></head>
+\begin_layout Subsubsection
+Syntax
 \end_layout
 
-\begin_layout LyX-Code
-<body>
+\begin_layout Standard
+Output is done by using #{} syntax, the last expression inside the parenthesis
+ is interpolated in the final template.
 \end_layout
 
-\begin_layout LyX-Code
-<h1>Hello, World!</h1>
-\end_layout
-
-\begin_layout LyX-Code
-<?r 10.times do |i| ?>
-\end_layout
-
-\begin_layout LyX-Code
-  <p>#{ordinal(i)} times i've said hello</p>
-\end_layout
-
-\begin_layout LyX-Code
-<?r end ?>
+\begin_layout Standard
+The PI (Processing Instruction) is <?r ?>, r standing for Ruby, In future
+ more PIs may become available.
 \end_layout
 
 \begin_layout Standard
@@ -1272,7 +1285,7 @@ To summarize:
 \begin_inset Text
 
 \begin_layout Standard
-#{expression}
+#{ (expr) }
 \end_layout
 
 \end_inset
@@ -1292,7 +1305,7 @@ Interpolates like in normal Ruby String and shows in result.
 \begin_inset Text
 
 \begin_layout Standard
-<?r expression ?>
+<?r (expr) ?>
 \end_layout
 
 \end_inset
@@ -1301,7 +1314,7 @@ Interpolates like in normal Ruby String and shows in result.
 \begin_inset Text
 
 \begin_layout Standard
-Only execute <expression> is sourrounded by semicolon.
+Only execute; <expression> is sourrounded by semicolon.
 \end_layout
 
 \end_inset
@@ -1312,6 +1325,539 @@ Only execute <expression> is sourrounded by semicolon.
 \end_inset
 
 
+\end_layout
+
+\begin_layout Subsubsection
+Usage
+\end_layout
+
+\begin_layout Standard
+As an example, let's see hello world using all basic features of this engine.
+\end_layout
+
+\begin_layout LyX-Code
+<html>
+\end_layout
+
+\begin_layout LyX-Code
+  <head><title>Hello, World!</title></head>
+\end_layout
+
+\begin_layout LyX-Code
+  <body>
+\end_layout
+
+\begin_layout LyX-Code
+    <h1>Hello, World!</h1>
+\end_layout
+
+\begin_layout LyX-Code
+    <?r 10.times do |i| ?>
+\end_layout
+
+\begin_layout LyX-Code
+      <p>#{ordinal(i)} times i've said hello</p>
+\end_layout
+
+\begin_layout LyX-Code
+    <?r end ?>
+\end_layout
+
+\begin_layout LyX-Code
+  </body>
+\end_layout
+
+\begin_layout LyX-Code
+</html>
+\end_layout
+
+\begin_layout Subsection
+Erubis
+\end_layout
+
+\begin_layout Standard
+Erubis is an implementation of eRuby, giving you the well known ERB syntax.
+\end_layout
+
+\begin_layout Standard
+It is very fast, around three times faster than ERB and even 10% faster
+ than eruby.
+\end_layout
+
+\begin_layout Standard
+Other features are
+\end_layout
+
+\begin_layout Itemize
+Multi-language support (Ruby/PHP/C/Java/Scheme/Perl/Javascript)
+\end_layout
+
+\begin_layout Itemize
+Auto escaping support
+\end_layout
+
+\begin_layout Itemize
+Auto trimming spaces around '<% %>'
+\end_layout
+
+\begin_layout Itemize
+Embedded pattern changeable (default '<% %>')
+\end_layout
+
+\begin_layout Itemize
+Enable to handle Processing Instructions (PI) as embedded pattern (ex.
+ '<?rb ...
+ ?>')
+\end_layout
+
+\begin_layout Itemize
+Context object available and easy to combine eRuby template with YAML datafile
+\end_layout
+
+\begin_layout Itemize
+Print statement available
+\end_layout
+
+\begin_layout Itemize
+Easy to extend and customize in subclass
+\end_layout
+
+\begin_layout Standard
+Erubis is implemented in pure Ruby, so it works on most implemenations of
+ the language.
+ According to their dependencies it requires Ruby 1.8 or higher.
+\end_layout
+
+\begin_layout Subsubsection
+Syntax
+\end_layout
+
+\begin_layout Standard
+Erubis provides you default ERB syntax, PIs are inside <% %>, output is
+ done by <%= %>
+\end_layout
+
+\begin_layout Standard
+Summary:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="3" columns="2">
+<features>
+<column alignment="center" valignment="top" leftline="true" width="0">
+<column alignment="center" valignment="top" leftline="true" rightline="true" width="0">
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+<% (expr) %>
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+Execute expression, ignore result
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+<%= (expr) %>
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+Interpolate last expressions result
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+<?rb (expr) %>
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+Execute expression, ignore result
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Usage
+\end_layout
+
+\begin_layout LyX-Code
+<html>
+\end_layout
+
+\begin_layout LyX-Code
+  <head><title>Hello, World!</title></head>
+\end_layout
+
+\begin_layout LyX-Code
+  <body>
+\end_layout
+
+\begin_layout LyX-Code
+    <h1>Hello, World!</h1>
+\end_layout
+
+\begin_layout LyX-Code
+    <% 10.times do |i| %>
+\end_layout
+
+\begin_layout LyX-Code
+      <p><%= ordinal(i) %> times i've said hello</p>
+\end_layout
+
+\begin_layout LyX-Code
+    <% end %>
+\end_layout
+
+\begin_layout LyX-Code
+  </body>
+\end_layout
+
+\begin_layout LyX-Code
+</html>
+\end_layout
+
+\begin_layout Subsection
+Haml
+\end_layout
+
+\begin_layout Standard
+Haml is a templating engine for (X)HTML, designed to make it both easier
+ and more pleasant to code your documents.
+\end_layout
+
+\begin_layout Standard
+It attempts to eliminate redundancy, reflecting the underlying structure
+ that the document represents, and providing elegant, easily understandable
+ but powerful syntax.
+\end_layout
+
+\begin_layout Standard
+It's closely related to the Sass templating engine also supported by Ramaze.
+\end_layout
+
+\begin_layout Subsubsection
+Syntax
+\end_layout
+
+\begin_layout Standard
+Haml syntax is more involved as it replaces conventional HTML tags completely
+ and providing its own indentation-based alternative.
+\end_layout
+
+\begin_layout Standard
+The way to create tags can be shortly summarized with
+\end_layout
+
+\begin_layout LyX-Code
+%tagname{ :attr1 => 'value1', :attr2 => 'value2' } Contents
+\end_layout
+
+\begin_layout LyX-Code
+# Equivalent in HTML:
+\end_layout
+
+\begin_layout LyX-Code
+<tagname attr1='value1' attr2='value2'>Contents</tagname>
+\end_layout
+
+\begin_layout Standard
+There are shortcuts, especially for the
+\emph on
+<div>
+\emph default
+ tag:
+\end_layout
+
+\begin_layout LyX-Code
+#foo Bar
+\end_layout
+
+\begin_layout LyX-Code
+# Equivalent in HTML:
+\end_layout
+
+\begin_layout LyX-Code
+<div id='foo'>Bar</div>
+\end_layout
+
+\begin_layout Standard
+To nest tags, just adjust their indentation:
+\end_layout
+
+\begin_layout LyX-Code
+#foo Bar
+\end_layout
+
+\begin_layout LyX-Code
+  #bar Foo
+\end_layout
+
+\begin_layout LyX-Code
+# in HTML:
+\end_layout
+
+\begin_layout LyX-Code
+<div id='foo'>Bar
+\end_layout
+
+\begin_layout LyX-Code
+  <div id='bar'>Foo</div>
+\end_layout
+
+\begin_layout LyX-Code
+</div>
+\end_layout
+
+\begin_layout Standard
+Which already shows you how this can be a very powerful way to write your
+ templates.
+\end_layout
+
+\begin_layout Standard
+An example embedding Ruby code:
+\end_layout
+
+\begin_layout LyX-Code
+%p Date/Time:
+\end_layout
+
+\begin_layout LyX-Code
+  - now = DateTime.now
+\end_layout
+
+\begin_layout LyX-Code
+  %strong= now
+\end_layout
+
+\begin_layout LyX-Code
+  - if now > DateTime.parse('December 31, 2006')
+\end_layout
+
+\begin_layout LyX-Code
+    = 'Happy new ' + 'year!'
+\end_layout
+
+\begin_layout Standard
+As you can see, lines prefixed with '-' are executed but their results are
+ not shown in the result, contrary to that, lines starting with '=' are
+ executed and their result is interpolated in the template.
+\end_layout
+
+\begin_layout Standard
+Haml doesn't only omit ending tags by indentation but the same mechanism
+ also helps to the 'end' statements in embedded Ruby code.
+ This way the HTML and Ruby languages are connected in their side-effects,
+ providing you with a quite terse but still readable and DRY syntax to write
+ your templates in.
+\end_layout
+
+\begin_layout Standard
+There are downsides to this approach, as it's not possible to control how
+ exactly the final document is generated, but Haml is gaining momentum in
+ the Ruby community very fast despite that fact, as it's simply not important
+ for most applications on the web.
+\end_layout
+
+\begin_layout Subsubsection
+Usage
+\end_layout
+
+\begin_layout LyX-Code
+%html
+\end_layout
+
+\begin_layout LyX-Code
+  %head
+\end_layout
+
+\begin_layout LyX-Code
+    %title Hello, World!
+\end_layout
+
+\begin_layout LyX-Code
+  %body
+\end_layout
+
+\begin_layout LyX-Code
+    %h1 Hello, World!
+\end_layout
+
+\begin_layout LyX-Code
+    - 10.times do |i|
+\end_layout
+
+\begin_layout LyX-Code
+      %p= "#{ordinal(i)} times i've said hello"
+\end_layout
+
+\begin_layout Subsection
+Sass
+\end_layout
+
+\begin_layout Subsubsection
+Syntax
+\end_layout
+
+\begin_layout Subsubsection
+Usage
+\end_layout
+
+\begin_layout Subsection
+Amrita2
+\end_layout
+
+\begin_layout Subsubsection
+Syntax
+\end_layout
+
+\begin_layout Subsubsection
+Usage
+\end_layout
+
+\begin_layout Subsection
+Liquid
+\end_layout
+
+\begin_layout Subsubsection
+Syntax
+\end_layout
+
+\begin_layout Subsubsection
+Usage
+\end_layout
+
+\begin_layout Subsection
+Markaby
+\end_layout
+
+\begin_layout Subsubsection
+Syntax
+\end_layout
+
+\begin_layout Subsubsection
+Usage
+\end_layout
+
+\begin_layout Subsection
+Nagoro
+\end_layout
+
+\begin_layout Subsubsection
+Syntax
+\end_layout
+
+\begin_layout Subsubsection
+Usage
+\end_layout
+
+\begin_layout Subsection
+None
+\end_layout
+
+\begin_layout Subsubsection
+Syntax
+\end_layout
+
+\begin_layout Subsubsection
+Usage
+\end_layout
+
+\begin_layout Subsection
+RedCloth
+\end_layout
+
+\begin_layout Subsubsection
+Syntax
+\end_layout
+
+\begin_layout Subsubsection
+Usage
+\end_layout
+
+\begin_layout Subsection
+Remarkably
+\end_layout
+
+\begin_layout Subsubsection
+Syntax
+\end_layout
+
+\begin_layout Subsubsection
+Usage
+\end_layout
+
+\begin_layout Subsection
+Tagz
+\end_layout
+
+\begin_layout Subsubsection
+Syntax
+\end_layout
+
+\begin_layout Subsubsection
+Usage
+\end_layout
+
+\begin_layout Subsection
+Tenjin
+\end_layout
+
+\begin_layout Subsubsection
+Syntax
+\end_layout
+
+\begin_layout Subsubsection
+Usage
+\end_layout
+
+\begin_layout Subsection
+XSLT
+\end_layout
+
+\begin_layout Subsubsection
+Syntax
+\end_layout
+
+\begin_layout Subsubsection
+Usage
 \end_layout
 
 \begin_layout Subsection

@@ -56,7 +56,7 @@
 \paperpagestyle fancy
 \tracking_changes true
 \output_changes false
-\author "Michael Fellinger" m.fellinger@gmail.com
+\author "" 
 \author "" 
 \end_header
 
@@ -195,11 +195,7 @@ Installation Prerequisits
 
 \begin_layout List
 \labelwidthstring 00.00.0000
-Ruby
-\change_inserted 0 1210597700
- 
-\change_unchanged
-
+Ruby 
 \begin_inset LatexCommand url
 target "http://ruby-lang.org"
 
@@ -210,11 +206,7 @@ target "http://ruby-lang.org"
 
 \begin_layout List
 \labelwidthstring 00.00.0000
-Rubygems
-\change_inserted 0 1210597700
- 
-\change_unchanged
-
+Rubygems 
 \begin_inset LatexCommand url
 target "http://rubygems.org"
 
@@ -225,11 +217,7 @@ target "http://rubygems.org"
 
 \begin_layout List
 \labelwidthstring 00.00.0000
-rack
-\change_inserted 0 1210597699
- 
-\change_unchanged
-
+rack 
 \begin_inset LatexCommand url
 target "http://rack.rubyforge.org"
 
@@ -240,11 +228,7 @@ target "http://rack.rubyforge.org"
 
 \begin_layout List
 \labelwidthstring 00.00.0000
-ramaze
-\change_inserted 0 1210597698
- 
-\change_unchanged
-
+ramaze 
 \begin_inset LatexCommand url
 target "http://ramaze.net"
 
@@ -355,11 +339,7 @@ Download and install from http://rubygems.org
 
 \begin_layout List
 \labelwidthstring 00.00.0000
-Visit
-\change_inserted 0 1210597707
- 
-\change_unchanged
-
+Visit 
 \begin_inset LatexCommand url
 target "http://rubyforge.org/frs/?group_id=126"
 
@@ -405,11 +385,7 @@ Latest as tarball
 
 \begin_layout Standard
 You can download a tarball directly from github, the location of our Ramaze
- repository is at
-\change_inserted 0 1210597709
- 
-\change_unchanged
-
+ repository is at 
 \begin_inset LatexCommand htmlurl
 target "http://github.com/manveru/ramaze"
 
@@ -1059,6 +1035,37 @@ Exposing methods to routing
 \end_layout
 
 \begin_layout Standard
+By adding an helper module to the Ramaze::Helper::LOOKUP Set it's possible
+ to add the module to the lookup for methods together with the Ramaze::Controlle
+r.
+ Conflicts of method names in Helper and Controller will prefer the Controller,
+ following the same rules as Ruby inheritance.
+ 
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset External
+	template RubyCode
+	filename source/helper/exposing_methods_to_routing.rb
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In this example we expose the public method Locale#locale (Ruby methods
+ are public by default).
+ So in your application your can just use the helper and when the client
+ visits the /locale/en route the session will reflect this choice.
+\end_layout
+
+\begin_layout Standard
+Please note that this code doesn't include a redirect_referrer call since
+ we may be using it within our own codebase in the middle of a method.
+\end_layout
+
+\begin_layout Standard
 
 \newpage
 
@@ -1573,7 +1580,7 @@ It attempts to eliminate redundancy, reflecting the underlying structure
 It's closely related to the Sass templating engine also supported by Ramaze.
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Subsubsection*
 Syntax
 \end_layout
 
@@ -1696,7 +1703,7 @@ There are downsides to this approach, as it's not possible to control how
  for most applications on the web.
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Subsubsection*
 Usage
 \end_layout
 
@@ -1732,11 +1739,26 @@ Usage
 Sass
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Standard
+Haml is a templating engine for CSS, designed to make it both easier and
+ more pleasant to create styles for your documents.
+\end_layout
+
+\begin_layout Standard
+It attempts to eliminate redundancy, reflecting the underlying structure
+ that CSS represents, and providing elegant, easily understandable but powerful
+ syntax.
+\end_layout
+
+\begin_layout Standard
+It's closely related to the Haml templating engine also supported by Ramaze.
+\end_layout
+
+\begin_layout Subsubsection*
 Syntax
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Subsubsection*
 Usage
 \end_layout
 
@@ -1744,11 +1766,11 @@ Usage
 Amrita2
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Subsubsection*
 Syntax
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Subsubsection*
 Usage
 \end_layout
 
@@ -1756,11 +1778,11 @@ Usage
 Liquid
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Subsubsection*
 Syntax
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Subsubsection*
 Usage
 \end_layout
 

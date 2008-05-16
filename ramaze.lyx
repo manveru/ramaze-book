@@ -54,7 +54,7 @@
 \papercolumns 1
 \papersides 1
 \paperpagestyle fancy
-\tracking_changes true
+\tracking_changes false
 \output_changes false
 \author "" 
 \author "" 
@@ -1435,7 +1435,7 @@ Erubis is implemented in pure Ruby, so it works on most implemenations of
  According to their dependencies it requires Ruby 1.8 or higher.
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Subsubsection*
 Syntax
 \end_layout
 
@@ -1521,7 +1521,7 @@ Execute expression, ignore result
 
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Subsubsection*
 Usage
 \end_layout
 
@@ -1790,11 +1790,11 @@ Usage
 Markaby
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Subsubsection*
 Syntax
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Subsubsection*
 Usage
 \end_layout
 
@@ -1802,11 +1802,11 @@ Usage
 Nagoro
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Subsubsection*
 Syntax
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Subsubsection*
 Usage
 \end_layout
 
@@ -1814,11 +1814,11 @@ Usage
 None
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Subsubsection*
 Syntax
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Subsubsection*
 Usage
 \end_layout
 
@@ -1826,11 +1826,11 @@ Usage
 RedCloth
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Subsubsection*
 Syntax
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Subsubsection*
 Usage
 \end_layout
 
@@ -1838,11 +1838,11 @@ Usage
 Remarkably
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Subsubsection*
 Syntax
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Subsubsection*
 Usage
 \end_layout
 
@@ -1850,11 +1850,11 @@ Usage
 Tagz
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Subsubsection*
 Syntax
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Subsubsection*
 Usage
 \end_layout
 
@@ -1862,11 +1862,11 @@ Usage
 Tenjin
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Subsubsection*
 Syntax
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Subsubsection*
 Usage
 \end_layout
 
@@ -1874,16 +1874,49 @@ Usage
 XSLT
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Subsubsection*
 Syntax
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Subsubsection*
 Usage
 \end_layout
 
 \begin_layout Subsection
 How to create your own engine
+\end_layout
+
+\begin_layout Section
+Ramaze::Adapter
+\end_layout
+
+\begin_layout Standard
+Ramaze::Adapter is the module that contains and controls the various servers
+ Ramaze runs on.
+\end_layout
+
+\begin_layout Standard
+Adapters generally inherit from Ramaze::Adapter::Base, but are not instantiated,
+ so singleton methods are used instead.
+\end_layout
+
+\begin_layout Subsection
+Adapter::startup
+\end_layout
+
+\begin_layout Standard
+The control flow in the Adapter module is largely decided by Global configuratio
+n.
+ Adapter::startup is called by Ramaze::start as Adapter is one of the elements
+ in Ramaze.trait[:essentials].
+\end_layout
+
+\begin_layout Standard
+Depending on the object assigned to Global.adapter
+\end_layout
+
+\begin_layout Subsection
+How to create your own adapter
 \end_layout
 
 \end_body

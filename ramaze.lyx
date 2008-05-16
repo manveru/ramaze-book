@@ -72,8 +72,8 @@ Michael Fellinger
 
 \begin_layout Standard
 A detailed in-depth walk through the features and behaviours of Ramaze.
- This document covers Ramaze::Controller, Ramaze::Helper, Ramaze::Template
- and Ramaze::Action and their interaction with each other.
+ This document covers different aspects of and in Ramaze and their interaction
+ with each other.
 \end_layout
 
 \begin_layout Standard

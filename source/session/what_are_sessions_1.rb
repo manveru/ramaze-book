@@ -4,7 +4,6 @@ class MainController < Ramaze::Controller
   HELLO = {
     'en' => "Hello, world!",
     'de' => "Hallo Welt!",
-    'ja' => "ハロー。ワールド",
     'it' => "Ciao, mondo!",
   }
 

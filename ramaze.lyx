@@ -455,52 +455,7 @@ ramaze.rb
 \end_layout
 
 \begin_layout LyX-Code
-$ sudo echo 'require "/path/to/ramaze/lib/ramaze.rb"' > `ruby -e 'puts $:.grep(/si
-te_ruby$/)'`/ramaze.rb
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Note
-status open
-
-\begin_layout Standard
-Make this more beautiful and less magic?
-\end_layout
-
-\begin_layout Standard
-Maybe we can add a rake task, or just write a longer description in multiple
- steps.
-\end_layout
-
-\begin_layout Standard
-Something along the lines of:
-\end_layout
-
-\begin_layout Standard
-ruby -e 'puts $:' # => /usr/lib/ruby/site_ruby/*
-\end_layout
-
-\begin_layout Standard
-pick one, for example site_ruby/1.8 or site_ruby/ - note that the 1.8/(i686-linux|
-x86_64-linux|...) directories are for compiled extensions and shouldn't be
- used for Ramaze.
-\end_layout
-
-\begin_layout Standard
-Create a new file as superuser in the path named
-\begin_inset Quotes pld
-\end_inset
-
-ramaze.rb
-\begin_inset Quotes prd
-\end_inset
-
- and put the require in there.
-\end_layout
-
-\end_inset
-
-
+$ echo 'export RUBYLIB="/path/to/ramaze/lib/:$RUBYLIB"' >> ~/.bashrc
 \end_layout
 
 \begin_layout Standard

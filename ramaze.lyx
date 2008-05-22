@@ -938,6 +938,208 @@ Controller::render
 \end_layout
 
 \begin_layout Section
+Ramaze::Current
+\end_layout
+
+\begin_layout Standard
+
+\newpage
+
+\end_layout
+
+\begin_layout Section
+Ramaze::Trinity
+\end_layout
+
+\begin_layout Standard
+
+\newpage
+
+\end_layout
+
+\begin_layout Section
+Ramaze::Session
+\end_layout
+
+\begin_layout Standard
+Sessions are an essential part of most dynamic web applications and so Ramaze
+ makes it very simple to use them.
+ We will see how to use the automated sessions, handle cookies manually
+ and change the backend where session information is stored on the serverside.
+\end_layout
+
+\begin_layout Subsection
+What are sessions
+\end_layout
+
+\begin_layout Standard
+Although I said that they are essential, some people may not yet be familiar
+ with sessions and what use cases exist for them, so let's take a look at
+ a simple application using sessions first.
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset External
+	template RubyCode
+	filename source/session/what_are_sessions_1.rb
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In this, we select a random language key that we then set in our session.
+ The browser that hits the index action will from now on always have this
+ language associated to it and you can see it in your controller and templates
+ inside the session object.
+\end_layout
+
+\begin_layout Standard
+Now a few details on how this works exactly.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Standard
+We're working on a improvment of the session system, so they are acting
+ in a lazy manner and default to storing information directly in the cookies
+ rather than being referred to with a simple key and stored serverside.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+On every request, as we mentioned in the chapter about Ramaze::Current already,
+ a Session is initialized and put into Thread.current[:session].
+ This makes it possible to access the session during the whole request.
+ The initialization will set a cookie in the current response, setting the
+ key 
+\begin_inset Quotes pld
+\end_inset
+
+_ramaze_session_id
+\begin_inset Quotes prd
+\end_inset
+
+ with a unique value representing the key to the data stored on the server.
+\end_layout
+
+\begin_layout Standard
+Cookies are basically a part of the response headers, a simple string that
+ is being sent back and forth during the request/response cycle.
+ Everytime a browser sends a request it will also send the cookie in the
+ header with it, that way we can look up which data belongs to that browser.
+\end_layout
+
+\begin_layout Standard
+In Ramaze this data is stored in a cache, at the time of writing the two
+ most commonly used ones are MemcachedCache and MemoryCache.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Standard
+This, i'd like to change in the future as well, putting them in the Ramaze::Cach
+e namespace.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Although they may sound similar, they are quite different concepts, MemoryCache
+ equals a Ruby Hash, it doesn't put any restrains on the kind or amount
+ of data stored, which can become problematic for larger applications.
+ MemcachedCache on the other hand utilizes the MemCache library to communicate
+ with an (usually) local memcache daemon that handles caching of key/value
+ pairs in namespaces.
+ It allows you to control the way caching happens very well, one commonly
+ used option is to put a limit on the overall amount of data stored.
+ However, old data is thrown away if your application tries to cache more
+ data than allowed.
+\end_layout
+
+\begin_layout Standard
+There is a third way which was contributed recently, to utilize the Sequel
+ ORM and use a relational database for storage, which gives both control
+ and persistence as old data is never thrown away unless explicitly ordered
+ to do so.
+\end_layout
+
+\begin_layout Subsection
+Configuration
+\end_layout
+
+\begin_layout Standard
+A number of options lets you decide how to use sessions and their behaviour.
+\end_layout
+
+\begin_layout Standard
+To disable them, simply assign:
+\end_layout
+
+\begin_layout LyX-Code
+Ramaze::Global.sessions = false
+\end_layout
+
+\begin_layout Standard
+This will give you some speedup and less data being transferred between
+ server and client, it does not affect the ability to manually set cookies
+ in the response.
+\end_layout
+
+\begin_layout Standard
+To change the backend for the session cache only (as opposed to it for all
+ caches in your Ramaze, we talk about that in the Ramaze::Cache section)
+ do following:
+\end_layout
+
+\begin_layout LyX-Code
+Ramaze::Global.cache_alternative[:sessions] = Ramaze::MemcachedCache
+\end_layout
+
+\begin_layout Standard
+Please make sure you have the memcached server running before starting an
+ application with this setting.
+\end_layout
+
+\begin_layout Standard
+
+\newpage
+
+\end_layout
+
+\begin_layout Section
+Ramaze::Request
+\end_layout
+
+\begin_layout Standard
+
+\newpage
+
+\end_layout
+
+\begin_layout Section
+Ramaze::Response
+\end_layout
+
+\begin_layout Standard
+
+\newpage
+
+\end_layout
+
+\begin_layout Section
 Ramaze::Helper
 \end_layout
 

@@ -98,13 +98,15 @@ About Ramaze
 \end_layout
 
 \begin_layout Standard
-Ramaze is a modular web application framework, it provides you with just
- about everything to make your daily development simple and fun.
+Ramaze is a modular web application framework.
+ It provides you with just about everything you need to make your daily
+ web development simple and fun.
+ Making programming fun is a concept popularized by the Ruby programming
+ language.
 \end_layout
 
 \begin_layout Standard
-Making programming fun is a concept popularized by the Ruby programming
- language in which Ramaze is written.
+Ramaze is written in Ruby.
  This document assumes at least basic knowledge about Ruby.
  If you do not know what Ruby is yet, visit
 \begin_inset LatexCommand url
@@ -112,7 +114,7 @@ target "http://ruby-lang.org"
 
 \end_inset
 
- and find out, but beware, it may change your life.
+ and find out; but beware, it may change your life.
 \end_layout
 
 \begin_layout Subsubsection
@@ -120,8 +122,8 @@ Important Links
 \end_layout
 
 \begin_layout Standard
-Naturally for an open source web framework, apart from reading the source
- most help can be found online.
+Naturally, since Ramaze is an open source web framework, most help can be
+ found online (apart from reading the source code itself).
  So here are some links to provide more information on all the topics covered
  in this book.
 \end_layout
@@ -150,8 +152,8 @@ About the author
 \end_layout
 
 \begin_layout Standard
-Michael Fellinger (a.k.a manveru) is initiator and core developer of the Ramaze
- framework.
+Michael Fellinger (a.k.a.
+ manveru) is the creator and core developer of the Ramaze framework.
 \end_layout
 
 \begin_layout Standard
@@ -160,9 +162,7 @@ His programming language of choice is, as you might have guessed already,
 \end_layout
 
 \begin_layout Standard
-Michael lives in Tokyo/Japan since 2006, but is Austrian, whenever you find
- strange English in this article, blame it on the daily influence of Engrish
- and that German is his native language.
+Michael has been living in Tokyo, Japan since 2006, but is Austrian by birth.
 \end_layout
 
 \begin_layout Standard

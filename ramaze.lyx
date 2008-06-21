@@ -503,7 +503,7 @@ Hello, World!
 \end_layout
 
 \begin_layout Standard
-A short introductionary example is always
+A short introductory example is always 
 \begin_inset Quotes pld
 \end_inset
 
@@ -511,7 +511,8 @@ Hello world
 \begin_inset Quotes prd
 \end_inset
 
-, in Ramaze this looks like following.
+.
+ In Ramaze this looks like following.
 \end_layout
 
 \begin_layout LyX-Code
@@ -528,6 +529,7 @@ Hello world
 First we require rubygems, the package managing wrapper that allows us to
  require the ramaze library and framework.
  Next we define a Controller and method that will show up when accessing
+ 
 \begin_inset Quotes pld
 \end_inset
 
@@ -543,7 +545,7 @@ Configuration
 \end_layout
 
 \begin_layout Standard
-Configuration is mainly done by the Ramaze::Global singleton.
+Configuration is mainly done using the Ramaze::Global singleton.
  It's an instance of Option::Holder, containing a rather large list of options
  and their defaults.
  Every option is documented in minimal style and the defaults should make
@@ -551,13 +553,13 @@ Configuration is mainly done by the Ramaze::Global singleton.
 \end_layout
 
 \begin_layout Standard
-Configuration can be done either from Environment variables or command-line
- arguments or directly in your source.
+Configuration can be done three different ways: using environment variables,
+ command-line arguments, or directly in your source code.
 \end_layout
 
 \begin_layout Standard
-Let's see the different ways, three variations of how to set your port in
- source first.
+Let's look at the three variations of how to set your port.
+ First, in your source code:
 \end_layout
 
 \begin_layout LyX-Code
@@ -571,7 +573,7 @@ Let's see the different ways, three variations of how to set your port in
 \end_layout
 
 \begin_layout Standard
-now by commandline arguments
+now by commandline arguments:
 \end_layout
 
 \begin_layout LyX-Code
@@ -579,7 +581,7 @@ $ ruby start.rb --port 8080
 \end_layout
 
 \begin_layout Standard
-and finally using an environment variable
+and finally using an environment variable:
 \end_layout
 
 \begin_layout LyX-Code
@@ -591,8 +593,9 @@ Application with multiple files
 \end_layout
 
 \begin_layout Standard
-The convention for larger applications consists of a basic (voluntary) directory
- structure.
+The convention for larger applications consists of a basic directory structure.
+ Using this structure is optional; you can specify different directories
+ with special commands.
 \end_layout
 
 \begin_layout Standard
@@ -689,19 +692,20 @@ user.rb
 \end_deeper
 \end_deeper
 \begin_layout Standard
-Following this layout is fully up to you, but it is recommended to make
- it easier for other people to jump right into your code and understand
- things.
+Although it is up to you to decide whether you want to follow this layout,
+ it is recommended so that it's easier for other people to jump right into
+ your code and understand things.
 \end_layout
 
 \begin_layout Subsubsection
-Some directory conventions in detail
+Some details about the directory conventions
 \end_layout
 
 \begin_layout Standard
-There are two special cases you should be aware of before starting, /public
- and /view are defaults in Ramaze, set in Ramaze::Global.public_root and
- Ramaze::Global.view_root respectively, they are relative to Ramaze::Global.root
+There are two special cases you should be aware of before starting.
+ /public and /view are defaults in Ramaze, set in Ramaze::Global.public_root
+ and Ramaze::Global.view_root respectively.
+ They are relative to Ramaze::Global.root.
 \end_layout
 
 \begin_layout Standard
@@ -720,13 +724,13 @@ To illustrate this, see following example:
 
 \begin_layout Standard
 In practical terms this means that templates are found in the /view directory
- while static files are served from /public
+ while static files are served from /public.
 \end_layout
 
 \begin_layout Standard
-The rest of the conventions are not connected to any defaults and you will
- have to manually require your .rb files from start.rb, or however your file
- is named that contains
+The rest of the conventions are not explicitly understood by Ramaze.
+ This entails that, for example, in the file of your application which contains
+ 
 \begin_inset Quotes pld
 \end_inset
 
@@ -734,7 +738,8 @@ Ramaze.start
 \begin_inset Quotes prd
 \end_inset
 
-.
+ (typically a file called start.rb), you will have to manually require your
+ other .rb files.
 \end_layout
 
 \begin_layout Standard

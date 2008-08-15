@@ -88,12 +88,12 @@ Simply add following lines to your ~/.bashrc or ~/.zshrc:
     export GEM_HOME="$HOME/.gems"
     export GEM_PATH="$GEM_HOME"
     export PATH="$HOME/.gems/bin:$PATH"
-{:lang=sh}
+{:shell}
 
 Once you have done that you can simply run
 
     gem install ramaze
-{:lang=sh}
+{:shell}
 
 and Ramaze will be installed.
 
@@ -125,15 +125,15 @@ Git is available on most Linux distributions and OSX. Visit [git] for download l
 
 Cloning the repository (getting your own copy) is really simple once you have installed git.
 
-    $ git clone git://github.com/manveru/ramaze
-{:lang=sh}
+    git clone git://github.com/manveru/ramaze
+{:shell}
 
 Setting up your environment after installation
 
 Now that you have the latest version of Ramaze, you have to tell Ruby how to find it. One of the simplest ways is to add a file named `ramaze.rb` to your `site_ruby` directory.
 
-    $ echo 'export RUBYLIB="/path/to/ramaze/lib/:$RUBYLIB"' >> ~/.bashrc
-{:lang=sh}
+    echo 'export RUBYLIB="/path/to/ramaze/lib/:$RUBYLIB"' >> ~/.bashrc
+{:shell}
 
 This way, everytime you say `require 'ramaze'` in your code, it will first require the ramaze.rb in the `site_ruby` directory, which in turn requires the ramaze.rb from your development version.
 
@@ -153,7 +153,7 @@ A short introductory example is always "Hello world". In Ramaze this looks like 
     end
 
     Ramaze.start
-{:lang=ruby}
+{:ruby}
 
 First we require rubygems, the package managing wrapper that allows us to require the ramaze library and framework. Next we define a Controller and method that will show up when accessing `http://localhost:7000/`, 7000 being the default port of Ramaze.
 
@@ -173,17 +173,17 @@ Let's look at the three variations of how to set your port. First, in your sourc
     end
 
     Ramaze.start :port => 8080
-{:lang=ruby}
+{:ruby}
 
 now by commandline arguments:
 
-    $ ruby start.rb --port 8080
-{:lang=sh}
+    ruby start.rb --port 8080
+{:shell}
 
 and finally using an environment variable:
 
-    $ RAMAZE_PORT=8080 ruby start.rb
-{:lang=sh}
+    RAMAZE_PORT=8080 ruby start.rb
+{:shell}
 
 Application with multiple files
 
@@ -220,7 +220,7 @@ To illustrate this, see following example:
     Ramaze::Global.root        # => '/home/manveru/demo'
     Ramaze::Global.view_root   # => '/home/manveru/demo/view'
     Ramaze::Global.public_root # => '/home/manveru/demo/public'
-{:lang=ruby}
+{:ruby}
 
 In practical terms this means that templates are found in the /view directory while static files are served from /public.
 
@@ -241,7 +241,7 @@ To start out, let's take a look at the basic structure of a usual Controller wit
         'Hello, World!'
       end
     end
-{:lang=ruby}
+{:ruby}
 
 So we have a class MainController that inherits from Ramaze::Controller, I won't go into details yet what exactly this inheritance means, but it basically integrates your new class into your application.
 
@@ -269,7 +269,7 @@ In order to change the default mapping, you can simply use the `Controller::map(
         "Hello, World!"
       end
     end
-{:lang=ruby}
+{:ruby}
 
 This example simply shows how you can use the map method, but let's see a nicer way to do the same using the default mapping.
 
@@ -279,7 +279,7 @@ This example simply shows how you can use the map method, but let's see a nicer 
         "Hello, World!"
       end
     end
-{:lang=ruby}
+{:ruby}
 
 So instead of defining a Controller that is by default mapped to `/` and remapping to `/article`, we can just name it ArticleController and Ramze will take the part of your classes name before `Controller` and convert it to a mapping by doing a simple snake case transformation.
 
@@ -333,7 +333,7 @@ In Ramaze you can simply do following:
         User[:id => session[:user_id], :role => 'admin']
       end
     end
-{:lang=ruby}
+{:ruby}
 
 # Ramaze::Session
 
@@ -363,7 +363,7 @@ Although I said that they are essential, some people may not yet be familiar wit
         HELLO[session[:language]]
       end
     end
-{:lang=ruby}
+{:ruby}
 
 
 In this, we select a random language key that we then set in our session. The browser that hits the index action will from now on always have this language associated to it and you can see it in your controller and templates inside the session object.
@@ -391,14 +391,14 @@ A number of options lets you decide how to use sessions and their behaviour.
 To disable them, simply assign:
 
     Ramaze::Global.sessions = false
-{:lang=ruby}
+{:ruby}
 
 This will give you some speedup and less data being transferred between server and client, it does not affect the ability to manually set cookies in the response.
 
 To change the backend for the session cache only (as opposed to it for all caches in your Ramaze, we talk about that in the Ramaze::Cache section) do following:
 
     Ramaze::Global.cache_alternative[:sessions] = Ramaze::MemcachedCache
-{:lang=ruby}
+{:ruby}
 
 Please make sure you have the memcached server running before starting an application with this setting.
 
@@ -432,7 +432,7 @@ First of all, we'll have a look at an example request:
       }
       @params = {}
     >
-{:lang=ruby}
+{:ruby}
 
 Since this is the seed of all further activity we'll have a look at and try to
 understand the contents of this object.
@@ -462,7 +462,7 @@ will help us obtaining a better perspective.
         "page" => "2", "sort" => "author"
       }
     >
-{:lang=ruby}
+{:ruby}
 
 This time we used `curl -I 'localhost:7000/article/list?sort=author&page=2'` in
 order to obtain the headers and some meta information about the server and
@@ -504,7 +504,7 @@ So, if you want to define multiple header pairs, do it like following:
 
     response['content-type'] = 'text/css'
     response['content-disposition'] = 'foobar.css'
-{:lang=ruby}
+{:ruby}
 
 `@status`: Integer larger than 100.
 Defines the HTTP return status, it's 200 by default, which means OK.
@@ -525,7 +525,7 @@ Helpers are modules for inclusion into controllers or other classes.
         number_format(rand)
       end
     end
-{:lang=ruby}
+{:ruby}
 
 
 ## Rules for helpers
@@ -552,7 +552,7 @@ Creating helpers is simple.
         end
       end
     end
-{:lang=ruby}
+{:ruby}
 
 
 ### Exposing methods to routing
@@ -571,7 +571,7 @@ By adding an helper module to the Ramaze::Helper::LOOKUP Set it's possible to ad
         end
       end
     end
-{:lang=ruby}
+{:ruby}
 
 
 In this example we expose the public method Locale#locale (Ruby methods are public by default). So in your application your can just use the helper and when the client visits the /locale/en route the session will reflect this choice.
@@ -601,7 +601,7 @@ The parameter are part of the `#__send__` to Action#method. You can visualize th
     if method = action.method
       action.instance.__send__(method, *action.params)
     end
-{:lang=ruby}
+{:ruby}
 
 In Lisp/Scheme terms, they are being applied.
 
@@ -636,7 +636,7 @@ Instance of the Controller, lazily obtained through `Action#controller.new` on a
 Creating an Action can be verbose and is usually not required outside the direct proximity within the codeflow.
 
     action = Ramaze::Action(:controller => MainController)
-{:lang=ruby}
+{:ruby}
 
 
 ## Render an Action
@@ -651,7 +651,7 @@ We did all this just to render an Action, so let's do that already.
 
     Ramaze::Action(:controller => MainController, :method => :index).render
     # => "Hello, World!"
-{:lang=ruby}
+{:ruby}
 
 # Ramaze::Template
 
@@ -872,7 +872,7 @@ We will take a look at one of the existing adapters for Mongrel first.
         end
       end
     end
-{:lang=ruby}
+{:ruby}
 
 What we do here is putting a subclass of Ramaze::Adapter::Base into Ramaze::Adapter, so later Ramaze will be able to automatically find it (we will come to that later), but also because it is good practice.
 
@@ -910,7 +910,7 @@ So let's see another adapter that uses one additional method.
         end
       end
     end
-{:lang=ruby}
+{:ruby}
 
 Thin is a server written in Ruby and C and follows an event based approach instead of a simple threaded TCPSocket.
 

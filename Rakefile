@@ -6,7 +6,13 @@ task 'build' => ['build:css', 'build:html']
 namespace :build do
   desc 'build html'
   task :html do
-    sh 'maruku', 'ramaze.markdown'
+    require 'maruku'
+
+    File.read('ramaze.markdown') do |mkd|
+      File.open('ramaze.html', 'w+') do |html|
+        html.puts Maruku.new(mkd.read).to_html_document
+      end
+    end
   end
 
   desc 'build pdf'

@@ -1,13 +1,17 @@
 require 'rake'
 
 desc 'build all'
-task 'build' => ['build:css', 'build:markdown'] do
-end
+task 'build' => ['build:css', 'build:html']
 
 namespace :build do
-  desc 'build markdown'
-  task :markdown do
+  desc 'build html'
+  task :html do
     sh 'maruku', 'ramaze.markdown'
+  end
+
+  desc 'build pdf'
+  task :pdf do
+    sh 'maruku', '--pdf', 'ramaze.markdown'
   end
 
   desc 'build css'

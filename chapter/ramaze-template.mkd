@@ -1,0 +1,189 @@
+# Ramaze::Template
+
+## Engines
+
+## Ezamar
+
+Ezamar is the default templating engine shipped with Ramaze, it's a very simple implementation but offers you most things you will demand from templating.
+
+One of the advantages of Ezamar is quite fast execution based on the optimized String interpolation in Ruby.
+
+Also, your templates will work out of the box, you don't have to install anything besides Ramaze.
+
+### Syntax
+
+Output is done by using `#{}` syntax, the last expression inside the parenthesis is interpolated in the final template.
+
+The PI (Processing Instruction) is `<?r ?>`, r standing for Ruby, In future more PIs may become available.
+
+To summarize:
+
+Syntax | Description |
+-------|-------------|
+`#{ (expr) }`   | Interpolates like in normal Ruby String and shows in result. |
+`<?r (expr) ?>` | Only execute; `<exression>` is sourrounded by semicolon. |
+
+### Usage
+
+As an example, let's see hello world using all basic features of this engine.
+
+    <html>
+      <head><title>Hello, World!</title></head>
+      <body>
+        <h1>Hello, World!</h1>
+        <?r 10.times do |i| ?>
+          <p>#{ordinal(i)} times i've said hello</p>
+        <?r end ?>
+      </body>
+    </html>
+{:lang=ezamar}
+
+## Erubis
+
+Erubis is an implementation of eRuby, giving you the well known ERB syntax.
+It is very fast, around three times faster than ERB and even 10% faster than eruby.
+
+Other features are
+
+* Multi-language support (Ruby/PHP/C/Java/Scheme/Perl/Javascript)
+* Auto escaping support
+* Auto trimming spaces around `<% %>`
+* Embedded pattern changeable (default `<% %>`)
+* Enable to handle Processing Instructions (PI) as embedded pattern (ex. `<?rb ... ?>`)
+* Context object available and easy to combine eRuby template with YAML datafile
+* Print statement available
+* Easy to extend and customize in subclass
+
+Erubis is implemented in pure Ruby, so it works on most implemenations of the language. According to their dependencies it requires Ruby 1.8 or higher.
+
+### Syntax
+
+Erubis provides you default ERB syntax, PIs are inside `<% %>`, output is done by `<%= %>`
+
+Summary:
+
+Syntax           | Description                         |
+-----------------|-------------------------------------|
+`<% (expr) %>`   | Execute expression, ignore result   |
+`<%= (expr) %>`  | Interpolate last expressions result |
+`<?rb (expr) %>` | Execute expression, ignore result   |
+
+### Usage
+
+    <html>
+      <head><title>Hello, World!</title></head>
+      <body>
+        <h1>Hello, World!</h1>
+        <% 10.times do |i| %>
+          <p><%= ordinal(i) %> times i've said hello</p>
+        <% end %>
+      </body>
+    </html>
+{:lang=erubis}
+
+## Haml
+
+Haml is a templating engine for (X)HTML, designed to make it both easier and more pleasant to code your documents.
+
+It attempts to eliminate redundancy, reflecting the underlying structure that the document represents, and providing elegant, easily understandable but powerful syntax.
+
+It's closely related to the Sass templating engine also supported by Ramaze.
+
+### Syntax
+
+Haml syntax is more involved as it replaces conventional HTML tags completely and providing its own indentation-based alternative.
+
+The way to create tags can be shortly summarized with
+
+    %tagname{ :attr1 => 'value1', :attr2 => 'value2' } Contents
+{:lang=haml}
+
+Equivalent in HTML
+
+    <tagname attr1='value1' attr2='value2'>Contents</tagname>
+{:lang=html}
+
+There are shortcuts, especially for the `<div>` tag:
+
+    #foo Bar
+{:lang=haml}
+
+Equivalent in HTML
+
+    <div id='foo'>Bar</div>
+{:lang=html}
+
+To nest tags, just adjust their indentation:
+
+    #foo Bar
+      #bar Foo
+{:lang=haml}
+
+in HTML
+
+    <div id='foo'>Bar
+      <div id='bar'>Foo</div>
+    </div>
+{:lang=html}
+
+Which already shows you how this can be a very powerful way to write your templates.
+
+An example embedding Ruby code:
+
+    %p Date/Time:
+      - now = DateTime.now
+      %strong= now
+      - if now > DateTime.parse('December 31, 2006')
+        = 'Happy new ' + 'year!'
+{:lang=haml}
+
+As you can see, lines prefixed with '-' are executed but their results are not shown in the result, contrary to that, lines starting with '=' are executed and their result is interpolated in the template.
+
+Haml doesn't only omit ending tags by indentation but the same mechanism also helps to the 'end' statements in embedded Ruby code. This way the HTML and Ruby languages are connected in their side-effects, providing you with a quite terse but still readable and DRY syntax to write your templates in.
+
+There are downsides to this approach, as it's not possible to control how exactly the final document is generated, but Haml is gaining momentum in the Ruby community very fast despite that fact, as it's simply not important for most applications on the web.
+
+### Usage
+
+    %html
+      %head
+        %title Hello, World!
+      %body
+        %h1 Hello, World!
+        - 10.times do |i|
+          %p= "#{ordinal(i)} times i've said hello"
+{:lang=haml}
+
+
+## Sass
+
+Haml is a templating engine for CSS, designed to make it both easier and more pleasant to create styles for your documents.
+
+It attempts to eliminate redundancy, reflecting the underlying structure that CSS represents, and providing elegant, easily understandable but powerful syntax.
+
+It's closely related to the Haml templating engine also supported by Ramaze.
+
+### Syntax
+### Usage
+
+## Amrita2
+..
+## Liquid
+..
+## Markaby
+..
+## Nagoro
+...
+## None
+...
+## RedCloth
+...
+## Remarkably
+Tagz
+...
+Tenjin
+...
+XSLT
+...
+
+## How to create your own engine

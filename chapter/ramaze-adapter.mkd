@@ -1,0 +1,76 @@
+# Ramaze::Adapter
+
+Ramaze::Adapter is the module that contains and controls the various servers Ramaze runs on.
+
+Adapters generally inherit from Ramaze::Adapter::Base, but are not instantiated, so singleton methods are used instead.
+
+## Adapter::startup
+
+The control flow in the Adapter module is largely decided by Global configuration. Adapter::startup is called by Ramaze::start as Adapter is one of the elements in `Ramaze.trait[:essentials]`.
+
+Depending on the object assigned to Global.adapter
+
+## How to create your own adapter
+
+As usual, you might eventually end up having to create your own Adapter, either because there's none yet for the Server you are using or because you want a very particular set of options that you cannot supply otherwise. Fortunately this is a very simple thing to do, thanks to Rack and our Adapter::Base.
+
+We will take a look at one of the existing adapters for Mongrel first.
+
+    module Ramaze
+      module Adapter
+        class Mongrel < Base
+          def self.startup(host, port)
+            @server = ::Mongrel::HttpServer.new(host, port)
+            @server.register('/', ::Rack::Handler::Mongrel.new(self))
+            @server.run
+          end
+        end
+      end
+    end
+{:ruby}
+
+What we do here is putting a subclass of Ramaze::Adapter::Base into Ramaze::Adapter, so later Ramaze will be able to automatically find it (we will come to that later), but also because it is good practice.
+
+This adapter only defines one method, ::startup. The host and port options from Global are passed to it when Adapter::startup invokes this method. If your adapter does not need these paramters it's common practice to default the parameters to nil, we'll see an example for this later as well when we come to discussing the CGI/Fcgi adapters.
+
+Next we set the class instance variable @server, Adapters are not being initialized, we're only using singleton methods since there usually will only be one adapter active at a time.
+
+Next we register the `/` path of the server with a Rack::Handler, what this exactly means is that the handler will take care of the nasty details and incompatibilities between different servers, providing a common interface to work with in Ramaze. `/` means that it will handle every request, if you would define another path this would be handled separatly, usually you will want Ramaze to handle all requests.
+
+Last, but not least we call `@server.run`, in Mongrel this means that it will return a new Thread in which the requests are handled.
+This is an essential detail, because `Adapter::startup` has to return a Thread.
+The reason for having a separate thread is to be able to run things in parallel, for example tests or specs.
+Whether or not the returned thread is called `#join` upon depends on the `Global.run_loose` option, which is false by default for normal applications, but defaults to true when you `require 'ramaze/spec/helper'`.
+
+So let's see another adapter that uses one additional method.
+
+    require 'thin'
+    require 'rack/handler/thin'
+
+    module Ramaze
+      module Adapter
+        class Thin < Base
+          # start server on given host and port.
+          def self.startup(host, port)
+            @server = ::Thin::Server.new(host, port, self)
+            ::Thin::Logging.silent = true
+            @server.timeout = 3
+
+            Thread.new{ @server.start }
+          end
+
+          def self.shutdown
+            @server.stop
+          end
+        end
+      end
+    end
+{:ruby}
+
+Thin is a server written in Ruby and C and follows an event based approach instead of a simple threaded TCPSocket.
+
+What that means is that it won't spawn a Thread by default but work in the Thread::main scope, so this needs a bit of special care. It also uses a completely different API from Mongrel, although its parser is based on the Mongrel one.
+
+Again we subclass Adapter::Base, define a method ::startup on it that takes host and port and define the @server variable, setting a couple of custom options and then create a new Thread in which we call @server.start, which would normally block further execution until an event like a browser request is received.
+
+We also define the ::shutdown method, calling @server.stop, which will gracefully shut down the server, finishing any requests pending but not accepting new ones until all connections are closed.

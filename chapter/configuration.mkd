@@ -1,0 +1,68 @@
+# Configuration
+
+Configuration is mainly done using the Ramaze::Global singleton. It's an instance of Option::Holder, containing a rather large list of options and their defaults. Every option is documented in minimal style and the defaults should make clear in most cases how to set these options.
+
+Configuration can be done three different ways: using environment variables, command-line arguments, or directly in your source code.
+
+Let's look at the three variations of how to set your port. First, in your source code:
+
+
+    Ramaze::Global.port = 8080
+
+    Ramaze::Global.setup do |g|
+      g.port = 8080
+    end
+
+    Ramaze.start :port => 8080
+{:ruby}
+
+now by commandline arguments:
+
+    ruby start.rb --port 8080
+{:shell}
+
+and finally using an environment variable:
+
+    RAMAZE_PORT=8080 ruby start.rb
+{:shell}
+
+Application with multiple files
+
+The convention for larger applications consists of a basic directory structure. Using this structure is optional; you can specify different directories with special commands.
+
+
+    /
+      start.rb
+      ramaze.ru
+      public/
+        favicon.ico
+        robots.txt
+      model/
+        user.rb
+      controller/
+        main.rb
+        user.rb
+      view/
+        index.xhtml
+        user/
+          index.xhtml
+          view.xhtml
+          new.xhtml
+
+Although it is up to you to decide whether you want to follow this layout, it is recommended so that it's easier for other people to jump right into your code and understand things.
+
+Some details about the directory conventions
+
+There are two special cases you should be aware of before starting. /public and /view are defaults in Ramaze, set in `Ramaze::Global.public_root` and `Ramaze::Global.view_root` respectively. They are relative to Ramaze::Global.root.
+
+To illustrate this, see following example:
+
+
+    Ramaze::Global.root        # => '/home/manveru/demo'
+    Ramaze::Global.view_root   # => '/home/manveru/demo/view'
+    Ramaze::Global.public_root # => '/home/manveru/demo/public'
+{:ruby}
+
+In practical terms this means that templates are found in the /view directory while static files are served from /public.
+
+The rest of the conventions are not explicitly understood by Ramaze. This entails that, for example, in the file of your application which contains `Ramaze.start` (typically a file called start.rb), you will have to manually require your other .rb files.

@@ -1,0 +1,11 @@
+# Security
+
+## Sessions
+
+Please note that Ramaze won't store plain text of anything in your session in
+the cookie sent to the client, it will only send a unique ID that can be looked
+up on the server side and from which values can be obtained. This doesn't
+prevent the stealing of sessions if one can obtain the session id, but combined
+with HTTPS it should provide reasonable security in the default case, if
+somebody is eavesdropping on the connection directly there is little one can do
+with HTTP, please see section on security for more information.

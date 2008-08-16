@@ -1,0 +1,22 @@
+# Ramaze::Response
+
+`@body` should respond to #each.
+Rack will iterate over the given object and write to the socket on every iteration, this way you can also implement responses that utilize lazy evaluation.
+Please note that Ruby since 1.9 doesn't implement String#each anymore, so to maintain compatibility you should pass an Array.
+
+`@header`: Rack::Utils::HeaderHash, is a Hash-alike but performs case-normalization on the keys.
+Please do not replace this object, but rather cooperate with it until you have
+an exact understanding of how it works. You may set and obtain keys or convert
+it to a normal hash, using the `[]`, `[]=`, and `to_hash` methods respectively.
+Since it works case-normalizing you do not have to care whether you write
+`response['Content-Type'] = 'text/css'` or
+`response['content-type'] = 'text/css'`, it will adjust the key for you to
+match HTTP standard capitalization.
+So, if you want to define multiple header pairs, do it like following:
+
+    response['content-type'] = 'text/css'
+    response['content-disposition'] = 'foobar.css'
+{:ruby}
+
+`@status`: Integer larger than 100.
+Defines the HTTP return status, it's 200 by default, which means OK.

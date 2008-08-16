@@ -1,0 +1,167 @@
+# Ramaze::Request
+
+[API docs for Ramaze::Request](http://api.ramaze.net/classes/Ramaze/Request.html)
+
+Every time the client sends a request at Ramaze, a new Request object is created, containing the information from the client and a lot of convenient helpers to work with this information.
+
+First of all, we'll have a look at an example request:
+
+    #<Ramaze::Request
+      @env = {
+        "HTTP_CACHE_CONTROL" => "max-age=0",
+        "HTTP_HOST"          => "localhost:7000",
+        "HTTP_KEEP_ALIVE"    => "300",
+        "HTTP_USER_AGENT"    => "Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.1) Gecko/2008072612 GranParadiso/3.0.1",
+        "HTTP_VERSION"       => "HTTP/1.1",
+
+        "PATH_INFO"          => "/",
+        "QUERY_STRING"       => "",
+
+        "REMOTE_ADDR"        => "127.0.0.1",
+
+        "REQUEST_METHOD"     => "GET",
+        "REQUEST_PATH"       => "/",
+        "REQUEST_URI"        => "/"
+      }
+      @cookies = {
+        "_ramaze_session_id" => "e238a12da9bd0adf2030f89c8602a1ae10407587fcbe8d79f0a348c4468022ab"
+      }
+      @params = {}
+    >
+{:ruby}
+
+Since this is the seed of all further activity we'll have a look at and try to
+understand the contents of this object.
+
+In order to do that, I'll present you with a second request, some things are
+quite straight-forward in their meaning and this was a simple request by
+browsing with [firefox] to `http://localhost:7000/`, giving you a second sample
+will help us obtaining a better perspective.
+
+    #<Ramaze::Request
+      @env = {
+        "HTTP_HOST"       => "localhost:7000",
+        "HTTP_USER_AGENT" => "curl/7.18.2 (i686-pc-linux-gnu) libcurl/7.18.2 OpenSSL/0.9.8h zlib/1.2.3.3",
+        "HTTP_VERSION"    => "HTTP/1.1",
+
+        "PATH_INFO"       => "/article/list",
+        "QUERY_STRING"    => "sort=author&page=2",
+
+        "REMOTE_ADDR"     => "127.0.0.1",
+
+        "REQUEST_METHOD" => "HEAD",
+        "REQUEST_PATH"   => "/article/list",
+        "REQUEST_URI"    => "/article/list?sort=author&page=2"
+      }
+      @cookies = {}
+      @params = {
+        "page" => "2", "sort" => "author"
+      }
+    >
+{:ruby}
+
+This time we used `curl -I 'localhost:7000/article/list?sort=author&page=2'` in
+order to obtain the headers and some meta information about the server and
+location.
+
+First we will take a look at the similarities: Both request objects
+contain three instance variables: `@env`, `@cookies`, and `@params`.
+
+`@env` is mostly what you might know from common CGI programming, it's just a
+parsed version of the HTTP headers of the request, put into a convenient Hash.
+Please note that changing values in `@env` has no effect on the response and
+should only be done when trying to affect the further route through the Ramaze
+dispatcher (Ramaze::Router and Ramaze::Rewrite do this for example).
+
+`@cookies` is a Hash that contains all cookie key/value pairs as given from the
+browser, by default Ramaze will try to set a session cookie for unique
+identification of the client, but in case the client ignores or doesn't support
+cookies the next response won't show any traces and Ramaze will generate a new
+Session and set a cookie for it. You can do a `Ramaze::Global.sessions = false`
+should your application not require sessions.
+
+`@params` is a parsed version of `@env['QUERY_STRING']` in case of a GET
+request, in case of POST or PUT it shadows the normal `QUERY_STRING` parameters
+with the so-called form parameters, giving you easy access to either. Also
+there is a shortcut in Request where `request[:foo, :bar]` will yield
+`[request.params['foo'], request.params['bar']]`, but we'll discuss that further
+down.
+
+Back to the description of the contents of `@env`.
+
+Variables concerning the HTTP layer:
+
+* `HTTP_HOST`
+  Contains the host that the request was sent to, usually this will contain
+  your domain and no port if the default port 80 is being used.
+* `HTTP_USER_AGENT`
+  Is the identifaction string from the user agent, for most clients it's
+  alright to trust it, since only sophisticated users will play around with
+  this setting to mask their client.
+* `HTTP_VERSION`
+  Identifies the version of the HTTP Protocol being used, this is 1.1 since
+  around 2000 and no newer version is expected anytime soon. This shouldn't be
+  of any relevance to your application.
+
+
+CGI related variables:
+* `PATH_INFO`
+  Contains the path to the script being executed, or in our case, the Action being built and called.
+* `QUERY_STRING`
+  The raw query parameters that you can find in parsed form within the
+  `@params` hash. Note that possible delimiters can be `&` as well as `;`.
+
+* `REMOTE_ADDR`
+  Contains the IP address or addresses of the client. In case of multiple IPs
+  you may be talking to a proxy. In case of more than one addreses, they are
+  separated by a comma, like `211.3.129.47, 66.249.85.131`, see `Request#ip` for
+  a easier way to access this value.
+
+* `REQUEST_METHOD`
+  The overall meaning of the request, it's mostly an indication from the client
+  what he wants to do and which answer will be accepted. Please note that apart
+  from `GET`, `POST` and `HEAD` you won't receive any different methods from
+  todays clients, but I'll list them for completeness sake.
+
+  [Hyptertext Transfer Protocol -- HTTP/1.1 RFC 2616]http://www.w3.org/Protocols/rfc2616/rfc2616.html
+  [Section 9 -- Method Definitions]http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html
+
+  Safe and Idempotent Methods
+
+  * GET
+    The GET method means retrieve whatever information (in the form of an
+    entity) is identified by the Request-URI. If the Request-URI refers to a
+    data-producing process, it is the produced data which shall be returned as
+    the entity in the response and not the source text of the process, unless
+    that text happens to be the output of the process.
+
+  * The semantics of the GET method change to a "conditional GET" if the
+    request message includes an If-Modified-Since, If-Unmodified-Since,
+    If-Match, If-None-Match, or If-Range header field.
+
+  * A conditional GET method requests that the entity be transferred only under
+    the circumstances described by the conditional header field(s). The
+    conditional GET method is indented to reduce unnecessary network usage by
+    allowing cached entities to be refreshed without requiring multiple
+    requests or transferring data already held by the client.
+    The semantics of the GET method change to a "partial GET" if the request
+    message includes a Range header field. A partial GET requests that only
+    part of the entity be transferred.
+
+  HEAD
+  OPTION
+
+  * `DELETE` Send a request to delete the requested ressource
+  * `GET` Try to get the requested ressource
+  * `HEAD` Obtain header info (content length, content type) of ressource
+  * `POST` Modify ressource
+  * `PUT` Create new ressource
+
+* `REQUEST_PATH`
+
+      => "/article/list",
+
+* `REQUEST_URI`
+
+      The complete URI
+      = "/article/list?sort=author&page=2"

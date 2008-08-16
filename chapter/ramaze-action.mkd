@@ -1,0 +1,72 @@
+# Ramaze::Action
+
+Action is one of the core parts of Ramaze, a recipe for rendering combinations of controllers, methods and templates.
+
+## What is an Action
+
+An Action, at the lowest level, is a Struct with following members:
+
+### Action#method
+
+Refers to the name of the method to be invoked before a template is evaluated.
+
+The return value of the method is kept as the result of Action#render if there is no Action#template.
+
+### Action#params
+
+The parameter are part of the `#__send__` to Action#method. You can visualize this as:
+
+    if method = action.method
+      action.instance.__send__(method, *action.params)
+    end
+{:ruby}
+
+In Lisp/Scheme terms, they are being applied.
+
+Please note that the params are given as Strings due to the fact that they are extracted from the URI of the HTTP method and so Ramaze has no chance of determining what kind of Object this should represent.
+
+### Action#template
+
+If there is a template found during the procedure of finding a fitting Action for the given request, this member is set to the relative path from your Global.view_root or Controller.view_root directory. The template is evaluated unless the templating engine is set to :None and the result of this evaluation is set as the response.body.
+
+### Action#controller
+
+Points to the controller this Action operates on, also see Action#instance.
+
+### Action#path
+
+A String represenation of the Action without params, generally it's the name of the method or (if no method but a template found) the name of the template without extension. It's used for different kinds of hooks.
+
+### Action#binding
+
+The binding to the `Action#instance`, obtained by doing an `instance_eval{ binding }` on it. This is only done when the binding hasn't been set yet.
+
+### Action#engine
+
+Refers to the templating engine that this Action is passed to when `Action#render` is called.
+
+### Action#instance
+
+Instance of the Controller, lazily obtained through `Action#controller.new` on access of this member. Note that this is also invoked as a dependency of `Action#binding`.
+
+## Create an Action
+
+Creating an Action can be verbose and is usually not required outside the direct proximity within the codeflow.
+
+    action = Ramaze::Action(:controller => MainController)
+{:ruby}
+
+
+## Render an Action
+
+We did all this just to render an Action, so let's do that already.
+
+    class MainController < Ramaze::Controller
+      def index
+        "Hello, World!"
+      end
+    end
+
+    Ramaze::Action(:controller => MainController, :method => :index).render
+    # => "Hello, World!"
+{:ruby}

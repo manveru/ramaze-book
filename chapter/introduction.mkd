@@ -1,0 +1,25 @@
+# Introduction
+
+## About Ramaze
+
+Ramaze is a modular web application framework. It provides you with just about everything you need to make your daily web development simple and fun. Making programming fun is a concept popularized by the Ruby programming language.
+
+Ramaze is written in Ruby. This document assumes at least basic knowledge about Ruby. If you do not know what Ruby is yet, visit [ruby] and find out; but beware, it may change your life.
+
+### Important Links
+
+Naturally, since Ramaze is an open source web framework, most help can be found online (apart from reading the source code itself). So here are some links to provide more information on all the topics covered in this book.
+
+* [Ramaze] provides further documentation, screencasts, links and news.
+* [Ramaze google group] hosts the mailing list for discussion with the developers and users of the framework.
+* [Github ramaze] hosts the source. Ramaze is freely available under the [Ruby license].
+
+## About the author
+
+Michael Fellinger (a.k.a. manveru) is the creator and core developer of the Ramaze framework.
+
+His programming language of choice is, as you might have guessed already, Ruby, having worked with it since 2005.
+
+Michael has been living in Tokyo, Japan since 2006, but is of Austrian nationality, speaking German, English and currently learning Japanese.
+
+You can reach him by mailing to <m.fellinger@gmail.com>

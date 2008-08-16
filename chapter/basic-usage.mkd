@@ -1,0 +1,19 @@
+# Basic Usage
+
+## Hello, World!
+
+A short introductory example is always "Hello world". In Ramaze this looks like following.
+
+    require 'rubgems'
+    require 'ramaze'
+
+    class MainController < Ramaze::Controller
+      def index
+        "Hello, World!"
+      end
+    end
+
+    Ramaze.start
+{:ruby}
+
+First we require rubygems, the package managing wrapper that allows us to require the ramaze library and framework. Next we define a Controller and method that will show up when accessing `http://localhost:7000/`, 7000 being the default port of Ramaze.

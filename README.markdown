@@ -20,12 +20,12 @@ The source is kept in a git repository at
 
 ## Dependencies
 
-The book is written using the LyX editor, the source directory contains the
-snippets used througout the book and are highlighted dynamically on LaTeX
-generation using the `highlight` utility written by
-[Andre Simon](http://www.andre-simon.de).
+To build html from the markdown source you will need the maruku and syntax libraries:
 
-## Todo
+    gem install maruku syntax
+{:shell}
 
-Adding instructions to setup TeX and highlighting as described on the LyX wiki
-but specific for Ruby.
+You can test your setup by running
+
+    rake build
+{:shell}

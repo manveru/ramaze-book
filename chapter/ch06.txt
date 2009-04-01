@@ -1,33 +1,35 @@
-# Ramaze::Adapter
+= Ramaze::Adapter
 
 Ramaze::Adapter is the module that contains and controls the various servers Ramaze runs on.
 
 Adapters generally inherit from Ramaze::Adapter::Base, but are not instantiated, so singleton methods are used instead.
 
-## Adapter::startup
+== Adapter::startup
 
 The control flow in the Adapter module is largely decided by Global configuration. Adapter::startup is called by Ramaze::start as Adapter is one of the elements in `Ramaze.trait[:essentials]`.
 
 Depending on the object assigned to Global.adapter
 
-## How to create your own adapter
+== How to create your own adapter
 
 As usual, you might eventually end up having to create your own Adapter, either because there's none yet for the Server you are using or because you want a very particular set of options that you cannot supply otherwise. Fortunately this is a very simple thing to do, thanks to Rack and our Adapter::Base.
 
 We will take a look at one of the existing adapters for Mongrel first.
 
-    module Ramaze
-      module Adapter
-        class Mongrel < Base
-          def self.startup(host, port)
-            @server = ::Mongrel::HttpServer.new(host, port)
-            @server.register('/', ::Rack::Handler::Mongrel.new(self))
-            @server.run
-          end
-        end
+[source,ruby]
+--------------------------------------------------------------------------------
+module Ramaze
+  module Adapter
+    class Mongrel < Base
+      def self.startup(host, port)
+        @server = ::Mongrel::HttpServer.new(host, port)
+        @server.register('/', ::Rack::Handler::Mongrel.new(self))
+        @server.run
       end
     end
-{:ruby}
+  end
+end
+--------------------------------------------------------------------------------
 
 What we do here is putting a subclass of Ramaze::Adapter::Base into Ramaze::Adapter, so later Ramaze will be able to automatically find it (we will come to that later), but also because it is good practice.
 
@@ -44,28 +46,30 @@ Whether or not the returned thread is called `#join` upon depends on the `Global
 
 So let's see another adapter that uses one additional method.
 
-    require 'thin'
-    require 'rack/handler/thin'
+[source,ruby]
+--------------------------------------------------------------------------------
+require 'thin'
+require 'rack/handler/thin'
 
-    module Ramaze
-      module Adapter
-        class Thin < Base
-          # start server on given host and port.
-          def self.startup(host, port)
-            @server = ::Thin::Server.new(host, port, self)
-            ::Thin::Logging.silent = true
-            @server.timeout = 3
+module Ramaze
+  module Adapter
+    class Thin < Base
+      # start server on given host and port.
+      def self.startup(host, port)
+        @server = ::Thin::Server.new(host, port, self)
+        ::Thin::Logging.silent = true
+        @server.timeout = 3
 
-            Thread.new{ @server.start }
-          end
+        Thread.new{ @server.start }
+      end
 
-          def self.shutdown
-            @server.stop
-          end
-        end
+      def self.shutdown
+        @server.stop
       end
     end
-{:ruby}
+  end
+end
+--------------------------------------------------------------------------------
 
 Thin is a server written in Ruby and C and follows an event based approach instead of a simple threaded TCPSocket.
 

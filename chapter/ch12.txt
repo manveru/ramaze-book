@@ -1,4 +1,4 @@
-# Ramaze::Response
+= Ramaze::Response
 
 `@body` should respond to #each.
 Rack will iterate over the given object and write to the socket on every iteration, this way you can also implement responses that utilize lazy evaluation.
@@ -14,9 +14,11 @@ Since it works case-normalizing you do not have to care whether you write
 match HTTP standard capitalization.
 So, if you want to define multiple header pairs, do it like following:
 
-    response['content-type'] = 'text/css'
-    response['content-disposition'] = 'foobar.css'
-{:ruby}
+[source,ruby]
+--------------------------------------------------------------------------------
+response['content-type'] = 'text/css'
+response['content-disposition'] = 'foobar.css'
+--------------------------------------------------------------------------------
 
 `@status`: Integer larger than 100.
 Defines the HTTP return status, it's 200 by default, which means OK.

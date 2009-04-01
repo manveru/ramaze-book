@@ -1,4 +1,4 @@
-# Ramaze::Request
+= Ramaze::Request
 
 [API docs for Ramaze::Request](http://api.ramaze.net/classes/Ramaze/Request.html)
 
@@ -6,29 +6,31 @@ Every time the client sends a request at Ramaze, a new Request object is created
 
 First of all, we'll have a look at an example request:
 
-    #<Ramaze::Request
-      @env = {
-        "HTTP_CACHE_CONTROL" => "max-age=0",
-        "HTTP_HOST"          => "localhost:7000",
-        "HTTP_KEEP_ALIVE"    => "300",
-        "HTTP_USER_AGENT"    => "Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.1) Gecko/2008072612 GranParadiso/3.0.1",
-        "HTTP_VERSION"       => "HTTP/1.1",
+[source,ruby]
+--------------------------------------------------------------------------------#
+#<Ramaze::Request
+  @env = {
+    "HTTP_CACHE_CONTROL" => "max-age=0",
+    "HTTP_HOST"          => "localhost:7000",
+    "HTTP_KEEP_ALIVE"    => "300",
+    "HTTP_USER_AGENT"    => "Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.1) Gecko/2008072612 GranParadiso/3.0.1",
+    "HTTP_VERSION"       => "HTTP/1.1",
 
-        "PATH_INFO"          => "/",
-        "QUERY_STRING"       => "",
+    "PATH_INFO"          => "/",
+    "QUERY_STRING"       => "",
 
-        "REMOTE_ADDR"        => "127.0.0.1",
+    "REMOTE_ADDR"        => "127.0.0.1",
 
-        "REQUEST_METHOD"     => "GET",
-        "REQUEST_PATH"       => "/",
-        "REQUEST_URI"        => "/"
-      }
-      @cookies = {
-        "_ramaze_session_id" => "e238a12da9bd0adf2030f89c8602a1ae10407587fcbe8d79f0a348c4468022ab"
-      }
-      @params = {}
-    >
-{:ruby}
+    "REQUEST_METHOD"     => "GET",
+    "REQUEST_PATH"       => "/",
+    "REQUEST_URI"        => "/"
+  }
+  @cookies = {
+    "_ramaze_session_id" => "e238a12da9bd0adf2030f89c8602a1ae10407587fcbe8d79f0a348c4468022ab"
+  }
+  @params = {}
+>
+--------------------------------------------------------------------------------
 
 Since this is the seed of all further activity we'll have a look at and try to
 understand the contents of this object.
@@ -38,27 +40,29 @@ quite straight-forward in their meaning and this was a simple request by
 browsing with [firefox] to `http://localhost:7000/`, giving you a second sample
 will help us obtaining a better perspective.
 
-    #<Ramaze::Request
-      @env = {
-        "HTTP_HOST"       => "localhost:7000",
-        "HTTP_USER_AGENT" => "curl/7.18.2 (i686-pc-linux-gnu) libcurl/7.18.2 OpenSSL/0.9.8h zlib/1.2.3.3",
-        "HTTP_VERSION"    => "HTTP/1.1",
+[source,ruby]
+--------------------------------------------------------------------------------#
+#<Ramaze::Request
+  @env = {
+    "HTTP_HOST"       => "localhost:7000",
+    "HTTP_USER_AGENT" => "curl/7.18.2 (i686-pc-linux-gnu) libcurl/7.18.2 OpenSSL/0.9.8h zlib/1.2.3.3",
+    "HTTP_VERSION"    => "HTTP/1.1",
 
-        "PATH_INFO"       => "/article/list",
-        "QUERY_STRING"    => "sort=author&page=2",
+    "PATH_INFO"       => "/article/list",
+    "QUERY_STRING"    => "sort=author&page=2",
 
-        "REMOTE_ADDR"     => "127.0.0.1",
+    "REMOTE_ADDR"     => "127.0.0.1",
 
-        "REQUEST_METHOD" => "HEAD",
-        "REQUEST_PATH"   => "/article/list",
-        "REQUEST_URI"    => "/article/list?sort=author&page=2"
-      }
-      @cookies = {}
-      @params = {
-        "page" => "2", "sort" => "author"
-      }
-    >
-{:ruby}
+    "REQUEST_METHOD" => "HEAD",
+    "REQUEST_PATH"   => "/article/list",
+    "REQUEST_URI"    => "/article/list?sort=author&page=2"
+  }
+  @cookies = {}
+  @params = {
+    "page" => "2", "sort" => "author"
+  }
+>
+--------------------------------------------------------------------------------
 
 This time we used `curl -I 'localhost:7000/article/list?sort=author&page=2'` in
 order to obtain the headers and some meta information about the server and
@@ -159,9 +163,16 @@ CGI related variables:
 
 * `REQUEST_PATH`
 
-      => "/article/list",
+[source,ruby]
+--------------------------------------------------------------------------------
+  => "/article/list",
+--------------------------------------------------------------------------------
 
 * `REQUEST_URI`
 
-      The complete URI
-      = "/article/list?sort=author&page=2"
+[source,ruby]
+--------------------------------------------------------------------------------
+  The complete URI
+  = "/article/list?sort=author&page=2"
+--------------------------------------------------------------------------------
+

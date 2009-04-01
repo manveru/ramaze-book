@@ -1,97 +1,114 @@
-# Ramaze Installation
+= Ramaze Installation
 
 As mentioned above, Ramaze is a web application framework. It features a readable open source codebase licensed under the Ruby license (optionally GPL version 2).
 
 The strengths of Ramaze, as described by its users, are a free style of development, affording all the benefits of the underlying Ruby programming language. It gets out of your way as you do things, helping you along as you require it.
 
-## Installation Prerequisites
+== Installation Prerequisites
 
 * [ruby]
 * [rubygems]
 * [rack]
 * [ramaze]
 
-## Installing a specific version
+== Installing a specific version
 
 Installing Ramaze should be very simple on most systems. Following are several installation methods.
 
-### On Windows
+=== On Windows
 
 (forthcoming)
 
-### On OSX
+=== On OSX
 
 (forthcoming)
 
-### On Linux
+=== On Linux
 
 Issue your package manager to install a package commonly called "rubygems"
 
-### ArchLinux
+=== ArchLinux
 
-    $ pacman -S rubygems
+[source,ruby]
+--------------------------------------------------------------------------------
+$ pacman -S rubygems
+--------------------------------------------------------------------------------
 
-### Debian or Ubuntu
+=== Debian or Ubuntu
 
-    $ apt-get install rubygems
+[source,ruby]
+--------------------------------------------------------------------------------
+$ apt-get install rubygems
+--------------------------------------------------------------------------------
 
-### Gentoo
+=== Gentoo
 
-    $ emerge rubygems
+[source,ruby]
+--------------------------------------------------------------------------------
+$ emerge rubygems
+--------------------------------------------------------------------------------
 
 Now that you have rubygems installed, I strongly recommend that you take the following steps to permit you to install gems in your own personal space in the filesystem (your home directory), as opposed to using root privileges to install gems. This will simplify further diving into the Ruby ecosystem.
 
 Simply add following lines to your ~/.bashrc or ~/.zshrc:
 
-    export RUBYOPT=-rubygems
-    export GEM_HOME="$HOME/.gems"
-    export GEM_PATH="$GEM_HOME"
-    export PATH="$HOME/.gems/bin:$PATH"
-{:shell}
+[source,ruby]
+--------------------------------------------------------------------------------
+export RUBYOPT=-rubygems
+export GEM_HOME="$HOME/.gems"
+export GEM_PATH="$GEM_HOME"
+export PATH="$HOME/.gems/bin:$PATH"
+--------------------------------------------------------------------------------
 
 Once you have done that you can simply run
 
-    gem install ramaze
-{:shell}
+[source,ruby]
+--------------------------------------------------------------------------------
+gem install ramaze
+--------------------------------------------------------------------------------
 
 and Ramaze will be installed.
 
 Manual Installation of Rubygems
 
-### Download and install from http://rubygems.org
+=== Download and install from http://rubygems.org
 
 Visit [rubyforge rubygems] and download the latest version as a tgz file. 
 
-## Installing the development version of Ramaze
+== Installing the development version of Ramaze
 
 Ramaze is developed in a git repository, so if you want to see and use the latest source code, you can simply get your own copy. Since all our commits are checked by the spec (test) suite before they get into the official repository, the repository version of Ramaze is generally safe for production use, and even recommended over the public releases since recent security and code flaws have been fixed.
 
 Installing the gem is only recommended if you want to have a version of Ramaze that "just works", or if you only have the ability to use Ramaze through the gem (a possibility on some system setups).
 
-### Getting the development version without using git
+=== Getting the development version without using git
 
 You can download a tarball directly from github, the location of our Ramaze repository is at [github ramaze] and the tarball is located at [github ramaze tarball].
 
 [github ramaze]: http://github.com/manveru/ramaze
 [github ramaze tarball]: http://github.com/manveru/ramaze/tarball/master
 
-### Getting git
+=== Getting git
 
 Git is available on most Linux distributions and OSX. Visit [git] for download links and installation instructions. At the time of this writing, git is not officially supported on Windows, but unofficial binaries are available for download from the git website.
 
 
-### Getting the development version using git
+=== Getting the development version using git
 
 Cloning the repository (getting your own copy) is really simple once you have installed git.
 
-    git clone git://github.com/manveru/ramaze
-{:shell}
+[source,ruby]
+--------------------------------------------------------------------------------
+git clone git://github.com/manveru/ramaze
+--------------------------------------------------------------------------------
 
 Setting up your environment after installation
 
 Now that you have the latest version of Ramaze, you have to tell Ruby how to find it. One of the simplest ways is to add a file named `ramaze.rb` to your `site_ruby` directory.
 
-    echo 'export RUBYLIB="/path/to/ramaze/lib/:$RUBYLIB"' >> ~/.bashrc
-{:shell}
+[source,ruby]
+--------------------------------------------------------------------------------
+echo 'export RUBYLIB="/path/to/ramaze/lib/:$RUBYLIB"' >> ~/.bashrc
+--------------------------------------------------------------------------------
 
 This way, everytime you say `require 'ramaze'` in your code, it will first require the ramaze.rb in the `site_ruby` directory, which in turn requires the ramaze.rb from your development version.

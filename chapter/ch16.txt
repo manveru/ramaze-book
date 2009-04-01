@@ -1,6 +1,6 @@
-# Security
+= Security
 
-## Sessions
+== Sessions
 
 Please note that Ramaze won't store plain text of anything in your session in
 the cookie sent to the client, it will only send a unique ID that can be looked

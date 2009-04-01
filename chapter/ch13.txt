@@ -1,32 +1,34 @@
-# Ramaze::Session
+= Ramaze::Session
 
 Sessions are an essential part of most dynamic web applications and so Ramaze makes it very simple to use them. We will see how to use the automated sessions, handle cookies manually and change the backend where session information is stored on the serverside.
 
-## What are sessions
+== What are sessions
 
 Although I said that they are essential, some people may not yet be familiar with sessions and what use cases exist for them, so let's take a look at a simple application using sessions first.
 
 
-    require 'ramaze'
+[source,ruby]
+--------------------------------------------------------------------------------
+require 'ramaze'
 
-    class MainController < Ramaze::Controller
-      HELLO = {
-        'en' => "Hello, world!",
-        'de' => "Hallo Welt!",
-        'it' => "Ciao, mondo!",
-      }
+class MainController < Ramaze::Controller
+  HELLO = {
+    'en' => "Hello, world!",
+    'de' => "Hallo Welt!",
+    'it' => "Ciao, mondo!",
+  }
 
-      def index
-        language = HELLO.keys.sort_by{ rand }.first
-        session[:language] = language
-        redirect Rs(:greet)
-      end
+  def index
+    language = HELLO.keys.sort_by{ rand }.first
+    session[:language] = language
+    redirect Rs(:greet)
+  end
 
-      def greet
-        HELLO[session[:language]]
-      end
-    end
-{:ruby}
+  def greet
+    HELLO[session[:language]]
+  end
+end
+--------------------------------------------------------------------------------
 
 
 In this, we select a random language key that we then set in our session. The browser that hits the index action will from now on always have this language associated to it and you can see it in your controller and templates inside the session object.
@@ -47,20 +49,24 @@ Although they may sound similar, they are quite different concepts, MemoryCache 
 
 There is a third way which was contributed recently, to utilize the Sequel ORM and use a relational database for storage, which gives both control and persistence as old data is never thrown away unless explicitly ordered to do so.
 
-## Configuration
+== Configuration
 
 A number of options lets you decide how to use sessions and their behaviour.
 
 To disable them, simply assign:
 
-    Ramaze::Global.sessions = false
-{:ruby}
+[source,ruby]
+--------------------------------------------------------------------------------
+Ramaze::Global.sessions = false
+--------------------------------------------------------------------------------
 
 This will give you some speedup and less data being transferred between server and client, it does not affect the ability to manually set cookies in the response.
 
 To change the backend for the session cache only (as opposed to it for all caches in your Ramaze, we talk about that in the Ramaze::Cache section) do following:
 
-    Ramaze::Global.cache_alternative[:sessions] = Ramaze::MemcachedCache
-{:ruby}
+[source,ruby]
+--------------------------------------------------------------------------------
+Ramaze::Global.cache_alternative[:sessions] = Ramaze::MemcachedCache
+--------------------------------------------------------------------------------
 
 Please make sure you have the memcached server running before starting an application with this setting.

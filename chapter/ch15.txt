@@ -1,4 +1,4 @@
-# Ramaze::Trinity
+= Ramaze::Trinity
 
 The Trinity in Ramaze consists of the three elements of state:
 
@@ -9,11 +9,13 @@ The Trinity in Ramaze consists of the three elements of state:
 The Trinity module makes it simple to access these three things, by simply including the module into your class or extending your instance. Let's say, we want to be aware in a module about which role a user has, something that traditionally only view/controller know of.
 In Ramaze you can simply do following:
 
-    class User
-      extend Ramaze::Trinity
+[source,ruby]
+--------------------------------------------------------------------------------
+class User
+  extend Ramaze::Trinity
 
-      def self.admin?
-        User[:id => session[:user_id], :role => 'admin']
-      end
-    end
-{:ruby}
+  def self.admin?
+    User[:id => session[:user_id], :role => 'admin']
+  end
+end
+--------------------------------------------------------------------------------

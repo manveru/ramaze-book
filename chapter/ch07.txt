@@ -1,17 +1,19 @@
-# Ramaze::Controller
+= Ramaze::Controller
 
-## What, exactly, is a Controller anyway?
+== What, exactly, is a Controller anyway?
 
 The first thing you will encounter when starting out with Ramaze is the Controller. This is because the Controller is the central structure in most web applications and for that reason you should know as much as possible about it.
 
 To start out, let's take a look at the basic structure of a usual Controller with a hello world example.
 
-    class MainControler < Ramaze::Controller
-      def index
-        'Hello, World!'
-      end
-    end
-{:ruby}
+[source,ruby]
+--------------------------------------------------------------------------------
+class MainControler < Ramaze::Controller
+  def index
+    'Hello, World!'
+  end
+end
+--------------------------------------------------------------------------------
 
 So we have a class MainController that inherits from Ramaze::Controller, I won't go into details yet what exactly this inheritance means, but it basically integrates your new class into your application.
 
@@ -27,35 +29,39 @@ So given a Controller named UserController, Ramaze will route to it with the pat
 
 We will see in the next example how to change this default mapping, since defaults may be good, but nothing beats configurability when needed.
 
-## Remapping
+== Remapping
 
 In order to change the default mapping, you can simply use the `Controller::map(path, [path2, ...])` method. This also allows you to map one Controller on multiple paths.
 
 
-    class MainController < Ramaze::Controller
-      map '/article'
+[source,ruby]
+--------------------------------------------------------------------------------
+class MainController < Ramaze::Controller
+  map '/article'
 
-      def index
-        "Hello, World!"
-      end
-    end
-{:ruby}
+  def index
+    "Hello, World!"
+  end
+end
+--------------------------------------------------------------------------------
 
 This example simply shows how you can use the map method, but let's see a nicer way to do the same using the default mapping.
 
 
-    class ArticleController < Ramaze::Controller
-      def index
-        "Hello, World!"
-      end
-    end
-{:ruby}
+[source,ruby]
+--------------------------------------------------------------------------------
+class ArticleController < Ramaze::Controller
+  def index
+    "Hello, World!"
+  end
+end
+--------------------------------------------------------------------------------
 
 So instead of defining a Controller that is by default mapped to `/` and remapping to `/article`, we can just name it ArticleController and Ramze will take the part of your classes name before `Controller` and convert it to a mapping by doing a simple snake case transformation.
 
 Sticking to this kind of defaults makes your code a lot more readable, as people know which Controller will map to which URL without even checking first.
 
-## Controller class methods
+== Controller class methods
 
 * Controller::startup
 * Controller::map

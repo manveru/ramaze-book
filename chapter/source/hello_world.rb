@@ -1,7 +1,7 @@
 require 'rubygems'
 require 'ramaze'
 
-class MainController < Ramaze::Controller
+class Hello < Ramaze::Controller
   def index
     "Hello, World"
   end

@@ -1,0 +1,52 @@
+Preface
+=======
+
+Ramaze is a simple but powerful web application development framework. This
+book is an in-depth walk-through of Ramaze's features and behaviour.
+
+Ramaze is a modular web application framework.
+It provides you with just about everything you need to make your daily web
+development simple and fun.
+Making programming fun is a concept popularized by the Ruby programming
+language.
+
+It is written in Ruby. This book assumes at least basic knowledge about
+Ruby.
+If you do not know what Ruby is yet, visit http://ruby-lang.org[ruby-lang.org],
+the official website for the Ruby programming language and find out; but
+beware, it may change your life.
+
+It features a readable open source codebase licensed under the Ruby license
+(optionally GPL version 2).
+
+The strengths of Ramaze, as described by its users, are a free style of
+development, affording all the benefits of the underlying Ruby programming
+language. It gets out of your way as you do things, helping you along as you
+require it.
+
+Important links
+~~~~~~~~~~~~~~~
+
+Naturally, since Ramaze is an open source web framework, most help can be found
+on the web.
+Some links to provide more information on all the topics covered in this book.
+
+* http://ramaze.net[ramaze.net] is the official homepage for the Ramaze project.
+* http://ramaze.googlegroups.com[The mailing list] where most developers using
+  Ramaze are subscribed and share help and information.
+* http://github.com/manveru/ramaze[Ramaze on Github] provides immediate access
+  to the source and commit-history of the project.
+
+About the author
+~~~~~~~~~~~~~~~
+
+Michael Fellinger (a.k.a. manveru) is the creator and core developer of the
+Ramaze framework.
+
+His programming language of choice is, as you might have guessed already, Ruby,
+having worked with it since 2005.
+
+Michael has been living in Tokyo, Japan since 2006, but is of Austrian
+nationality, speaking German, English and currently learning Japanese.
+
+You can reach him by mailing to <m.fellinger@gmail.com>

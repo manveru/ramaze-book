@@ -1,0 +1,2 @@
+:ruby-lang: http://ruby-lang.org[the official Ruby programming language website]
+:ch-developing: <<X400,developing Ramaze>>

@@ -1,0 +1,127 @@
+= Tutorial introduction to Ramaze
+== Installation
+
+The easiest way to get to know Ramaze is by example, so we will start out with
+that, covering installation and a few simple applications so you can get a
+feeling for it.
+
+In order to use Ramaze, you will have to install it on your system.
+This is usually fairly straight-forward.
+
+First of all we need to install Ruby, then Ramaze.
+
+=== Installing Ruby
+
+Since Ramaze is written in the Ruby programming language, which doesn't ship by
+default with most systems, you will have to install it first.
+
+For this book we assume an installation of Ruby 1.9.x, which ships with
+RubyGems, the package manager for ruby libraries and applications.
+
+The reasoning behind using 1.9.x is that this book might take some time to get
+finished, by then I hope that all major development in Ruby will happen on the
+basis of the 1.9 spec.
+
+You can obtain Ruby from {ruby-lang}, they have instructions for installation
+on most systems.
+Linux users can simply use their package manager to install Ruby.
+
+
+=== Installing Ramaze
+
+Once Ruby is installed correctly, you can install Ramaze simply by:
+
+[source,sh]
+--------------------------------------------------------------------------------
+gem install ramaze
+--------------------------------------------------------------------------------
+
+This will take care of installing all dependencies as well.
+There are a lot of libraries that we will install in the course of this book,
+but installing them is usually just a command away, so we defer it to when we
+actually need them.
+
+Ramaze is a project that is developed in an open manner by the community.
+In order to work together we utilize git for revision control. You can obtain
+your own copy of the repository if you are interested in helping the
+development or simply would like to browse through the project history.
+We will cover this subject in {ch-developing}.
+
+== Hello, World!
+
+A short introductory example is always "Hello world". In Ramaze this looks like
+following.
+
+[source,ruby]
+--------------------------------------------------------------------------------
+include::source/hello_world.rb[tabsize=2]
+--------------------------------------------------------------------------------
+
+First we require RubyGems, the package managing wrapper that allows us to
+require the ramaze library and framework. Next we define a Controller and
+method that will show up when accessing 'http://localhost:7000/', `7000` being
+the default port of Ramaze.
+
+To start this application we can now simply:
+
+[source,sh]
+--------------------------------------------------------------------------------
+ruby start.rb
+--------------------------------------------------------------------------------
+
+That will start an instance of Ruby and start the WEBrick HTTP server that
+ships with Ruby.
+
+This will output something along the lines of:
+
+[source,sh]
+--------------------------------------------------------------------------------
+delta ~/c/ramaze-book;master % ruby19 source/hello_world.rb
+W [2009-04-01 15:35:24 $17562]  WARN | : No explicit root folder found, assuming it is source
+D [2009-04-01 15:35:24 $17562] DEBUG | : Using webrick
+I [2009-04-01 15:35:24 $17562]  INFO | : WEBrick 1.3.1
+I [2009-04-01 15:35:24 $17562]  INFO | : ruby 1.9.2 (2009-03-02) [i686-linux]
+D [2009-04-01 15:35:24 $17562] DEBUG | : TCPServer.new(0.0.0.0, 7000)
+D [2009-04-01 15:35:24 $17562] DEBUG | : Rack::Handler::WEBrick is mounted on /.
+I [2009-04-01 15:35:24 $17562]  INFO | : WEBrick::HTTPServer#start: pid=17562 port=7000
+--------------------------------------------------------------------------------
+
+Now you can open your browser, and go to http://localhost:7000/.
+
+Sometimes you will get an error when starting Ramaze that looks like:
+
+[source,sh]
+--------------------------------------------------------------------------------
+/usr/lib/ruby19/1.9.1/webrick/utils.rb:73:in `initialize': Address already in use - bind(2) (Errno::EADDRINUSE)
+  from /usr/lib/ruby19/1.9.1/webrick/utils.rb:73:in `new'
+  from /usr/lib/ruby19/1.9.1/webrick/utils.rb:73:in `block in create_listeners'
+  from /usr/lib/ruby19/1.9.1/webrick/utils.rb:70:in `each'
+  from /usr/lib/ruby19/1.9.1/webrick/utils.rb:70:in `create_listeners'
+  from /usr/lib/ruby19/1.9.1/webrick/server.rb:74:in `listen'
+  from /usr/lib/ruby19/1.9.1/webrick/server.rb:62:in `initialize'
+  from /usr/lib/ruby19/1.9.1/webrick/httpserver.rb:24:in `initialize'
+  from /home/manveru/c/rack/lib/rack/handler/webrick.rb:9:in `new'
+  from /home/manveru/c/rack/lib/rack/handler/webrick.rb:9:in `run'
+  from /home/manveru/c/innate/lib/innate/adapter.rb:66:in `start_webrick'
+  from /home/manveru/c/innate/lib/innate/adapter.rb:40:in `start'
+  from /home/manveru/c/innate/lib/innate.rb:139:in `start!'
+  from /home/manveru/c/innate/lib/innate.rb:135:in `start'
+  from source/hello_world.rb:10:in `<main>'
+zsh: exit 1     ruby19 source/hello_world.rb
+--------------------------------------------------------------------------------
+
+This means that you already have a server running on this port, and you will
+have to use another port to run your application or shutdown the application
+occupying the port.
+
+If you don't know what is running on this port, you can find out by using the
+'lsof' command (on Linux).
+
+[source,sh]
+--------------------------------------------------------------------------------
+delta ~/c/ramaze-book;master % lsof -i -P
+COMMAND   PID    USER   FD   TYPE DEVICE SIZE/OFF NODE NAME
+ruby19  17806 manveru    3u  IPv4 462149      0t0  TCP *:7000 (LISTEN)
+--------------------------------------------------------------------------------
+
+With this information you know the Process ID, and can, for example `kill 17806`.

@@ -1,0 +1,66 @@
+# Ramaze::Session
+
+Sessions are an essential part of most dynamic web applications and so Ramaze makes it very simple to use them. We will see how to use the automated sessions, handle cookies manually and change the backend where session information is stored on the serverside.
+
+## What are sessions
+
+Although I said that they are essential, some people may not yet be familiar with sessions and what use cases exist for them, so let's take a look at a simple application using sessions first.
+
+
+    require 'ramaze'
+
+    class MainController < Ramaze::Controller
+      HELLO = {
+        'en' => "Hello, world!",
+        'de' => "Hallo Welt!",
+        'it' => "Ciao, mondo!",
+      }
+
+      def index
+        language = HELLO.keys.sort_by{ rand }.first
+        session[:language] = language
+        redirect Rs(:greet)
+      end
+
+      def greet
+        HELLO[session[:language]]
+      end
+    end
+{:ruby}
+
+
+In this, we select a random language key that we then set in our session. The browser that hits the index action will from now on always have this language associated to it and you can see it in your controller and templates inside the session object.
+
+Now a few details on how this works exactly.
+
+
+
+On every request, as we mentioned in the chapter about Ramaze::Current already, a Session is initialized and put into `Ramaze::STATE[:session]`. This makes it possible to access the session during the whole request. The initialization will set a cookie in the current response, setting the key `_ramaze_session_id` with a unique value representing the key to the data stored on the server.
+
+Cookies are basically a part of the response headers, a simple string that is being sent back and forth during the request/response cycle. Everytime a browser sends a request it will also send the cookie in the header with it, that way we can look up which data belongs to that browser.
+
+In Ramaze this data is stored in a cache, at the time of writing the two most commonly used ones are MemcachedCache and MemoryCache.
+
+
+
+Although they may sound similar, they are quite different concepts, MemoryCache equals a Ruby Hash, it doesn't put any restrains on the kind or amount of data stored, which can become problematic for larger applications. MemcachedCache on the other hand utilizes the MemCache library to communicate with an (usually) local memcache daemon that handles caching of key/value pairs in namespaces. It allows you to control the way caching happens very well, one commonly used option is to put a limit on the overall amount of data stored. However, old data is thrown away if your application tries to cache more data than allowed.
+
+There is a third way which was contributed recently, to utilize the Sequel ORM and use a relational database for storage, which gives both control and persistence as old data is never thrown away unless explicitly ordered to do so.
+
+## Configuration
+
+A number of options lets you decide how to use sessions and their behaviour.
+
+To disable them, simply assign:
+
+    Ramaze::Global.sessions = false
+{:ruby}
+
+This will give you some speedup and less data being transferred between server and client, it does not affect the ability to manually set cookies in the response.
+
+To change the backend for the session cache only (as opposed to it for all caches in your Ramaze, we talk about that in the Ramaze::Cache section) do following:
+
+    Ramaze::Global.cache_alternative[:sessions] = Ramaze::MemcachedCache
+{:ruby}
+
+Please make sure you have the memcached server running before starting an application with this setting.

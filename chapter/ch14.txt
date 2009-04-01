@@ -1,6 +1,4 @@
-= Ramaze::Template
-
-== Engines
+= Templating engines
 
 == Ezamar
 
@@ -183,9 +181,6 @@ It attempts to eliminate redundancy, reflecting the underlying structure that CS
 
 It's closely related to the Haml templating engine also supported by Ramaze.
 
-=== Syntax
-=== Usage
-
 == Amrita2
 ..
 == Liquid
@@ -207,3 +202,7 @@ XSLT
 ...
 
 == How to create your own engine
+
+1. Hatch an army of cobolds
+2. ???
+3. Profit!!!

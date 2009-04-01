@@ -1,1 +1,4 @@
 = Ramaze::Current
+== Some title
+
+Not much here

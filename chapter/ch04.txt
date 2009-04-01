@@ -37,7 +37,7 @@ Application with multiple files
 The convention for larger applications consists of a basic directory structure. Using this structure is optional; you can specify different directories with special commands.
 
 
-[source]
+[source,sh]
 --------------------------------------------------------------------------------
 /
   start.rb

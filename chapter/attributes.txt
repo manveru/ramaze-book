@@ -1,2 +1,19 @@
+// misc links
 :ruby-lang: http://ruby-lang.org[the official Ruby programming language website]
+
+// chapters
 :ch-developing: <<X400,developing Ramaze>>
+
+// API links
+:request-api: http://doc.ramaze.net/classes/Ramaze/Request.html[API docs for Ramaze::Request]
+
+// ramaze links
+:www-ramaze: http://ramaze.net[ramaze.net]
+:wiki-ramaze: http://wiki.ramaze.net[wiki.ramaze.net]
+:doc-ramaze: http://doc.ramaze.net[doc.ramaze.net]
+:bugs-ramaze: http://bugs.ramaze.net[bugs.ramaze.net]
+:group-ramaze: http://ramaze.googlegroups.com[The ramaze googlegroup mailing list]
+:github-ramaze: http://github.com/manveru/ramaze[Ramaze on Github]
+
+// license links
+:cc-license: http://foo.bar[Creative Commons Attribution-ShareAlike]

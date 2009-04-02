@@ -25,7 +25,6 @@ How to create your own helper
 
 Creating helpers is simple.
 
-
 [source,ruby]
 --------------------------------------------------------------------------------
 module Ramaze
@@ -48,7 +47,10 @@ end
 
 === Exposing methods to routing
 
-By adding an helper module to the Ramaze::Helper::LOOKUP Set it's possible to add the module to the lookup for methods together with the Ramaze::Controller. Conflicts of method names in Helper and Controller will prefer the Controller, following the same rules as Ruby inheritance. 
+By adding an helper module to the Ramaze::Helper::LOOKUP Set it's possible to
+add the module to the lookup for methods together with the Ramaze::Controller.
+Conflicts of method names in Helper and Controller will prefer the Controller,
+following the same rules as Ruby inheritance. 
 
 
 [source,ruby]
@@ -67,6 +69,10 @@ end
 --------------------------------------------------------------------------------
 
 
-In this example we expose the public method Locale#locale (Ruby methods are public by default). So in your application your can just use the helper and when the client visits the /locale/en route the session will reflect this choice.
+In this example we expose the public method Locale#locale (Ruby methods are
+public by default). So in your application your can just use the helper and
+when the client visits the /locale/en route the session will reflect this
+choice.
 
-Please note that this code doesn't include a `redirect_referrer` call since we may be using it within our own codebase in the middle of a method.
+Please note that this code doesn't include a `redirect_referrer` call since we
+may be using it within our own codebase in the middle of a method.

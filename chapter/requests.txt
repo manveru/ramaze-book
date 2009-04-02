@@ -1,6 +1,6 @@
 = Requests
 
-[API docs for Ramaze::Request](http://api.ramaze.net/classes/Ramaze/Request.html)
+{request-api}
 
 Every time the client sends a request at Ramaze, a new Request object is created, containing the information from the client and a lot of convenient helpers to work with this information.
 

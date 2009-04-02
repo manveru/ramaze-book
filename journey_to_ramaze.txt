@@ -6,50 +6,33 @@ v0.2, March 2009
 
 include::chapter/preface.txt[tabsize=2]
 
-// Tutorial introduction to Ramaze
-include::chapter/ch01.txt[tabsize=2]
-
-// Sessions
-include::chapter/ch02.txt[tabsize=2]
-
-// include::chapter/ch03.txt[tabsize=2]
-
-// Configuration
-include::chapter/ch04.txt[tabsize=2]
-
-// Action
-include::chapter/ch05.txt[tabsize=2]
-
-// Adapters
-include::chapter/ch06.txt[tabsize=2]
-
-// Controllers
-include::chapter/ch07.txt[tabsize=2]
-
-// include::chapter/ch08.txt[tabsize=2]
-
-// Helpers
-include::chapter/ch09.txt[tabsize=2]
-
-// Installation
-include::chapter/ch10.txt[tabsize=2]
-
-// Requests
-include::chapter/ch11.txt[tabsize=2]
-
-// Responses
-include::chapter/ch12.txt[tabsize=2]
-
-// Sessions
-include::chapter/ch13.txt[tabsize=2]
-
-// Templating
-include::chapter/ch14.txt[tabsize=2]
-
-// Trinity
-include::chapter/ch15.txt[tabsize=2]
-
-// Security
-include::chapter/ch16.txt[tabsize=2]
-
+// Contains links and other snippets used all over the book
 include::chapter/attributes.txt[tabsize=2]
+
+include::chapter/tutorial_introduction.txt[tabsize=2]
+
+include::chapter/sessions.txt[tabsize=2]
+
+// chapters below are old content and need major rework
+
+include::chapter/configuration.txt[tabsize=2]
+
+include::chapter/actions.txt[tabsize=2]
+
+include::chapter/adapters.txt[tabsize=2]
+
+include::chapter/controllers.txt[tabsize=2]
+
+include::chapter/helpers.txt[tabsize=2]
+
+include::chapter/installation.txt[tabsize=2]
+
+include::chapter/requests.txt[tabsize=2]
+
+include::chapter/responses.txt[tabsize=2]
+
+include::chapter/security.txt[tabsize=2]
+
+include::chapter/templating.txt[tabsize=2]
+
+include::chapter/trinity.txt[tabsize=2]

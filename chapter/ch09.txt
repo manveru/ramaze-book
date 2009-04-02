@@ -1,4 +1,4 @@
-= Ramaze::Helper
+= Helpers
 
 Helpers are modules for inclusion into controllers or other classes.
 

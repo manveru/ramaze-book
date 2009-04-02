@@ -1,4 +1,4 @@
-= Ramaze::Adapter
+= Adapters
 
 Ramaze::Adapter is the module that contains and controls the various servers Ramaze runs on.
 

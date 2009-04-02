@@ -1,4 +1,4 @@
-= Ramaze::Controller
+= Controllers
 
 == What, exactly, is a Controller anyway?
 

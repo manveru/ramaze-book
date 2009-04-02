@@ -1,4 +1,4 @@
-= Ramaze::Response
+= Responses
 
 `@body` should respond to #each.
 Rack will iterate over the given object and write to the socket on every iteration, this way you can also implement responses that utilize lazy evaluation.

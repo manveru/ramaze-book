@@ -1,4 +1,4 @@
-= Ramaze::Action
+= Actions
 
 Action is one of the core parts of Ramaze, a recipe for rendering combinations of controllers, methods and templates.
 

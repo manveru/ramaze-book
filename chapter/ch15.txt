@@ -1,4 +1,4 @@
-= Ramaze::Trinity
+= Trinity
 
 The Trinity in Ramaze consists of the three elements of state:
 

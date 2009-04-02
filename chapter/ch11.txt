@@ -1,4 +1,4 @@
-= Ramaze::Request
+= Requests
 
 [API docs for Ramaze::Request](http://api.ramaze.net/classes/Ramaze/Request.html)
 

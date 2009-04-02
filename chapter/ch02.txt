@@ -1,71 +1,332 @@
-= Ramaze::Session
-
-Sessions are an essential part of most dynamic web applications and so Ramaze makes it very simple to use them. We will see how to use the automated sessions, handle cookies manually and change the backend where session information is stored on the serverside.
-
+= Sessions
 == What are sessions
 
-Although I said that they are essential, some people may not yet be familiar with sessions and what use cases exist for them, so let's take a look at a simple application using sessions first.
+The term session is used for data associated with a specific client (browser).
+The most common way is to send a cookie to the browser, which sends it back on
+every request.
+This enables us to keep client-state between requests.
+
+Sessions are an essential part of most dynamic web applications, so Ramaze
+tries to make it as comfortable as possible to use them to their full
+potential.
+
+In this chapter we will see how and when sessions are initialized, and how you
+can use them in your Controllers, Views, and Models.
+We will also go into some of the lower level parts in Rack, which will show you
+how you can manage cookies yourself, which might make sense in very
+light-weight applications.
+
+As usual, we start with a small example before we dive deeper.
+
+== Usage example
+
+In this example we show you how to use sessions within the Controller, this is
+the most common usage and essential for further understanding.
+
+The example consists of a very simple counter, every time someone visits your
+site for the first time, it goes up, but it will not increase on subsequent
+visits. This is usually called a counter for unique page views.
 
 [source,ruby]
 --------------------------------------------------------------------------------
-require 'ramaze'
+include::source/session/counter.rb[tabsize=2]
+--------------------------------------------------------------------------------
 
-class MainController < Ramaze::Controller
-  HELLO = {
-    'en' => "Hello, world!",
-    'de' => "Hallo Welt!",
-    'it' => "Ciao, mondo!",
-  }
+So, before every action, we call `count_visit`, which checks whether a specific
+value is set in the session associated with the client making the request.
+If you are using a normal browser, with cookies enabled, you will always get
+'You are visitor number 1'. However, if you disable cookies, or delete the
+cookie associated with localhost, or make a request with another browser (or
+curl), the counter will increase further.
 
-  def index
-    language = HELLO.keys.sort_by{ rand }.first
-    session[:language] = language
-    redirect Rs(:greet)
-  end
+So to cheat and increase your counter you can simply write a script that just
+doesn't send a cookie back to the client like following.
 
-  def greet
-    HELLO[session[:language]]
+[source,ruby]
+--------------------------------------------------------------------------------
+include::source/session/counter_cheat.rb[tabsize=2]
+--------------------------------------------------------------------------------
+
+There are some ways to close this loophole, but for now I'll leave that as an
+exercise for the reader.
+
+== Access
+
+You may access the session for the currently active request from anywhere in
+your application, either via `Trinity` or by calling `Ramaze::Current.session`.
+
+This will come in handy, for example if you need to obtain the currently active
+language for a user, or to determine whether the user has certain privileges in
+your Model.
+
+As for all things related to `Trinity`, be aware that you will not be able to
+have access to the session if you are in another thread as Ramaze uses threads
+to contain state about the request/response cycle.
+
+If you want to carry over state into a background job you have to use
+`Ramaze.defer` like following:
+
+[source,ruby]
+--------------------------------------------------------------------------------
+class Register < Ramaze::Controller
+  def register
+    # assume we register a new user here
+
+    session[:email] = user.email
+    session[:username] = user.name
+
+    Ramaze.defer{
+      mail(session[:email], session[:username], 'Welcome')
+    }
   end
 end
 --------------------------------------------------------------------------------
 
-
-In this, we select a random language key that we then set in our session. The browser that hits the index action will from now on always have this language associated to it and you can see it in your controller and templates inside the session object.
-
-Now a few details on how this works exactly.
-
+This will spawn a new Thread, and copy all thread variables over, so Ramaze
+will know which request/response cycle spawned the Thread and can access all of
+the state.
 
 
-On every request, as we mentioned in the chapter about Ramaze::Current already, a Session is initialized and put into `Ramaze::STATE[:session]`. This makes it possible to access the session during the whole request. The initialization will set a cookie in the current response, setting the key `_ramaze_session_id` with a unique value representing the key to the data stored on the server.
+== Cookies
 
-Cookies are basically a part of the response headers, a simple string that is being sent back and forth during the request/response cycle. Everytime a browser sends a request it will also send the cookie in the header with it, that way we can look up which data belongs to that browser.
+Before we dive deeper into sessions we will have to understand cookies.
 
-In Ramaze this data is stored in a cache, at the time of writing the two most commonly used ones are MemcachedCache and MemoryCache.
+HTTP cookies are small text files containing data used by websites, and are
+stored on the user's computer.
 
+Cookies are set when the server sends a 'Set-Cookie' header in a response.
+Afterwards, the exact data the server sent is transmitted back to the server as
+the value of the 'HTTP_COOKIE' in every request the client makes.
 
+=== History
 
-Although they may sound similar, they are quite different concepts, MemoryCache equals a Ruby Hash, it doesn't put any restrains on the kind or amount of data stored, which can become problematic for larger applications. MemcachedCache on the other hand utilizes the MemCache library to communicate with an (usually) local memcache daemon that handles caching of key/value pairs in namespaces. It allows you to control the way caching happens very well, one commonly used option is to put a limit on the overall amount of data stored. However, old data is thrown away if your application tries to cache more data than allowed.
+HTTP cookies have a long history back to the beginnings of the WWW, they were
+used in other contexts for applications before, but only after adoption in
+Netscape and Internet Explorer they opened a vast potential for
+web-applications as we know them today where state plays a major role.
 
-There is a third way which was contributed recently, to utilize the Sequel ORM and use a relational database for storage, which gives both control and persistence as old data is never thrown away unless explicitly ordered to do so.
+[quote, Wikipedia, HTTP_cookie]
+____________________________________________________________________
+The term "HTTP cookie" derives from "magic cookie", a packet of data a program
+receives but only uses for sending it again, possibly to its origin, unchanged.
+Magic cookies were already used in computing when Lou Montulli had the idea of
+using them in Web communications in June 1994.
+At the time, he was an employee of Netscape Communications, which was
+developing an e-commerce application for a customer.
+Cookies provided a solution to the problem of reliably implementing a virtual
+shopping cart.
 
-== Configuration
+Together with John Giannandrea, Montulli wrote the initial Netscape cookie
+specification the same year. Version 0.9beta of Mosaic Netscape, released on
+October 13, 1994, supported cookies.
+The first actual use of cookies (out of the labs) was made for checking whether
+visitors to the Netscape Web site had already visited the site.
+Montulli applied for a patent for the cookie technology in 1995; it was granted in 1998.
+Support for cookies was integrated in Internet Explorer in version 2, released
+in October 1995.
 
-A number of options lets you decide how to use sessions and their behaviour.
+The introduction of cookies was not widely known to the public, at the time.
+In particular, cookies were accepted by default, and users were not notified of
+the presence of cookies.
+Some people were of the existence of cookies as early as the first quarter of
+1995, but the general public learned about them after the Financial Times
+published an article about them on February 12, 1996.
+In the same year, cookies received a lot of media attention, especially because
+of potential privacy implications.
+Cookies were discussed in two U.S. Federal Trade Commission hearings in 1996 and 1997.
 
-To disable them, simply assign:
+The development of the formal cookie specifications was already ongoing. In
+particular, the first discussions about a formal specification started in April
+1995 on the www-talk mailing list.
+A special working group within the IETF was formed.
+Two alternative proposals for introducing state in HTTP transactions had been
+proposed by Brian Kristol himself, soon decided to use the Netscape
+specifications as a starting point.
+On February 1996, the working group identified third-party cookies as a
+considerable privacy threat.
+The specification produced by the group was eventually published as RFC 2109 in
+February 1997.
+It specifies that third-party cookies were either not allowed at all, or at
+least not enabled by default.
+
+At this time, advertising companies were already using third-party cookies.
+The recommendation about third-party cookies of RFC 2109 was not followed by
+Netscape and Internet Explorer.
+RFC 2019 was followed by RFC 2965 in Octover 2000.
+____________________________________________________________________
+
+=== Structure
+
+Let's inspect the headers sent back when we try to access the 'index' action
+from the example above.
 
 [source,ruby]
 --------------------------------------------------------------------------------
-Ramaze::Global.sessions = false
+delta ~ % curl -I localhost:7000/
+HTTP/1.1 200 OK 
+Content-Length: 24
+Content-Type: text/html
+Server: WEBrick/1.3.1 (Ruby/1.9.2/2009-03-02)
+Date: Thu, 02 Apr 2009 11:17:15 GMT
+Connection: Keep-Alive
+Set-Cookie: innate.sid=d686bd7b9a4b4b8ccc2cf5b1d4f6a47d315ef375acb91a73caa34a825cf19f1b; path=/; expires=Tue, 19-Jan-2038 03:14:07 GMT
 --------------------------------------------------------------------------------
 
-This will give you some speedup and less data being transferred between server and client, it does not affect the ability to manually set cookies in the response.
+You see that Ramaze sends the 'Set-Cookie' header automatically because we try
+to store data in the session in our Controller.
 
-To change the backend for the session cache only (as opposed to it for all caches in your Ramaze, we talk about that in the Ramaze::Cache section) do following:
+The value of the 'Set-Cookie' header consists of `key=value` pairs, where value
+usually contains following elements:
+
+|===============================================================================
+| domain   | Domain that set the cookie
+| path     | Relative path below which the cookie is used
+| expires  | Point in time when the cookie expires. If no time is given then
+|          | the cookie will be deleted once the browser closes.
+| secure   | *TODO*
+| HttpOnly | *TODO*
+|===============================================================================
+
+=== Usage
+
+Now that we have a better knowledge of what cookies are and what they are
+supposed to do, let's see how to use them within Ramaze.
 
 [source,ruby]
 --------------------------------------------------------------------------------
-    Ramaze::Global.cache_alternative[:sessions] = Ramaze::MemcachedCache
+include::source/session/cookie.rb[tabsize=2]
 --------------------------------------------------------------------------------
 
-Please make sure you have the memcached server running before starting an application with this setting.
+In this example we don't count unique page views, but rather keep track of the
+number of visits a single browser has made so far.
+
+We are using methods provided by Rack, you can find them in `Rack::Request` and
+`Rack::Response`.
+Ramaze uses the same methods to set cookies for sessions.
+
+`Rack::Respone#set_cookie` also allows a Hash as argument for the additional
+key/value pairs that we showed above.
+
+[source,ruby]
+--------------------------------------------------------------------------------
+include::source/session/set_cookie.rb[tabsize=2]
+--------------------------------------------------------------------------------
+
+NOTE: The only required argument is `:value`, all other are optional and the
+      cookie is valid without them.
+
+Usually you won't need to care about cookies at all, and excessive usage of
+them is considered bad practise.
+
+=== Limitations
+
+There are several limitations imposed on cookies.
+
+According to the HTTP cookie specifications, browsers should be able to store a
+minimal amount of cookies. In particular, an internet browser is expected to be
+able to store at least 300 cookies of four kilobytes each, and at least 20
+cookies per server or domain.
+
+Since around 2007, all major browsers store around 30-50 cookies per domain.
+But the size of each cookie still has severe limitations, Internet Explorer for
+example will limit the total size of all cookies for one domain to 4 kilobytes.
+
+So it makes sense to utilize Sessions instead of a large amount of cookies if
+you want to store arbitrary amounts of data without worrying about it, all that
+is stored on the client is an UUID that associates their cookie with data
+stored on the server.
+
+
+== Configuration of session cookies
+
+Now that we have a better understanding about cookies, let's investigate the
+way Ramaze utilizes cookies for the session, in particular how to change the
+default behaviour through configuration.
+
+The configuration for sessions are kept at `Ramaze::Session.options`, which is
+also reachable through `Ramaze.options.session`.
+
+The defaults are:
+
+|===============================================================================
+| Key for the session cookie   | `:key`     | 'innate.sid'
+| Domain the cookie relates to | `:domain`  | `false`
+| Path the cookie relates to   | `:path`    | '/'
+| Use secure cookie            | `:secure`  | `false`
+| Time of cookie expiration    | `:expires` | Tue Jan 19 12:14:07 +0900 2038
+|===============================================================================
+
+Please note that there is no way (yet) to disable sessions. If you do not want
+to have them, don't use them.
+
+This contrasts with earlier releases of Ramaze, where sessions were always
+created as soon as a request was made unless you explicitly disabled sessions.
+
+Ramaze since version 2009.04 initializes sessions in a lazy manner, only
+setting a session cookie the first time you explicitly store a value in the
+session. You can still try to read a value from an uninitialized session, which
+simply returns nil and won't initialize a session cookie either.
+
+
+=== Expiration
+
+The most important option here might be the time of expiration.
+
+By default Ramaze uses the highest allowed value for a Time instance on 32bit systems, which is sometime in the year 2038.
+
+The expiration time also decides the time-to-live of the server-side value of
+the session, which is expired once the cookie is set to expire.
+
+So in order to keep your server from taking up too much memory when you expect
+a lot of unique visitors it is recommended to set this to a more reasonable
+value depending on your application.
+
+== Concurrency
+
+A common problem when it comes to utilizing sessions is concurrency. If you
+have more than one instance of your application running to handle requests via
+a load-balancer it gets quite hard to predict which instance will handle
+requests for which client, and browsers may end up having multiple active
+sessions within the same application.
+
+By default, sessions are stored in a conventional Hash that is kept in memory,
+this is the fastest way and allows for arbitrary data to be kept in the session
+value, such as instances of Proc or objects with a custom meta-classes.
+
+However, this flexibility has major draw-backs when it comes to scaling your
+application, so you should avoid storing anything that cannot be fully
+serialized from the get-go to avoid problems down the road.
+
+Ramaze provides multiple ways to persist your session beyond the boundaries of
+your application's memory.
+You may use the `Marshal`, `YAML`, `DRb`, `Memcached`, or `Sequel` caches that
+ship with Ramaze or you may even create your own Cache, which is covered in
+detail in the chapter about caches.
+
+The default method of caching is in-memory, in a conventional Hash.
+To change this, you have to modify the options at `Ramaze::Cache.options`, also
+available at `Ramaze.options.cache`.
+
+For example, to persist sessions to the different caches (useful if you want to
+share them between multiple instances), you can do following:
+
+[source,ruby]
+--------------------------------------------------------------------------------
+# Using Marshal serialization to the file-system
+Ramaze.options.cache.session = Ramaze::Cache::Marshal
+
+# Using YAML serialization to the file-system
+Ramaze.options.cache.session = Ramaze::Cache::YAML
+
+# Using YAML serialization to the file-system
+Ramaze.options.cache.session = Ramaze::Cache::DRb
+
+# Using YAML serialization to the file-system
+Ramaze.options.cache.session = Ramaze::Cache::Memcached
+
+# Using YAML serialization to the file-system
+Ramaze.options.cache.session = Ramaze::Cache::Sequel
+--------------------------------------------------------------------------------
+
+Each of these cache back-ends has unique strengths and weaknesses, please read
+more about them in the chapter about caches.

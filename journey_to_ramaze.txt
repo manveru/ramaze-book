@@ -9,11 +9,15 @@ include::chapter/preface.txt[tabsize=2]
 // Contains links and other snippets used all over the book
 include::chapter/attributes.txt[tabsize=2]
 
+// partial chapters that are in sync with current Ramaze functionality
+
 include::chapter/tutorial_introduction.txt[tabsize=2]
 
 include::chapter/sessions.txt[tabsize=2]
 
 include::chapter/helpers.txt[tabsize=2]
+
+include::chapter/testing.txt[tabsize=2]
 
 // chapters below are old content and might need major rewriting
 

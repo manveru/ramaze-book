@@ -1,0 +1,134 @@
+= Testing
+== About testing
+
+There is a large movement in the Ruby community that advocates testing
+applications and libraries.
+This chapter tries to cover most of the aspects of testing your Ramaze
+applications.
+We will see things like the history of testing with Ramaze, browser automation,
+XPATH assertion, and why you should care.
+
+I need to clarify my terms for this chapter, with 'tests' and 'specs' I
+basically mean the same thing, asserting some kind of functionality or
+behaviour. The advocates for specs will usually try to make the distinction
+seem larger than it really is, all it comes down to is some changes in
+terminology and syntax.
+
+The larger difference is between testing after the fact and so-called BDD,
+short for 'Behaviour Driven Development'.
+For the prior one you simply write your code first and assert that it works
+later, in the latter case you formulate your expectations first, and then go on
+to write the least amount of code possible to make the expectation go green.
+
+For the rest of this chapter, I will be using 'specs' for an expectation in the
+BDD sense of writing a test before the code it tests is actually implemented,
+and 'tests' for everything else.
+
+My personal take on whether to use BDD is flexible, depending on the project.
+If you know the kind of output you can expect when your code is finished, e.g.
+if it's not something experimental, take the BDD approach, jot down the basics
+and then just make your specs pass.
+However, sometimes what you are doing will just be novel to you, and when you
+start out you will have no idea where you will end up.
+In this case it's probably better to start with writing small examples that are
+easy to change and don't have any fixed expectations.
+But make sure to actually write tests afterwards to avoid regressions.
+
+I think the biggest value of testing is exactly this: avoiding regressions.
+It is very easy to go on a bug-hunt for a couple of hours, fix a bug and then
+skip the write-a-test part, and while this might work for smaller projects, you
+will be hating yourself once it grows or should be integrated into a larger
+system.
+
+Take care of your future self, it doesn't have as many nerves as you, and it
+might have a time-machine.
+
+
+== Ramaze and testing
+
+Since soon after Ramaze was created, most of it's functionality was tested
+regularly.
+
+Initially, since I had limited experience with the whole concept of testing, it
+was not something I did for every feature and change, more like a guideline and
+help to avoid regression of functionality.
+
+For the first year, I used the RSpec framework to write and run tests, mostly
+because it wasn't hard on my eyes like the Test::Unit library that ships with
+Ruby.
+
+I found several problematic things with RSpec, it was very slow due to it's
+size, if you look at it today it has around five thousand lines of code, most
+of which will have to be parsed and executed for every single spec, in the
+early days it also had a very instable API, which made my specs break, even
+though my code didn't change at all.
+
+Eventually I grew tired of fixing my code just to adapt it to their fancy new
+ways of doing things, back then the whole spec movement was really new and most
+of what they did had never been done before, so I understand their decision to
+keep moving forward, and today they still play a major role in the Ruby
+community.
+I just was not interested in features I was not going to use and minor changes
+in terminology and syntax. What I had worked and looked nice already.
+
+At this point I would like to thank the people behind RSpec, without them
+Ramaze wouldn't be what it is today.
+
+Late in 2007, Christian Neukirchen started work on a tiny RSpec clone called
+Bacon, which I found appealing immediately and which eventually replaced the
+role RSpec had within the Ramaze project.
+
+We will cover more about Bacon later on.
+
+
+
+== Test driven development
+
+== Testing your application
+
+This chapter should cover 
+
+* specs vs. tests
+
+== Bacon
+
+[quote,Francis Bacon]
+Truth will sooner come out from error than from confusion
+
+Bcon is a small RSpec clone weighing less than 350 lines of code but
+nevertheless providing all essential features.
+
+It had a small core of functionality, just enough to make specs look appealing
+and readable. The syntax was resembling RSpec closely, but it left out things
+that I didn't care about anyway.
+Thanks to that similarity it was a breeze to port my existing specs over to
+Bacon.
+
+Since it was very small, and no release had been made at that point, I simply
+put it into our Ramaze repository and shipped it until around April of 2009.
+
+Bacon has long since reached version 1.0 and remained as small as ever, Ramaze
+doesn't ship it anymore, but relies on it as a development-dependency.
+
+=== Shared contexts
+...
+== Innate::Mock
+...
+== Rack::Test
+...
+== Hpricot
+...
+== Webrat
+...
+== Mechanize
+...
+== Examples
+...
+=== GET
+...
+=== POST
+...
+=== Multipart POST
+...
+=== Working with models
+...

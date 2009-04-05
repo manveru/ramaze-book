@@ -82,8 +82,6 @@ We will cover more about Bacon later on.
 
 
 
-== Test driven development
-
 == Testing your application
 
 This chapter should cover 

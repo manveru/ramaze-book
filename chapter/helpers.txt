@@ -2,8 +2,7 @@
 
 Helpers are modules for inclusion into controllers or other classes.
 
-== Using a helper
-
+== Using helpers
 
 [source,ruby]
 --------------------------------------------------------------------------------
@@ -16,12 +15,37 @@ class MainController < Ramaze::Controller
 end
 --------------------------------------------------------------------------------
 
-
 == Rules for helpers
 
-Methods are private.
+Ramaze specifies a clear distinction between normal modules and helper modules.
+Most of the difference is in the way Ramaze will treat helpers on action lookup.
 
-How to create your own helper
+=== Helper methods
+
+Methods of helpers are not considered for actions unless they are public and
+the module was added to the `Ramaze::Helper::LOOKUP` Set.
+
+== Default helpers
+
+Ramaze comes with a small selection of default helpers deemed essential for any
+application.
+The major difference is that you will not have to explicitly state their usage,
+they will be available by default.
+
+The helpers available by default are following:
+
+* Aspect
+* CGI
+* Flash
+* Link
+* Partial
+* Redirect
+* SendFile
+
+We will cover each of them in more detail below, but first let's take a look at
+creating your own helper so you can get a feeling for them.
+
+== Creating helpers
 
 Creating helpers is simple.
 
@@ -44,11 +68,11 @@ module Ramaze
 end
 --------------------------------------------------------------------------------
 
+=== Exposing helper methods to action lookup
 
-=== Exposing methods to routing
+By adding an helper module to the `Ramaze::Helper::LOOKUP` it's possible to add
+the module to the lookup for methods together with the `Ramaze::Controller`.
 
-By adding an helper module to the Ramaze::Helper::LOOKUP Set it's possible to
-add the module to the lookup for methods together with the Ramaze::Controller.
 Conflicts of method names in Helper and Controller will prefer the Controller,
 following the same rules as Ruby inheritance. 
 
@@ -75,4 +99,41 @@ when the client visits the /locale/en route the session will reflect this
 choice.
 
 Please note that this code doesn't include a `redirect_referrer` call since we
-may be using it within our own codebase in the middle of a method.
+may be using it within our own code in the middle of a method.
+
+== The Aspect helper
+
+The Aspect helper provides you with functionality known from AOP (Aspect
+Oriented Programming). Sometimes you just want to execute some code around the
+execution of an Action without the Action being aware of it.
+Examples for this include authentication, logging, persistence, and routing.
+
+The helper provides you with four methods, symmetrical in functionality.
+
+=== Using before_all
+
+So you have a Controller that requires a user to be administrator in order to
+be allowed to do anything.
+
+This might look like:
+
+[source,ruby]
+--------------------------------------------------------------------------------
+class AdminController < Ramaze::Controller
+  def create_user(name)
+    # ...
+  end
+
+  def delete_user(name)
+    # ...
+  end
+
+  before_all{ redirect_referrer unless user_is_root? }
+
+  private
+
+  def user_is_root?
+    session[:user_is_root]
+  end
+end
+--------------------------------------------------------------------------------

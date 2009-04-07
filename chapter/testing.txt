@@ -90,11 +90,13 @@ This chapter should cover
 
 == Bacon
 
-[quote,Francis Bacon]
-Truth will sooner come out from error than from confusion
-
-Bcon is a small RSpec clone weighing less than 350 lines of code but
+Bacon is a small RSpec clone weighing less than 350 lines of code but
 nevertheless providing all essential features.
+
+[quote, Francis Bacon]
+________________________________________________________________________________
+Truth will sooner come out from error than from confusion
+________________________________________________________________________________
 
 It had a small core of functionality, just enough to make specs look appealing
 and readable. The syntax was resembling RSpec closely, but it left out things
@@ -108,25 +110,71 @@ put it into our Ramaze repository and shipped it until around April of 2009.
 Bacon has long since reached version 1.0 and remained as small as ever, Ramaze
 doesn't ship it anymore, but relies on it as a development-dependency.
 
+=== Usage
+
+Using Bacon on it's own is very simple, let's write a little spec for a method
+we want to implement.
+
+[source,ruby]
+--------------------------------------------------------------------------------
+include::source/testing/bacon_sum_spec.rb[tabsize=2]
+--------------------------------------------------------------------------------
+
+[source,ruby]
+--------------------------------------------------------------------------------
+include::source/testing/bacon_sum_full.rb[tabsize=2]
+--------------------------------------------------------------------------------
+
+[source,ruby]
+--------------------------------------------------------------------------------
+include::source/testing/bacon_sum_average_spec.rb[tabsize=2]
+--------------------------------------------------------------------------------
+
+[source,ruby]
+--------------------------------------------------------------------------------
+include::source/testing/bacon_sum_average_full.rb[tabsize=2]
+--------------------------------------------------------------------------------
+
 === Shared contexts
+
 ...
+
 == Innate::Mock
+
 ...
+
 == Rack::Test
+
 ...
+
 == Hpricot
+
 ...
+
 == Webrat
+
 ...
+
 == Mechanize
+
 ...
+
 == Examples
+
 ...
+
 === GET
+
 ...
+
 === POST
+
 ...
+
 === Multipart POST
+
 ...
+
 === Working with models
+
 ...

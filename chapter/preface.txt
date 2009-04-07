@@ -1,5 +1,4 @@
-Preface
-=======
+= Preface
 
 Ramaze is a simple but powerful web application development framework. This
 book is an in-depth walk-through of Ramaze's features and behaviour.
@@ -23,8 +22,7 @@ development, affording all the benefits of the underlying Ruby programming
 language. It gets out of your way as you do things, helping you along as you
 require it.
 
-About the "Journey to Ramaze"
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+== About the "Journey to Ramaze"
 
 This book is the result of a long time spent researching, specifying, and
 describing the exact behaviours of Ramaze.
@@ -34,8 +32,7 @@ reuse and modify all of the content within in the ways specified by the
 {cc-license}
 
 
-Relevant links
-~~~~~~~~~~~~~~~
+== Relevant links
 
 Naturally, since Ramaze is an open source web framework, most help can be found
 on the web.
@@ -52,8 +49,7 @@ Some links to provide more information on all the topics covered in this book.
   {doc-ramaze}
 * The place to report all issues, proposals, and bugs is {bugs-ramaze}
 
-About the author
-~~~~~~~~~~~~~~~
+== About the author
 
 Michael Fellinger (a.k.a. manveru) is the creator and a core developer of the
 Ramaze project.

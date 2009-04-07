@@ -3,13 +3,14 @@ require 'fileutils'
 
 task :default => 'build:xhtml'
 
-JTR_TXT = "journey_to_ramaze.txt"
-JTR_XML = "journey_to_ramaze.xml"
+JTR_TXT  = "journey_to_ramaze.txt"
+JTR_XML  = "journey_to_ramaze.xml"
+JTR_HTML = "journey_to_ramaze.html"
 SOURCE_FILES = Dir['chapter/*.txt']
 
 formats = %w[chunked htmlhelp manpage pdf text xhtml dvi ps tex]
 
-CLOBBER.include(JTR_XML, *formats)
+CLOBBER.include(JTR_XML, JTR_HTML, *formats)
 
 OPTS = [
   "--asciidoc-opts=--conf-file=custom.conf",
@@ -49,4 +50,15 @@ formats.each do |format|
   end
 
   file(jtr_dir){ FileUtils.mkdir(jtr_dir) }
+end
+
+desc 'Build prettier HTML directly with asciidoc'
+task 'build:asciidoc-xhtml' => [JTR_TXT, *SOURCE_FILES] do
+  sh('asciidoc',
+     '--verbose',
+     '--section-numbers',
+     '--backend', 'xhtml11',
+     '--doctype', 'book',
+     '--out-file', JTR_HTML,
+     JTR_TXT)
 end

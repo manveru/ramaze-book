@@ -330,3 +330,109 @@ Ramaze.options.cache.session = Ramaze::Cache::Sequel
 
 Each of these cache back-ends has unique strengths and weaknesses, please read
 more about them in the chapter about caches.
+
+== Flash
+
+The session flash has nothing to do with Adobe Flash (R).
+
+It is best described as a special-purpose Hash that expires parts of it's
+contents after every request/response cycle.
+
+The purpose of this functionality might be best described explained with the
+way you display results of some action a user invokes in the action coming
+after it.
+
+So let's say an user tries to access a restricted area, and you simply want to
+redirect the user elsewhere, displaying a message that the access was denied.
+
+[source,ruby]
+--------------------------------------------------------------------------------
+class RestrictedArea < Ramaze::Controller
+  def index
+    do_some_important_stuff
+  end
+
+  before_all do
+    unless user_is_privileged?
+      session[:error_message] = "Access denied"
+      redirect_referer
+    end
+  end
+end
+
+class NormalArea < Ramaze::Controller
+  def index
+    %q(
+<?r if error_message = session.delete(:error_message) ?>
+  <div class="error">#{h error_message}</div>
+<?r end ?>
+#{a('restricted area', RestrictedArea.r)}
+    )
+  end
+end
+--------------------------------------------------------------------------------
+
+Given that the user clicks the link in `NormalArea` and tries to access
+`RestrictedArea`, an error message will be displayed after the redirect, and
+the message is deleted from the session so it will not show up on the next
+request.
+
+Flash basically automates the deletion, and acts as a short-term memory, so you
+never have to remember to delete the contents.
+
+Using the default helper, `Helper::Flash`, our example would look like this:
+
+[source,ruby]
+--------------------------------------------------------------------------------
+class RestrictedArea < Ramaze::Controller
+  def index
+    do_some_important_stuff
+  end
+
+  before_all do
+    unless user_is_privileged?
+      flash[:error] = "Access denied"
+      redirect_referer
+    end
+  end
+end
+
+class NormalArea < Ramaze::Controller
+  def index
+    %q(
+#{flashbox}
+#{a('restricted area', RestrictedArea.r)}
+    )
+  end
+end
+--------------------------------------------------------------------------------
+
+It might not be shorter in this case, but over a larger application this
+simplicity comes in handy.
+
+Ramaze also ships with a `Helper::Flash#flashbox`, which automates the display
+of flash messages like they are used in this example.
+
+The output of flashbox looks like this:
+
+[source,html]
+--------------------------------------------------------------------------------
+<div class="flash" id="flash_error">Access denied</div>
+--------------------------------------------------------------------------------
+
+Also, this default representation can be changed easily, but more about this in
+the section about the flash helper.
+
+=== Implementation
+
+The implementation of flash functionality is quite simple, when you are
+accessing `Session#flash`, a Hash will be stored in `session[:FLASH]`. This is
+the location where all key/value pairs you assign to `Session#flash` will be
+stored.
+
+After every request that used a session, `Session::Flash#rotate!` will be
+called and will move `session[:FLASH]` to `session[:FLASH_PREVIOUS]`.
+When you inspect the flash, it will show a merged Hash consisting of `:FLASH`
+and `:FLASH_PREVIOUS`, with `:FLASH` taking precedence.
+
+This way, after two requests, values disappear forever unless reassigned.

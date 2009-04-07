@@ -38,8 +38,8 @@ The helpers available by default are following:
 * CGI
 * Flash
 * Link
-* Partial
 * Redirect
+* Render
 * SendFile
 
 We will cover each of them in more detail below, but first let's take a look at
@@ -101,7 +101,7 @@ choice.
 Please note that this code doesn't include a `redirect_referrer` call since we
 may be using it within our own code in the middle of a method.
 
-== The Aspect helper
+== Aspect helper
 
 The Aspect helper provides you with functionality known from AOP (Aspect
 Oriented Programming). Sometimes you just want to execute some code around the
@@ -137,3 +137,85 @@ class AdminController < Ramaze::Controller
   end
 end
 --------------------------------------------------------------------------------
+
+== CGI helper
+
+The CGI helper provides shortcuts to methods commonly used to deal with
+escaping and unescaping text for different contexts.
+
+The name originated from the CGI module it utilized to provide it's
+functionality.
+Today there is only one method that isn't commonly used, left that calls the
+CGI module.
+
+There are four symmetric methods to deal with escaping and unescaping HTML and
+URIs, and one method to escape text for usage in templates.
+
+In common applications, the most prevalent method might be `h`, an alias for
+`html_and_code_escape`.
+
+All methods of the CGI Helper may be accessed directly as module-functions as
+well.
+
+=== Encoding text for use in URIs with url_encode
+
+The set of allowed ASCII characters in an URI is very limited.
+When you want to create an URI, you have to take special care to avoid using
+characters that have special meaning and encode them properly.
+
+For example, let's see how we can put 'Innate & Ramaze' into a query parameter
+in the following IRB session:
+
+[source,ruby]
+--------------------------------------------------------------------------------
+require 'ramaze'
+
+name = Innate::Helper::CGI.url_encode('Innate & Ramaze')
+# "Innate+%26+Ramaze"
+uri = URI("http://google.com/search?q=#{name}")
+# #<URI::HTTP:0xb7492bb0 URL:http://google.com/search?q=Innate+%26+Ramaze>
+puts uri
+http://google.com/search?q=Innate+%26+Ramaze
+--------------------------------------------------------------------------------
+
+=== Decoding text from URIs with url_decode
+
+This is simply the reverse operation of `url_encode`, so we will use the output
+of the previous example as input.
+
+[source,ruby]
+--------------------------------------------------------------------------------
+require 'ramaze'
+
+name = Ramaze::Helper::CGI.url_encode('Innate & Ramaze')
+# "Innate+%26+Ramaze"
+name = Ramaze::Helper::CGI.url_decode(name)
+# "Innate & Ramaze"
+--------------------------------------------------------------------------------
+
+== Flash helper
+
+The naming of this helper might be confusing at first, it doesn't have anything
+to do with Adobe Flash (R).
+
+It provides two methods, `flash` and `flashbox`.
+
+The `flash` method is a shortcut to `Ramaze::Current.session.flash`, you can
+find more in-depth information in the chapter about `Ramaze::Session`.
+
+
+== Link helper
+
+Linking and obtaining routes
+
+== Redirect helper
+
+Redirect or respond immediately
+
+== Render helper
+
+Render other actions
+
+== SendFile helper
+
+Send files with correct mime-type.

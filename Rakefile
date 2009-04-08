@@ -57,6 +57,7 @@ task 'build:asciidoc-xhtml' => [JTR_TXT, *SOURCE_FILES] do
   sh('asciidoc',
      '--verbose',
      '--section-numbers',
+     '--attribute', 'toc',
      '--backend', 'xhtml11',
      '--doctype', 'book',
      '--out-file', JTR_HTML,

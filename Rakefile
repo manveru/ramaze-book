@@ -83,9 +83,9 @@ SOURCE_FILES.each do |source_file|
 end
 
 CHAPTER_FILES.each do |chapter_file|
-  File.open(chapter_file){|cf| cf.grep(/^include::.*\.rb/) }.each do |line|
-    source_file = 'chapter/' + line[/^include::(.*\.rb)/, 1]
-    xmp_file = source_file.sub(/\.rb$/, '.xmp')
-    file(chapter_file => xmp_file)
+  File.open(chapter_file){|cf| cf.grep(/^include::.*\.xmp/) }.each do |line|
+    xmp = 'chapter/' + line[/^include::(.*\.xmp)/, 1]
+    rb = xmp.sub(/\.xmp$/, '.rb')
+    file(chapter_file => xmp)
   end
 end

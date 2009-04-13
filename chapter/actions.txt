@@ -63,14 +63,14 @@ to creating a simple Action for a small example.
 
 [source,ruby]
 --------------------------------------------------------------------------------
-::include:chapter/source/action/create_actions/the_hard_way/index.xmp[tabsize=2]
+include::source/action/create_actions/the_hard_way/index.xmp[tabsize=2]
 --------------------------------------------------------------------------------
 
 Similarly we can create an Action for the sum method:
 
 [source,ruby]
 --------------------------------------------------------------------------------
-::include:chapter/source/action/create_actions/the_hard_way/sum.xmp[tabsize=2]
+include::source/action/create_actions/the_hard_way/sum.xmp[tabsize=2]
 --------------------------------------------------------------------------------
 
 I will not go into much detail about these examples, as I think they can speak
@@ -83,7 +83,7 @@ Controller and inspect the returned value.
 It is also possible to change parts of the Action at this stage, allowing you to
 influence details of the rendering process.
 
-== The easy way
+=== The easy way
 
 It's quite tedious to do all this work of creating actions manually when Ramaze
 can simply do it for you. It's just good to gain an understanding, so let's
@@ -92,75 +92,5 @@ create the same actions as in the examples above, this time using the
 
 [source,ruby]
 --------------------------------------------------------------------------------
-::include:chapter/source/action/create_actions/the_easy_way/sum.xmp[tabsize=2]
---------------------------------------------------------------------------------
-
-
-=== Action#method
-
-Refers to the name of the method to be invoked before a template is evaluated.
-
-The return value of the method is kept as the result of Action#render if there is no Action#template.
-
-=== Action#params
-
-The parameter are part of the `#__send__` to Action#method. You can visualize this as:
-
-[source,ruby]
---------------------------------------------------------------------------------
-if method = action.method
-  action.instance.__send__(method, *action.params)
-end
---------------------------------------------------------------------------------
-
-In Lisp/Scheme terms, they are being applied.
-
-Please note that the params are given as Strings due to the fact that they are extracted from the URI of the HTTP method and so Ramaze has no chance of determining what kind of Object this should represent.
-
-=== Action#template
-
-If there is a template found during the procedure of finding a fitting Action for the given request, this member is set to the relative path from your Global.view_root or Controller.view_root directory. The template is evaluated unless the templating engine is set to :None and the result of this evaluation is set as the response.body.
-
-=== Action#controller
-
-Points to the controller this Action operates on, also see Action#instance.
-
-=== Action#path
-
-A String represenation of the Action without params, generally it's the name of the method or (if no method but a template found) the name of the template without extension. It's used for different kinds of hooks.
-
-=== Action#binding
-
-The binding to the `Action#instance`, obtained by doing an `instance_eval{ binding }` on it. This is only done when the binding hasn't been set yet.
-
-=== Action#engine
-
-Refers to the templating engine that this Action is passed to when `Action#render` is called.
-
-=== Action#instance
-
-Instance of the Controller, lazily obtained through `Action#controller.new` on access of this member. Note that this is also invoked as a dependency of `Action#binding`.
-
-== Create an Action
-
-Creating an Action can be verbose and is usually not required outside the direct proximity within the codeflow.
-
-    action = Ramaze::Action(:controller => MainController)
-{:ruby}
-
-
-== Render an Action
-
-We did all this just to render an Action, so let's do that already.
-
-[source,ruby]
---------------------------------------------------------------------------------
-class MainController < Ramaze::Controller
-  def index
-    "Hello, World!"
-  end
-end
-
-Ramaze::Action(:controller => MainController, :method => :index).render
-# => "Hello, World!"
+include::source/action/create_actions/the_easy_way/sum.xmp[tabsize=2]
 --------------------------------------------------------------------------------

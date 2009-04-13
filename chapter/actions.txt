@@ -1,10 +1,100 @@
 = Actions
 
-Action is one of the core parts of Ramaze, a recipe for rendering combinations of controllers, methods and templates.
+In this chapter we will see what role Actions play within Ramaze, as usual we
+will see a bit of history first, then go on to look at the structure of the
+Action Struct, eventually creating our own Actions.
 
-== What is an Action
 
-An Action, at the lowest level, is a Struct with following members:
+== History
+
+Actions were first introduced around Summer 2007, the intention behind this
+change was to bundle a template, a method, and the parameters to the method
+into one Object that could be easily passed around and modified.
+
+Over time, this brought with it a change of the role of the Controller, which
+did everything from routing to rendering and grew quite large.
+
+Eventually, the rendering part was ripped out of Controller, and put into the
+Action class, and further changes made the Action pass itself to the template
+rendering.
+
+The role of the Controller became to build the Action depending on the state of
+the Controller. The Controller would still do most of the routing, but how that
+changed is probably better explained in the chapter about controllers.
+
+Today, Action still resembles the original Action from 2007, but has been
+expanded as there were additions like aspects and layouts.
+
+
+== Structure
+
+The Action class is an instance of the Struct class, with following members:
+
+|===============================================================================
+| engine       | The templating engine called during rendering
+| instance     | Lazily created instance of the node
+| layout       | Array consisting of the type and name of the layout
+| method       | Name of the instance-method called on instance during rendering
+| node         | Class that the instance will be instantiated from
+| options      | Hash with options and meta-information for the engine
+| params       | Array of parameters for the instance-method used for the call
+| method_value | The return value of the instance-method, set during rendering
+| variables    | Hash of instance-variables usable in the method and templates
+| view         | String with the full path to a file used as view-template
+| view_value   | Contents of the view-template file
+| wish         | Indicates the requested content-representation
+|===============================================================================
+
+Most of these members are not of interest for the average user, but they become
+increasingly interesting if you try doing partial rendering of actions.
+
+
+== Creating actions
+
+If you try to learn more about the internals of Ramaze, you will need to
+understand Actions, if you are not interested in this, feel free to skip this
+section.
+
+=== The hard way
+
+The theoretical knowledge from above is of course not very valuable if you don't
+have had any previous experience with Ramaze, so I'll give you a quick rundown
+to creating a simple Action for a small example.
+
+[source,ruby]
+--------------------------------------------------------------------------------
+::include:chapter/source/action/create_actions/the_hard_way/index.xmp[tabsize=2]
+--------------------------------------------------------------------------------
+
+Similarly we can create an Action for the sum method:
+
+[source,ruby]
+--------------------------------------------------------------------------------
+::include:chapter/source/action/create_actions/the_hard_way/sum.xmp[tabsize=2]
+--------------------------------------------------------------------------------
+
+I will not go into much detail about these examples, as I think they can speak
+for themselves.  
+You will soon see more information about the methods involved in the rendering
+of an Action.
+If you want to see the Action automatically created during normal runtime of
+Ramaze you can use the `Current.action` or simply `action` methods in your
+Controller and inspect the returned value.
+It is also possible to change parts of the Action at this stage, allowing you to
+influence details of the rendering process.
+
+== The easy way
+
+It's quite tedious to do all this work of creating actions manually when Ramaze
+can simply do it for you. It's just good to gain an understanding, so let's
+create the same actions as in the examples above, this time using the
+`Node#resolve` method which is also available in controllers.
+
+[source,ruby]
+--------------------------------------------------------------------------------
+::include:chapter/source/action/create_actions/the_easy_way/sum.xmp[tabsize=2]
+--------------------------------------------------------------------------------
+
 
 === Action#method
 

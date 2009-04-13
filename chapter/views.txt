@@ -1,0 +1,146 @@
+= Views
+
+Views in Ramaze are a special category of file templates.
+Every Controller has various paths and rules used to find templates for views.
+Lookup of the View is done when assembling an Action, but it is not necessary to
+actually obtain an Action, alternatively an Action method can provide a string
+template that is used for the rendering of the View.
+
+== History
+
+As a MVC framework, Ramaze used views from the very start, and the concept has
+changed very little since.
+
+Originally, Ramaze didn't have a concept of layouts, and after layouts were
+added, things got messy. More about this should be said in the chapter about
+layouts, but in essence layouts are now confined in their own lookup paths and
+are not considered as file templates for views anymore.
+
+At first, view file templates were located below a directory called 'template'
+in the application's root directory.
+
+This was changed over time to a 'view' directory in a move to streamline
+terminology around the templating engines.
+
+== Structure
+
+By default, view file templates are located in a directory called 'view' in the
+application root.
+Nested inside this directory can be further directories, named after Controller
+mappings, which contain further templates for that Controller.
+The Controller mapped to '/' owns the files at the top of 'view/', but using
+special invocations, it may reach inside other folders below that and use
+templates located there.
+
+The structure for a medium-sized application may look like this:
+
+[source,txt]
+--------------------------------------------------------------------------------
+view
+|-- contact.xhtml
+|-- financial_report
+|   `-- index.xhtml
+|-- index.xhtml
+|-- new.xhtml
+|-- news
+|   `-- index.xhtml
+|-- portfolio
+|   |-- edit.xhtml
+|   |-- index.xhtml
+|   `-- new.xhtml
+`-- view.xhtml
+--------------------------------------------------------------------------------
+
+This gives us information about the internal structure of the application
+already, there may be controllers mapped to '/', 'financial_report', '/news',
+and '/portfolio', and all of these files represent a possible Action.
+
+=== The index template
+
+Ramaze has a convention about the naming of the '/' Action for every Controller,
+which is instead called 'index' as it is quite hard to create a file called
+'/.xhtml' (which would instead turn out to be a hidden file called '.xhtml'). 
+
+So, every time you want to have a view file template that is used in requests
+to, for example, '/foobar', you create a file at 'view/foobar/index.xhtml'.
+
+=== Faking depth
+
+If you want to make an Action for '/foobar/foo/bar/baz' but want to have the
+view file template provided by the Controller mapped to '/', you can create a
+file at 'view/foobar__foo__bar__baz.xhtml', every double-underscore is
+translated into slashes. The same applies for names of methods of that
+Controller.
+
+== Lookup paths
+
+There are a number of factors that play into the lookup of views, I will analyze
+and explain them.
+
+Ramaze provides powerful ways to change just about anything in your application,
+so it is only natural that the way it looks for view templates is just a
+convention by pre-configuration. After reading this section you should have
+enough knowledge to make Ramaze serve your purposes.
+
+The path to any template consists of three four parts, which I will call
+'application mapping', 'application view mapping', 'controller view mapping',
+and 'view file template'.
+
+The defaults result in a path as follows.
+
+[source,txt]
+--------------------------------------------------------------------------------
+application mapping: './'
+application view mapping: 'view'
+controller view mapping: '/controller'
+view file template: 'foo.xhtml'
+
+./view/controller/foo.xhtml
+--------------------------------------------------------------------------------
+
+The directory portions of the path may actually be each an Array of paths,
+providing alternative lookup paths.
+To illustrate this, take following path definition and the simple brute-force
+order in which it is searched.
+
+[source,txt]
+--------------------------------------------------------------------------------
+application mapping: ['app1', 'app2']
+application view mapping: ['view1', 'view2']
+controller view mapping: ['controller1', 'controller2']
+view file template: 'foo.xhtml'
+
+app1/view1/controller1/foo.xhtml
+app1/view1/controller2/foo.xhtml
+
+app1/view2/controller1/foo.xhtml
+app1/view2/controller2/foo.xhtml
+
+app2/view1/controller1/foo.xhtml
+app2/view1/controller2/foo.xhtml
+
+app2/view2/controller1/foo.xhtml
+app2/view2/controller2/foo.xhtml
+--------------------------------------------------------------------------------
+
+Although this allows for very smart sharing of templates between controllers or
+even whole applications, it is also a way to shoot yourself in the foot.
+You should be fully aware of what you are doing and consider your choice
+carefully.
+
+Ramaze ships with a tool called AppGraph, which helps you by visualizing all
+possible Actions in your application. This can be very valuable if you are
+dealing with complex lookup patterns, especially if you are dealing with an
+application you didn't write yourself or when aggregating different
+applications.
+
+== Content representations
+
+As if the above wasn't enough already, Ramaze also offers you ways to present
+your content in different ways for different requests, in Ramaze this
+functionality is called 'provides'.
+
+Relevant to the lookup of provides is the filename extension of your view file
+template.
+We will deal with this in more depth in the chapter about content
+representations, for now you don't have to care about it.

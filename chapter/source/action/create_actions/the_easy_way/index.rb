@@ -2,6 +2,8 @@ require 'rubygems'
 require 'ramaze'
 
 class MainController < Ramaze::Controller
+  map '/'
+
   def index
     "Hello, World!"
   end
@@ -11,7 +13,5 @@ class MainController < Ramaze::Controller
   end
 end
 
-index = MainController.resolve(:index)
-index # =>
+index = MainController.resolve('index')
 index.call # =>
-index # =>

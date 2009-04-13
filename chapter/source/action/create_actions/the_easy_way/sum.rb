@@ -2,6 +2,8 @@ require 'rubygems'
 require 'ramaze'
 
 class MainController < Ramaze::Controller
+  map '/'
+
   def index
     "Hello, World!"
   end
@@ -11,8 +13,6 @@ class MainController < Ramaze::Controller
   end
 end
 
-sum = MainController.resolve(:sum)
+sum = MainController.resolve('sum')
 sum.params = %w[32 8 2]
-sum # =>
 sum.call # =>
-sum # =>

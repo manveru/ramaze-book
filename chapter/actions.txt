@@ -92,5 +92,10 @@ create the same actions as in the examples above, this time using the
 
 [source,ruby]
 --------------------------------------------------------------------------------
+include::source/action/create_actions/the_easy_way/index.xmp[tabsize=2]
+--------------------------------------------------------------------------------
+
+[source,ruby]
+--------------------------------------------------------------------------------
 include::source/action/create_actions/the_easy_way/sum.xmp[tabsize=2]
 --------------------------------------------------------------------------------

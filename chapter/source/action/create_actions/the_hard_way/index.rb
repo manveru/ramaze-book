@@ -15,6 +15,4 @@ index = Ramaze::Action.create(
           :node => MainController,
           :method => :index,
           :engine => lambda{|action, value| value })
-index # =>
 index.call # =>
-index # =>

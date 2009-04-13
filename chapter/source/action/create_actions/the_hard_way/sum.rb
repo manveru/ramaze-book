@@ -16,6 +16,4 @@ sum = Ramaze::Action.create(
           :method => :sum,
           :params => ['32', '8', '2'],
           :engine => lambda{|action, value| value })
-sum # => 
 sum.call # =>
-sum # =>

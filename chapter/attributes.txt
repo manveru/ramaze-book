@@ -8,12 +8,18 @@
 :request-api: http://doc.ramaze.net/classes/Ramaze/Request.html[API docs for Ramaze::Request]
 
 // ramaze links
+:book-ramaze:   http://book.ramaze.net[book.ramaze.net]
 :www-ramaze:    http://ramaze.net[ramaze.net]
 :wiki-ramaze:   http://wiki.ramaze.net[wiki.ramaze.net]
 :doc-ramaze:    http://doc.ramaze.net[doc.ramaze.net]
 :bugs-ramaze:   http://bugs.ramaze.net[bugs.ramaze.net]
 :group-ramaze:  http://ramaze.googlegroups.com[The ramaze googlegroup mailing list]
 :github-ramaze: http://github.com/manveru/ramaze[Ramaze on Github]
+
+// Links to various formats of the book
+:book-ramaze-html:   http://book.ramaze.net/html[HTML]
+:book-ramaze-pdf:    http://book.ramaze.net/pdf/journey_to_ramaze.pdf[PDF]
+:book-ramaze-source: http://github.com/manveru/ramaze-book/[ramaze-book on Github]
 
 // license links
 :cc-license: http://foo.bar[Creative Commons Attribution-ShareAlike]

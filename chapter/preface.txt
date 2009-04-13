@@ -29,8 +29,10 @@ describing the exact behaviours of Ramaze.
 
 There are no profits expected from the final version of this work, and you may
 reuse and modify all of the content within in the ways specified by the
-{cc-license}
+{cc-license}.
 
+This book is available as {book-ramaze-html} and {book-ramaze-pdf}, the
+asciidoc source can be found in {book-ramaze-source}.
 
 == Relevant links
 

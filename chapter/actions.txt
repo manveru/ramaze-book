@@ -4,7 +4,6 @@ In this chapter we will see what role Actions play within Ramaze, as usual we
 will see a bit of history first, then go on to look at the structure of the
 Action Struct, eventually creating our own Actions.
 
-
 == History
 
 Actions were first introduced around Summer 2007, the intention behind this
@@ -66,7 +65,7 @@ to creating a simple Action for a small example.
 include::source/action/create_actions/the_hard_way/index.xmp[tabsize=2]
 --------------------------------------------------------------------------------
 
-Similarly we can create an Action for the sum method:
+Similarly we can create an Action for the `sum` Action:
 
 [source,ruby]
 --------------------------------------------------------------------------------
@@ -94,6 +93,8 @@ create the same actions as in the examples above, this time using the
 --------------------------------------------------------------------------------
 include::source/action/create_actions/the_easy_way/index.xmp[tabsize=2]
 --------------------------------------------------------------------------------
+
+And the same can be done for the `sum` Action.
 
 [source,ruby]
 --------------------------------------------------------------------------------

@@ -18,6 +18,9 @@ developer and passionate Rubyist.
 The source is kept in a git repository at
 [github](http://github.com/manveru/ramaze-book)
 
+HTML and PDF versions are available at
+[book.ramaze.net](http://book.ramaze.net)
+
 ## Building
 
 This book is written in AsciiDoc format, this allows for a number of target

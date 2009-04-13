@@ -23,6 +23,7 @@ include::chapter/actions.txt[tabsize=2]
 
 include::chapter/views.txt[tabsize=2]
 
+////////////////////////////////////////////////////////////////////////////////
 // chapters below are old content and might need major rewriting
 
 include::chapter/configuration.txt[tabsize=2]
@@ -40,3 +41,4 @@ include::chapter/security.txt[tabsize=2]
 include::chapter/templating.txt[tabsize=2]
 
 include::chapter/trinity.txt[tabsize=2]
+////////////////////////////////////////////////////////////////////////////////

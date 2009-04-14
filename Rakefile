@@ -18,8 +18,8 @@ OPTS = [
   "--asciidoc-opts=--conf-file=custom.conf",
   "--asciidoc-opts=--verbose",
   "--doctype=book",
-  '--icons',
   '--copy',
+  '--icons',
   '--verbose',
 ]
 
@@ -63,12 +63,13 @@ namespace :build do
   file(jtr_dir){ mkdir(jtr_dir) }
   file jtr_path => [jtr_dir, JTR_TXT, *CHAPTER_FILES] do
     sh('asciidoc',
-       '--verbose',
-       '--section-numbers',
+       '--attribute', 'scriptsdir=./javascripts',
        '--attribute', 'toc',
        '--backend', 'xhtml11',
        '--doctype', 'book',
        '--out-file', jtr_path,
+       '--section-numbers',
+       '--verbose',
        JTR_TXT)
   end
 

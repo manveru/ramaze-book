@@ -1,0 +1,30 @@
+= Glossary
+
+Innate::
+  Provides the core functionality for Ramaze.
+
+Rack::
+  A modular Ruby webserver interface that specifies the way Ramaze communicates
+  with web servers.
+
+Ruby::
+  Interpreted object-oriented programming language, created by Yukihiro
+  Matsumoto.
+
+MVC::
+  Short for: Model View Controller. A concept made popular by Smalltalk GUIs and
+  since adopted for many other purposes.
+  Ramaze is a web application framework that advocates the MVC paradigm.
+
+View::
+  yada ydaa
+
+Model::
+  yada ydaa
+
+Controller::
+  yada ydaa
+
+provides::
+  Term used within Ramaze for various means of content representation of
+  resources.

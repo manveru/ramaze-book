@@ -42,3 +42,6 @@ include::chapter/templating.txt[tabsize=2]
 
 include::chapter/trinity.txt[tabsize=2]
 ////////////////////////////////////////////////////////////////////////////////
+
+// Contains all technical terms with short descriptions
+include::chapter/glossary.txt[tabsize=2]

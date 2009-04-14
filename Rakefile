@@ -63,13 +63,15 @@ namespace :build do
 
   file(jtr_dir){ mkdir(jtr_dir) }
   file jtr_path => [jtr_dir, JTR_TXT, *(CHAPTER_FILES + XMP_FILES)] do
+    scripts_dir = File.expand_path('javascripts')
     sh('asciidoc',
-       '--attribute', 'scriptsdir=./javascripts',
+       '--attribute', "scriptsdir=#{scripts_dir}",
        '--attribute', 'toc',
        '--backend', 'xhtml11',
        '--doctype', 'book',
        '--out-file', jtr_path,
        '--section-numbers',
+       '--unsafe',
        '--verbose',
        JTR_TXT)
   end

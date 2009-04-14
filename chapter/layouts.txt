@@ -1,0 +1,112 @@
+= Layouts
+
+Layouts in Ramaze are a special category of templates.
+Every Controller has paths and rules used to find templates for layouts.
+Lookup of the template is done when assembling an Action, but is in no way a
+necessary element of an Action.
+
+== History
+
+Layouts were first introduced in mid-2007.
+At first they were simply a small addition to wrap a rendered Action into
+another Action.
+This allowed for easier use of alternative templating engines, as at the time
+only the Ezamar templating engine provided equivalent functionality through
+Elements.
+
+As it became evident that Elements were not as easy to work with, layouts were
+used increasingly.
+However, the functionality was still rather hard to control and not well
+integrated into the framework.
+
+This was changed when Ramaze was starting to utilize Innate, and they are now
+well integrated and powerful citizens of Ramaze.
+
+Since this time, layouts also have their own directory to live in.
+
+== Usage
+
+This is a collection of small examples that try to give you a taste of what's
+possible with layouts
+
+=== Layout from method
+
+Following example should illustrate a simple use-case for a layout:
+
+[source,ruby]
+--------------------------------------------------------------------------------
+class Box < Ramaze::Controller
+  layout :default
+
+  def index
+    'Hello, World!'
+  end
+
+  def default
+    '{ @content }'
+  end
+end
+--------------------------------------------------------------------------------
+
+== Structure
+
+By default, layout file templates are located in a directory called 'layout' in
+the application root.
+Nested inside this directory can be further directories, named after Controller
+mappings.
+The Controller mapped to '/' owns the files at the top of 'layout/', templates
+in 'layout/foo/bar' would belong to a Controller mapped to '/foo/bar'.
+
+It is not very common for applications to utilize more than a few layouts, you
+will find many applications with only a single layout, and even a few without
+any layouts at all.
+
+The layouts of a medium-sized application may organized like this.
+
+[source,txt]
+--------------------------------------------------------------------------------
+layout
+|-- default.xhtml
+|-- feed
+|   |-- default.rss.xhtml
+|   `-- default.atom.xhtml
+`-- mobile.xhtml
+--------------------------------------------------------------------------------
+
+It is a common pattern to name the layout used for most controllers 'default',
+but there is nothing enforcing it. In fact, to use a layout, you will have to
+explicitly tell Ramaze which to use.
+
+== Path lookup
+
+To provide flexibility for large projects (and for use-cases I haven't imagined
+yet), I decided to reuse the view file template lookup already in use for
+layouts.
+This ensures that the behaviour of both is indentical and available through a
+consistent API.
+
+=== Inline templates
+
+If no layout file template can be found for a specified layout, a method may be
+used instead.
+
+== Configuration
+
+[source,ruby]
+--------------------------------------------------------------------------------
+include::source/layouts/configuration/possible_paths_for.xmp[tabsize=2]
+--------------------------------------------------------------------------------
+
+[source,ruby]
+--------------------------------------------------------------------------------
+include::source/layouts/configuration/global.xmp[tabsize=2]
+--------------------------------------------------------------------------------
+
+== Content representations
+
+yada yada
+
+== Implementation
+
+On every request, the layout will be determined and set in the Action, which
+will clone itself

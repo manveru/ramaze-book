@@ -23,6 +23,8 @@ include::chapter/actions.txt[tabsize=2]
 
 include::chapter/views.txt[tabsize=2]
 
+include::chapter/layouts.txt[tabsize=2]
+
 ////////////////////////////////////////////////////////////////////////////////
 // chapters below are old content and might need major rewriting
 

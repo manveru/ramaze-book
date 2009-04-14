@@ -12,7 +12,7 @@ XMP_FILES = FileList['chapter/source/**/*.xmp']
 
 formats = %w[chunked htmlhelp manpage pdf text xhtml dvi ps tex]
 
-CLOBBER.include(JTR_XML, formats + XMP_FILES)
+CLOBBER.include('chapter/source/**/*.xmp', JTR_XML)
 
 OPTS = [
   "--asciidoc-opts=--conf-file=custom.conf",
@@ -32,6 +32,7 @@ namespace :build do
     jtr_dir = "#{format}/"
     jtr_base = "journey_to_ramaze.#{format}"
     jtr_path = File.join(jtr_dir, jtr_base)
+    CLOBBER.include(jtr_dir)
 
     desc "Build #{jtr_path}"
     task format => jtr_path
@@ -61,7 +62,7 @@ namespace :build do
   CLOBBER.include(jtr_dir)
 
   file(jtr_dir){ mkdir(jtr_dir) }
-  file jtr_path => [jtr_dir, JTR_TXT, *CHAPTER_FILES] do
+  file jtr_path => [jtr_dir, JTR_TXT, *(CHAPTER_FILES + XMP_FILES)] do
     sh('asciidoc',
        '--attribute', 'scriptsdir=./javascripts',
        '--attribute', 'toc',
@@ -78,7 +79,13 @@ namespace :build do
 end
 
 namespace :xmp do
-  xmp_invocation = [RUBY, 'xmpfilter.rb', '--annotations', '--interpreter', RUBY]
+  xmp_invocation = [
+    RUBY,
+    'xmpfilter.rb',
+    '--annotations',
+    '-r', 'ramaze',
+    '--interpreter', RUBY
+  ]
 
   SOURCE_FILES.each do |source_file|
     xmp_file = source_file.sub(/\.rb$/, '.xmp')

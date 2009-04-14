@@ -1,6 +1,3 @@
-require 'rubygems'
-require 'ramaze'
-
 class MainController < Ramaze::Controller
   map '/'
 

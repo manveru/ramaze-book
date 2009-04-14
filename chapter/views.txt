@@ -1,10 +1,10 @@
 = Views
 
-Views in Ramaze are a special category of file templates.
+Views in Ramaze are a special category of templates.
 Every Controller has various paths and rules used to find templates for views.
-Lookup of the View is done when assembling an Action, but it is not necessary to
-actually obtain an Action, alternatively an Action method can provide a string
-template that is used for the rendering of the View.
+Lookup of the View is done when assembling an Action, but usually it is not
+necessary to actually obtain an Action, alternatively an Action method can
+provide a string template that is used for the rendering of the View.
 
 == History
 
@@ -72,7 +72,31 @@ file at 'view/foobar__foo__bar__baz.xhtml', every double-underscore is
 translated into slashes. The same applies for names of methods of that
 Controller.
 
-== Lookup paths
+=== Inline templates
+
+You will find that Ramaze will try to utilize the return value of the
+controller method as template if no file template was found. It does this by
+calling `#to_s` on the object returned and running the resulting String through
+the specified templating engine.
+
+This kind of template is commonly called 'inline template', and it's usually
+what you start out with when you write a small application.
+
+It's very easy to sketch out ideas this way, and makes it easy to prototype
+functionality in a single file.
+
+I am sure that there will be some that don't hesitate writing even large
+applications with one of the builder templating engines and they will be
+content with writing their templates directly in the controller methods.
+
+However, as your application grows, I highly recommended to separate controllers
+and views to avoid a maintenance nightmare.
+
+As a rule of thumb, I start splitting if I need more than one Controller or use
+more than a handful of templates. Don't take this as a rule set in stone, it's
+simply my view of things, and everyone may use Ramaze as they see fit.
+
+== Path lookup
 
 There are a number of factors that play into the lookup of views, I will analyze
 and explain them.
@@ -133,6 +157,49 @@ possible Actions in your application. This can be very valuable if you are
 dealing with complex lookup patterns, especially if you are dealing with an
 application you didn't write yourself or when aggregating different
 applications.
+
+== Configuration
+
+The paths for view file template lookup can be easily modified.
+Every Ramaze App allows you to configure it's own paths as well, without
+affecting other applications in your site.
+
+The following example should give you a quick overview of the path looked up for
+a specific Controller.
+
+[source,ruby]
+--------------------------------------------------------------------------------
+include::source/views/configuration/possible_paths_for.xmp[tabsize=2]
+--------------------------------------------------------------------------------
+
+=== Global configuration
+
+The default values for the 'application mapping' and 'application view mapping'
+are:
+
+[source,ruby]
+--------------------------------------------------------------------------------
+include::source/views/configuration/global.xmp[tabsize=2]
+--------------------------------------------------------------------------------
+
+They will be inherited into every new Application.
+
+If you change these defaults, it will also affect any application that didn't
+specify their own paths, so watch out for that.
+
+=== Controller configuration
+
+There is one method to manipulate the 'controller view mapping' called
+`map_views`.
+
+Please do not use absolute paths, all paths in the 'controller view mapping' are
+relative to the 'application view mapping', which in turn is relative to the
+'application mapping'.
+
+[source,ruby]
+--------------------------------------------------------------------------------
+include::source/views/configuration/map_views.xmp[tabsize=2]
+--------------------------------------------------------------------------------
 
 == Content representations
 

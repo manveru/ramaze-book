@@ -22,6 +22,104 @@ development, affording all the benefits of the underlying Ruby programming
 language. It gets out of your way as you do things, helping you along as you
 require it.
 
+== Ruby
+
+It makes sense to write a little about Ruby first before starting our journey to
+Ramaze.
+
+Ruby was created in 1995 by the Japanese developer Yukihiro Matsumoto.
+It wasn't until 2000, when the first {pickaxe} was published, that Ruby gained
+any kind of popularity outside of Japan.
+
+=== Features
+
+The manpage of Ruby lists the features of the language as follows:
+
+Interpretive::
+  Ruby is an interpreted language, so you don't have to recompile programs
+  written in Ruby to execute them.
+
+Variables have no type (dynamic typing)::
+  Variables in Ruby can contain data of any type.
+  You don't have to worry about variable typing.
+  Consequently, it has a weaker compile time check.
+
+No declaration needed::
+  You can use variables in your Ruby programs without any declarations.
+  Variable names denote their scope, local, global, instance, etc.
+
+Simple syntax::
+  Ruby has a simple syntax influenced slightly from Eiffel.
+
+No user-level memory management::
+  Ruby has automatic memory management.
+  Objects no longer referenced from anywhere are automatically collected by the
+  garbage collector built into the interpreter.
+
+Everything is an object::
+  Ruby is the purely object-oriented language, and was so since its creation.
+  Even such basic data as integers are seen as objects.
+
+Class, inheritance, and methods::
+  Of course, as an object-oriented language, Ruby has such basic features like
+  classes, inheritance, and methods.
+
+Singleton methods::
+  Ruby has the ability to define methods for certain objects.
+  For example, you can define a press-button action for certain widget by
+  defining a singleton method for the button.
+  Or, you can make up your own prototype based object system using singleton
+  methods, if you want to.
+
+Mix-in by modules::
+  Ruby intentionally does not have the multiple inheritance as it is a source of
+  confusion.
+  Instead, Ruby has the ability to share implementations across the inheritance
+  tree. This is often called 'Mix-in'.
+
+Iterators::
+  Ruby has iterators for loop abstraction.
+
+Closures::
+  In Ruby, you can objectify the procedure.
+
+Text processing and regular expression::
+  Ruby has a bunch of text processing features like in Perl.
+
+Bignums::
+  With built-in bignums, you can for example calculate `factorial(400)`.
+
+Exception handling::
+  As in Java(TM).
+
+Direct access to the OS::
+  Ruby can use most UNIX system calls, often used in system programming.
+
+Dynamic loading::
+  On most UNIX systems, you can load object files into the Ruby interpreter
+  on-the-fly.
+
+== Short history of web development
+
+Well until 2005 Ruby didn't get much mainstream use, that changed when Ruby on
+Rails started attracting web-developers that were increasingly annoyed by Java
+and PHP.
+
+Although Ruby on Rails has achieved widespread popularity even outside of the
+realms of web-programming, it was by no means the first web framework to be
+written in Ruby.
+
+One of the surviving frameworks from the time before Rails is IOWA, which is
+focused on discrete reusable components rather than MVC.
+Although it didn't see much changes since 2007, it's still one of the most solid
+implementations of a web framework and used in various contexts.
+
+Another one is Nitro, which was first released in 2004. Nitro had a large impact
+on the Ramaze project. It was the first web framework that tried to enable
+people to write their applications in a multi-paradigm style, utilizing whatever
+is best suited for the task at hand. It gained some popularity among the Ruby
+community but eventually died a slow death.
+
 == About the "Journey to Ramaze"
 
 This book is the result of a long time spent researching, specifying, and
@@ -56,8 +154,24 @@ Some links to provide more information on all the topics covered in this book.
 Michael Fellinger (a.k.a. manveru) is the creator and a core developer of the
 Ramaze project.
 
+He started programming in middle-school using QBASIC.
+Since then he learned various programming languages, among them Smalltalk,
+Dylan, Neko, Forth, NASM, PHP, and works on his own languages for fun.
+
 His programming language of choice is, as you might have guessed already, Ruby,
 having worked with it since 2005.
+
+Around 1999, Michael started creating websites, and was using PHP for several
+years. He was attracted to Ruby by the Ruby on Rails web framework, but was
+disappointed by the lack of freedom given to developers.
+
+After some searching, he finally began working with the Nitro web framework, and
+was offered a job in Japan soon after finishing school.
+He spent an extensive amount of time studying and using Ruby and Nitro until the
+Nitro project was discontinued.
+He then applied his knowledge of Ruby and started the Ramaze project in the
+spirit of Nitro, which tried to be a tool that may be utilized in any way a
+developer wishes, not commanding the one true way.
 
 Michael is living in Tokyo, Japan since 2006, but is of Austrian nationality,
 speaking German, English and currently learning Japanese.

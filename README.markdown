@@ -49,6 +49,15 @@ The AsciiDoc should follow a readable format:
   If you introduce a new term, make sure you reference it in the glossary so we
   can keep track of them.
 
+### Formatting conventions
+
+For files or directories, use 'helper/smiley_helper.rb'.
+For methods, classes, modules, or similar, use `FooController`.
+For tiny code snippets use `helper :foo`.
+If the code is more than fits comfortably inline (3-4 tokens), or is longer than
+one line, put it into a separate code block, show output if possible, switching
+between reading a book and trying stuff in IRB is not comfortable.
+
 ## Todo
 
 There is still a lot of work to be done, the subject is in dire need of proper

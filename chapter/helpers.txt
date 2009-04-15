@@ -1,8 +1,19 @@
 = Helpers
 
-Helpers are modules for inclusion into controllers or other classes.
+Helpers are modules for inclusion into, and extension of controllers or other
+classes.
 
-== Using helpers
+The distinguishing feature of helper modules is that they are expected to be in
+the `Ramaze::Helper` name-space.
+There is also a naming-convention of helper modules and the files they reside
+in to allow automatic requiring.
+These constrains allow you to use any helper without prior configuration.
+
+== Usage
+
+To tell Ramaze that you want to use a certain helper in your Controller, you can
+simply use the `helper` method. This method takes one or more arguments, every
+argument has to be the snake-cased name of a Helper module.
 
 [source,ruby]
 --------------------------------------------------------------------------------
@@ -15,37 +26,30 @@ class MainController < Ramaze::Controller
 end
 --------------------------------------------------------------------------------
 
-== Rules for helpers
+In this case we include the `Ramaze::Helper::Formatting` module into
+`MainController`. Ramaze will first require a file named
+`ramaze/helper/formatting.rb`, then search the `Ramaze::Helper` name-space for
+the module called `Formatting`, and eventually include it.
 
-Ramaze specifies a clear distinction between normal modules and helper modules.
-Most of the difference is in the way Ramaze will treat helpers on action lookup.
+Equivalent behaviour can be achieved with:
 
-=== Helper methods
+[source,ruby]
+--------------------------------------------------------------------------------
+require 'ramaze/helper/formatting'
 
-Methods of helpers are not considered for actions unless they are public and
-the module was added to the `Ramaze::Helper::LOOKUP` Set.
+class MainController < Ramaze::Controller
+  include Ramaze::Helper::Formatting
 
-== Default helpers
+  def index
+    number_format(rand)
+  end
+end
+--------------------------------------------------------------------------------
 
-Ramaze comes with a small selection of default helpers deemed essential for any
-application.
-The major difference is that you will not have to explicitly state their usage,
-they will be available by default.
+But once you start using multiple helpers this becomes very verbose. So using
+the `helper` method is recommended.
 
-The helpers available by default are following:
-
-* Aspect
-* CGI
-* Flash
-* Link
-* Redirect
-* Render
-* SendFile
-
-We will cover each of them in more detail below, but first let's take a look at
-creating your own helper so you can get a feeling for them.
-
-== Creating helpers
+== Making your own
 
 Creating helpers is simple.
 
@@ -68,14 +72,69 @@ module Ramaze
 end
 --------------------------------------------------------------------------------
 
-=== Exposing helper methods to action lookup
+Just put this into a file in the root of your application, named
+'helper/smiley_helper.rb', and you can use it in your Controller with `helper
+:smiley_helper`.
 
-By adding an helper module to the `Ramaze::Helper::LOOKUP` it's possible to add
-the module to the lookup for methods together with the `Ramaze::Controller`.
+== Naming
+
+Helpers have to follow a specific naming convention for the respective file they
+are defined in. Ramaze will not require all helpers available on startup, since
+some of them may have external dependencies that are not relevant to your
+application, this also helps keeping the used memory lower.
+
+In Ruby, a module is assigned to a constant, which should be named using
+camel-case.
+However, the common convention to name files after the class they contain, is to
+write the same name in snake-case.
+Ramaze follows these conventions, module-names are camel-case, while their
+filenames are snake-case.
+
+Ramaze will search the `Ramaze::Helper` module for module-names in a
+case-insensitive manner and simply chooses the first it can find.
+This means that, if you have a helper called `AB` and another one named `Ab`,
+it's usually down to luck which one you will get.
+The reasoning behind this behaviour is that helpers like `CGI` would be
+impossible to find. We simply rely on the fact that, if you ask for the `cgi`
+helper, only the first `cgi.rb` will be required, and so only one Helper
+matching `/^cgi$/i` exists.
+
+== Helper file lookup
+
+Ramaze will search a few paths to find your helper. We well call this the Helper
+PATH.
+By default, there are three directories (and in this order) searched:
+'./helper/', 'lib/innate/helper/', and 'lib/ramaze/helper/'.
+
+NOTE: The paths to Innate and Ramaze helpers are in fact absolute, but since I
+      don't know where they are on your machine, I simply show the known part.
+
+You can modify the Helper PATH via the `paths` option on
+`Innate::HelpersHelper`. The final '/helper' part of the path is appended on
+requiring, the PATH itself only specifies the directory the '/helper' directory
+is in.
+
+// This example produces too long output, so I use an alternative way
+
+[source,ruby]
+--------------------------------------------------------------------------------
+include::source/helpers/helper_file_lookup/paths.xmp[tabsize=2]
+--------------------------------------------------------------------------------
+
+== Methods during action creation
+
+There is a clear distinction between normal modules and helper modules in the
+way Ramaze treats helper modules during action creation.
+
+Methods of helpers are not considered for actions unless they are public and
+the module was added to the `Ramaze::Helper::LOOKUP` Set.
+
+By default, this Set is empty, and you will not have to care about this too much
+in your application, as the helpers that provide real actions add themselves as
+needed.
 
 Conflicts of method names in Helper and Controller will prefer the Controller,
 following the same rules as Ruby inheritance. 
-
 
 [source,ruby]
 --------------------------------------------------------------------------------
@@ -98,8 +157,37 @@ public by default). So in your application your can just use the helper and
 when the client visits the /locale/en route the session will reflect this
 choice.
 
-Please note that this code doesn't include a `redirect_referrer` call since we
-may be using it within our own code in the middle of a method.
+NOTE: Usually you will want to add a call to `redirect_referrer` in this method,
+      but we keep it simple here, the actual functionality doesn't matter.
+
+== Default helpers
+
+Ramaze comes with a small selection of default helpers deemed essential for any
+application, they are kept in the Innate source.
+The major difference to non-default helpers is that you will not have to
+explicitly state their usage, they will included in your Controller
+automatically.
+
+The helpers available by default are:
+
+* Aspect
+* CGI
+* Flash
+* Link
+* Redirect
+* Render
+* SendFile
+
+We will cover each of them in more detail below.
+
+At the time of writing, there are also around 30 non-default helpers in the
+Ramaze source. I'm not sure yet whether we will be able to give you a full
+coverage of all of them, but I will try to write about some of the most popular
+ones.
+
+Some of the helpers in Ramaze add functionality to the default helpers of
+Innate, I will simply cover the combined behaviour in these cases, as you are
+most likely using the ones in Ramaze.
 
 == Aspect helper
 
@@ -168,14 +256,7 @@ in the following IRB session:
 
 [source,ruby]
 --------------------------------------------------------------------------------
-require 'ramaze'
-
-name = Innate::Helper::CGI.url_encode('Innate & Ramaze')
-# "Innate+%26+Ramaze"
-uri = URI("http://google.com/search?q=#{name}")
-# #<URI::HTTP:0xb7492bb0 URL:http://google.com/search?q=Innate+%26+Ramaze>
-puts uri
-http://google.com/search?q=Innate+%26+Ramaze
+include::source/helpers/cgi/url_encode.xmp[tabsize=2]
 --------------------------------------------------------------------------------
 
 === Decoding text from URIs with url_decode
@@ -185,12 +266,7 @@ of the previous example as input.
 
 [source,ruby]
 --------------------------------------------------------------------------------
-require 'ramaze'
-
-name = Ramaze::Helper::CGI.url_encode('Innate & Ramaze')
-# "Innate+%26+Ramaze"
-name = Ramaze::Helper::CGI.url_decode(name)
-# "Innate & Ramaze"
+include::source/helpers/cgi/url_decode.xmp[tabsize=2]
 --------------------------------------------------------------------------------
 
 == Flash helper
@@ -215,7 +291,3 @@ Redirect or respond immediately
 == Render helper
 
 Render other actions
-
-== SendFile helper
-
-Send files with correct mime-type.

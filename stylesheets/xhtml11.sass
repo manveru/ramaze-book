@@ -1,0 +1,261 @@
+@media print
+  div#footer-badges
+    :display none
+p
+  :margin-top 0.5em
+  :margin-bottom 0.5em
+  &.table
+    :margin-top 0
+li > p
+  :margin-top 0
+dt
+  :margin-top 0.5em
+  :margin-bottom 0
+  :font-style normal
+  :color navy
+  &.hdlist1.strong
+    :font-weight bold
+dd > *:first-child
+  :margin-top 0.1em
+div
+  &.sectionbody
+    :font-family serif
+    :margin-left 0
+  &#footer
+    :font-family sans-serif
+    :font-size small
+    :border-top 2px solid silver
+    :padding-top 0.5em
+    :margin-top 4.0em
+  &#footer-text
+    :float left
+    :padding-bottom 0.5em
+  &#footer-badges
+    :float right
+    :padding-bottom 0.5em
+  &#preamble
+    :margin-top 1.5em
+    :margin-bottom 1.5em
+  &.tableblock
+    :margin-top 1.5em
+    :margin-bottom 1.5em
+    > table
+      :border 3px solid #527bbd
+      &[frame="void"]
+        :border-style none
+      &[frame="hsides"]
+        :border-left-style none
+        :border-right-style none
+      &[frame="vsides"]
+        :border-top-style none
+        :border-bottom-style none
+  &.imageblock
+    :margin-top 1.5em
+    :margin-bottom 1.5em
+    div.content
+      :padding-left 0
+    img
+      :border 1px solid silver
+  &.exampleblock
+    :margin-top 1.5em
+    :margin-bottom 1.5em
+    > div.content
+      :border-left 2px solid silver
+      :padding 0.5em
+  &.verseblock
+    :margin-top 1.5em
+    :margin-bottom 1.5em
+    :padding-left 2.0em
+    :margin-right 10%
+    > div
+      &.content
+        :white-space pre
+      &.attribution
+        :padding-top 0.75em
+        :text-align left
+    + div.attribution
+      :text-align left
+  &.quoteblock
+    :margin-top 1.5em
+    :margin-bottom 1.5em
+    :padding-left 2.0em
+    :margin-right 10%
+    > div.attribution
+      :padding-top 0.5em
+      :text-align right
+  &.literalblock
+    :margin-top 1.5em
+    :margin-bottom 1.5em
+  &.listingblock
+    :margin-top 1.5em
+    :margin-bottom 1.5em
+    > div.content
+      :border 1px solid silver
+      :background #f4f4f4
+      :padding 0.5em
+  &.sidebarblock
+    :margin-top 1.5em
+    :margin-bottom 1.5em
+    > div.content
+      :background #ffffee
+      :border 1px solid silver
+      :padding 0.5em
+  &.admonitionblock
+    :margin-top 1.5em
+    :margin-bottom 1.5em
+    :margin-top 2.5em
+    :margin-bottom 2.5em
+    .icon
+      :vertical-align top
+      :font-size 1.1em
+      :font-weight bold
+      :text-decoration underline
+      :color #527bbd
+      :padding-right 0.5em
+    td.content
+      :padding-left 0.5em
+      :border-left 2px solid silver
+  &.content
+    :padding 0
+    div.title:first-child, + div.title
+      :margin-top 0.0em
+  &.title
+    :color #527bbd
+    :font-family sans-serif
+    :font-weight bold
+    :text-align left
+    :margin-top 1.0em
+    :margin-bottom 0.5em
+    + *
+      :margin-top 0
+  &.compact
+    ul, ol
+      :margin-top 0.1em
+      :margin-bottom 0.1em
+    p, div
+      :margin-top 0.1em
+      :margin-bottom 0.1em
+      :margin-top 0.1em
+      :margin-bottom 0.1em
+  &.hdlist
+    :margin-top 0.8em
+    :margin-bottom 0.8em
+    tr
+      :padding-bottom 15px
+    &.compact tr
+      :margin 0
+      :padding-bottom 0
+pre
+  :padding 0
+  :margin 0
+h1
+  :color #527bbd
+  :font-family sans-serif
+  :margin-top 1.2em
+  :margin-bottom 0.5em
+  :line-height 1.3
+  :border-bottom 2px solid silver
+h2
+  :color #527bbd
+  :font-family sans-serif
+  :margin-top 1.2em
+  :margin-bottom 0.5em
+  :line-height 1.3
+  :border-bottom 2px solid silver
+  :padding-top 0.5em
+h3
+  :color #527bbd
+  :font-family sans-serif
+  :margin-top 1.2em
+  :margin-bottom 0.5em
+  :line-height 1.3
+  :border-bottom 2px solid silver
+  :float left
+  + *
+    :clear left
+h4, h5, h6
+  :color #527bbd
+  :font-family sans-serif
+  :margin-top 1.2em
+  :margin-bottom 0.5em
+  :line-height 1.3
+body
+  :margin 1em 5% 1em 5%
+a
+  :color blue
+  :text-decoration underline
+  &:visited
+    :color fuchsia
+em
+  :font-style italic
+  :color navy
+strong
+  :font-weight bold
+  :color #083194
+tt
+  :color navy
+hr
+  :border 1px solid silver
+ul
+  :margin-top 0
+  :list-style-position outside
+ol
+  :margin-top 0
+  :list-style-position outside
+  &.arabic
+    :list-style-type decimal
+  &.loweralpha
+    :list-style-type lower-alpha
+  &.upperalpha
+    :list-style-type upper-alpha
+  &.lowerroman
+    :list-style-type lower-roman
+  &.upperroman
+    :list-style-type upper-roman
+span
+  &#author
+    :color #527bbd
+    :font-family sans-serif
+    :font-weight bold
+    :font-size 1.1em
+  &#email
+  &#revision
+    :font-family sans-serif
+  &.image img
+    :border-style none
+caption.title
+  :color #527bbd
+  :font-family sans-serif
+  :font-weight bold
+  :text-align left
+  :margin-top 1.0em
+  :margin-bottom 0.5em
+td
+  div.title:first-child
+    :margin-top 0.0em
+  > div.verse
+    :white-space pre
+  &.hdlist1
+    :vertical-align top
+    :font-style normal
+    :padding-right 0.8em
+    :color navy
+    &.strong
+      :font-weight bold
+  &.hdlist2
+    :vertical-align top
+dl
+  :margin-top 0.8em
+  :margin-bottom 0.8em
+thead
+  :font-family sans-serif
+  :font-weight bold
+tfoot
+  :font-weight bold
+.comment
+  :background yellow
+#toc
+  ol
+    :list-style none
+  li
+    :margin-left -1em

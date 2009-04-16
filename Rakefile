@@ -28,6 +28,7 @@ file JTR_XML => [JTR_TXT, *CHAPTER_FILES] do
 end
 
 namespace :build do
+  # the formats going over docbook format
   formats.each do |format|
     jtr_dir = "#{format}/"
     jtr_base = "journey_to_ramaze.#{format}"
@@ -56,16 +57,24 @@ namespace :build do
     file(jtr_dir){ mkdir(jtr_dir) }
   end
 
+  # the asciidoc-xhtml
+
+  jtr_scripts = File.expand_path('javascripts')
+  jtr_styles  = File.expand_path('stylesheets')
+  jtr_css = 'stylesheets/xhtml11.css'
   jtr_dir = 'asciidoc-xhtml/'
   jtr_base = 'journey_to_ramaze.html'
   jtr_path = File.join(jtr_dir, jtr_base)
-  CLOBBER.include(jtr_dir)
+
+  jtr_depends = [jtr_dir, JTR_TXT, jtr_css] + CHAPTER_FILES + XMP_FILES
+
+  CLOBBER.include(jtr_dir, File.join(jtr_styles, '**/*.css'))
 
   file(jtr_dir){ mkdir(jtr_dir) }
-  file jtr_path => [jtr_dir, JTR_TXT, *(CHAPTER_FILES + XMP_FILES)] do
-    scripts_dir = File.expand_path('javascripts')
+  file jtr_path => jtr_depends do
     sh('asciidoc',
-       '--attribute', "scriptsdir=#{scripts_dir}",
+       '--attribute', "scriptsdir=#{jtr_scripts}",
+       '--attribute', "stylesdir=#{jtr_styles}",
        '--attribute', 'toc',
        '--backend', 'xhtml11',
        '--doctype', 'book',
@@ -89,21 +98,20 @@ namespace :xmp do
     '--interpreter', RUBY
   ]
 
-  SOURCE_FILES.each do |source_file|
-    xmp_file = source_file.sub(/\.rb$/, '.xmp')
+  rule('.xmp' => ['.rb']) do |t|
+    source_file = t.source
+    xmp_file = t.name
 
-    file xmp_file => [source_file] do
-      invocation = (xmp_invocation + [source_file]).join(' ')
+    invocation = (xmp_invocation + [source_file]).join(' ')
 
-      puts "Converting #{source_file} to xmp => #{xmp_file}"
-      puts invocation
-      original_source = File.read(source_file).strip
-      xmp_source = `#{invocation}`.strip
+    puts "Converting #{source_file} to xmp => #{xmp_file}"
+    puts invocation
+    original_source = File.read(source_file).strip
+    xmp_source = `#{invocation}`.strip
 
-      fail("XMP failed for #{source_file}") if xmp_source == original_source
+    fail("XMP failed for #{source_file}") if xmp_source == original_source
 
-      File.open(xmp_file, 'w+'){|xmp| xmp.write(xmp_source) }
-    end
+    File.open(xmp_file, 'w+'){|xmp| xmp.write(xmp_source) }
   end
 
   CHAPTER_FILES.each do |chapter_file|
@@ -113,4 +121,11 @@ namespace :xmp do
       file(chapter_file => xmp)
     end
   end
+end
+
+rule('.css' => ['.sass']) do |t|
+  sh('sass',
+     '--style', 'compressed', # nested, compact, compressed, expaned
+     t.source,
+     t.name)
 end

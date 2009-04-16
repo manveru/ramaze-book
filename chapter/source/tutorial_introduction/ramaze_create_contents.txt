@@ -1,0 +1,22 @@
+blog
+|-- config.ru
+|-- controller
+|   |-- init.rb
+|   `-- main.rb
+|-- layout
+|   `-- default.xhtml
+|-- model
+|   `-- init.rb
+|-- public
+|   |-- css
+|   |   `-- screen.css
+|   |-- dispatch.fcgi
+|   |-- favicon.ico
+|   |-- js
+|   |   `-- jquery.js
+|   `-- ramaze.png
+|-- spec
+|   `-- main.rb
+|-- start.rb
+`-- view
+    `-- index.xhtml

@@ -1,0 +1,17 @@
+delta ~/tmp/tutorial % ruby start.rb
+/usr/lib/ruby19/1.9.1/webrick/utils.rb:73:in `initialize': Address already in use - bind(2) (Errno::EADDRINUSE)
+  from /usr/lib/ruby19/1.9.1/webrick/utils.rb:73:in `new'
+  from /usr/lib/ruby19/1.9.1/webrick/utils.rb:73:in `block in create_listeners'
+  from /usr/lib/ruby19/1.9.1/webrick/utils.rb:70:in `each'
+  from /usr/lib/ruby19/1.9.1/webrick/utils.rb:70:in `create_listeners'
+  from /usr/lib/ruby19/1.9.1/webrick/server.rb:74:in `listen'
+  from /usr/lib/ruby19/1.9.1/webrick/server.rb:62:in `initialize'
+  from /usr/lib/ruby19/1.9.1/webrick/httpserver.rb:24:in `initialize'
+  from /home/manveru/c/rack/lib/rack/handler/webrick.rb:9:in `new'
+  from /home/manveru/c/rack/lib/rack/handler/webrick.rb:9:in `run'
+  from /home/manveru/c/innate/lib/innate/adapter.rb:66:in `start_webrick'
+  from /home/manveru/c/innate/lib/innate/adapter.rb:40:in `start'
+  from /home/manveru/c/innate/lib/innate.rb:139:in `start!'
+  from /home/manveru/c/innate/lib/innate.rb:135:in `start'
+  from start.rb:10:in `<main>'
+zsh: exit 1     ruby start.rb

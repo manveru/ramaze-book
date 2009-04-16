@@ -33,7 +33,7 @@ Once Ruby is installed correctly, you can install Ramaze simply by:
 
 [source,sh]
 --------------------------------------------------------------------------------
-gem install ramaze
+$ gem install ramaze
 --------------------------------------------------------------------------------
 
 This will take care of installing all dependencies as well.
@@ -54,7 +54,7 @@ following.
 
 [source,ruby]
 --------------------------------------------------------------------------------
-include::source/hello_world.rb[tabsize=2]
+include::source/tutorial_introduction/hello_world.rb[tabsize=2]
 --------------------------------------------------------------------------------
 
 First we require RubyGems, the package managing wrapper that allows us to
@@ -66,7 +66,7 @@ To start this application we can now simply:
 
 [source,sh]
 --------------------------------------------------------------------------------
-ruby start.rb
+$ ruby start.rb
 --------------------------------------------------------------------------------
 
 That will start an instance of Ruby and start the WEBrick HTTP server that
@@ -74,40 +74,18 @@ ships with Ruby.
 
 This will output something along the lines of:
 
-[source,sh]
+[source,txt]
 --------------------------------------------------------------------------------
-delta ~/c/ramaze-book;master % ruby19 source/hello_world.rb
-W [2009-04-01 15:35:24 $17562]  WARN | : No explicit root folder found, assuming it is source
-D [2009-04-01 15:35:24 $17562] DEBUG | : Using webrick
-I [2009-04-01 15:35:24 $17562]  INFO | : WEBrick 1.3.1
-I [2009-04-01 15:35:24 $17562]  INFO | : ruby 1.9.2 (2009-03-02) [i686-linux]
-D [2009-04-01 15:35:24 $17562] DEBUG | : TCPServer.new(0.0.0.0, 7000)
-D [2009-04-01 15:35:24 $17562] DEBUG | : Rack::Handler::WEBrick is mounted on /.
-I [2009-04-01 15:35:24 $17562]  INFO | : WEBrick::HTTPServer#start: pid=17562 port=7000
+include::source/tutorial_introduction/start_output.txt[tabsize=2]
 --------------------------------------------------------------------------------
 
 Now you can open your browser, and go to http://localhost:7000/.
 
 Sometimes you will get an error when starting Ramaze that looks like:
 
-[source,sh]
+[source,txt]
 --------------------------------------------------------------------------------
-/usr/lib/ruby19/1.9.1/webrick/utils.rb:73:in `initialize': Address already in use - bind(2) (Errno::EADDRINUSE)
-  from /usr/lib/ruby19/1.9.1/webrick/utils.rb:73:in `new'
-  from /usr/lib/ruby19/1.9.1/webrick/utils.rb:73:in `block in create_listeners'
-  from /usr/lib/ruby19/1.9.1/webrick/utils.rb:70:in `each'
-  from /usr/lib/ruby19/1.9.1/webrick/utils.rb:70:in `create_listeners'
-  from /usr/lib/ruby19/1.9.1/webrick/server.rb:74:in `listen'
-  from /usr/lib/ruby19/1.9.1/webrick/server.rb:62:in `initialize'
-  from /usr/lib/ruby19/1.9.1/webrick/httpserver.rb:24:in `initialize'
-  from /home/manveru/c/rack/lib/rack/handler/webrick.rb:9:in `new'
-  from /home/manveru/c/rack/lib/rack/handler/webrick.rb:9:in `run'
-  from /home/manveru/c/innate/lib/innate/adapter.rb:66:in `start_webrick'
-  from /home/manveru/c/innate/lib/innate/adapter.rb:40:in `start'
-  from /home/manveru/c/innate/lib/innate.rb:139:in `start!'
-  from /home/manveru/c/innate/lib/innate.rb:135:in `start'
-  from source/hello_world.rb:10:in `<main>'
-zsh: exit 1     ruby19 source/hello_world.rb
+include::source/tutorial_introduction/start_eaddrinuse.txt[tabsize=2]
 --------------------------------------------------------------------------------
 
 This means that you already have a server running on this port, and you will
@@ -117,7 +95,7 @@ occupying the port.
 If you don't know what is running on this port, you can find out by using the
 'lsof' command (on Linux).
 
-[source,sh]
+[source,txt]
 --------------------------------------------------------------------------------
 delta ~/c/ramaze-book;master % lsof -i -P
 COMMAND   PID    USER   FD   TYPE DEVICE SIZE/OFF NODE NAME
@@ -125,3 +103,130 @@ ruby19  17806 manveru    3u  IPv4 462149      0t0  TCP *:7000 (LISTEN)
 --------------------------------------------------------------------------------
 
 With this information you know the Process ID, and can, for example `kill 17806`.
+
+== The ramaze command
+
+Ramaze ships with an executable called 'ramaze'.
+This little tool helps you creating, controlling, and debugging your
+applications.
+The executable was created by the {rubyists}, most prominently TJ Vanderpoel.
+
+It tightly integrates with both Ramaze and the Rack executable 'rackup', so you
+will be able to take advantage of both.
+
+From now on we will call the 'ramaze' executable 'bin/ramaze', that's what it
+is commonly called in the Ramaze community as well.
+
+Many commands of 'bin/ramaze' rely on a so-called pidfile, which is a tiny file
+that only contains the process-ID of a currently running Ramaze application.
+The name of this file defaults to the name of the directory your application is
+in, suffixed with '.pid'.
+So if you made an application called 'blog' in a 'blog' directory, the pidfile
+will be called 'blog.pid'.
+If you see such a file, it usually means that the application is already
+running in the background.
+You can see whether that is the case:
+
+[source,sh]
+--------------------------------------------------------------------------------
+delta ~ramaze/blog % ps `cat blog.pid`
+  PID TTY      STAT   TIME COMMAND
+32578 ?        SNl    0:00 /usr/bin/ruby /home/manveru/bin/rackup config.ru -P blog.pid -D
+--------------------------------------------------------------------------------
+
+Future versions of `bin/ramaze` might provide a `ramaze status` command, that
+will show you similar information.
+
+=== Create
+
+To create a new application with a basic set of files and directories that get
+you started in no time, we just have to issue a single command.
+
+`ramaze create` creates a new prototype Ramaze application in a directory named
+'PROJECT' in the current directory.
+`ramaze create foo` would make './foo' containing an application prototype.
+Rack options are meaningless here.
+
+[source,sh]
+--------------------------------------------------------------------------------
+$ ramaze create blog
+--------------------------------------------------------------------------------
+
+What it does is simply copying a bunch of files from 'lib/proto' in the ramaze
+library to the argument given. So you will end up with a new directory called
+'blog' which contains a bunch of files.
+
+The contents of this directory are:
+[source,txt]
+--------------------------------------------------------------------------------
+include::source/tutorial_introduction/ramaze_create_contents.txt[tabsize=2]
+--------------------------------------------------------------------------------
+
+We will take a look at these files and their purpose soon, but first we'll
+cover other commands of the 'bin/ramaze'.
+
+=== Start
+
+Start an instance of your application with `ramaze start`.
+Supply a pidfile name if you do not want it to use the default (PROJECT.pid).
+
+[source,sh]
+--------------------------------------------------------------------------------
+$ ramaze start
+--------------------------------------------------------------------------------
+
+To start your application in the background you should daemonize it with the
+`-D` arugment. This will put the PID of the instance into the pidfile.
+
+[source,sh]
+--------------------------------------------------------------------------------
+$ ramaze start -D
+--------------------------------------------------------------------------------
+
+=== Stop
+
+Stop a running instance of this application with `ramaze stop`.
+Supply a pidfile name if you started it with a pidfile other than the default
+(PROJECT.pid).
+
+=== Restart
+
+Stop a running instance of this application, then starts it back up with
+`ramaze restart`.
+Pidfile (if supplied) is used for both stop and start.
+
+[source,sh]
+--------------------------------------------------------------------------------
+$ ramaze restart -D
+--------------------------------------------------------------------------------
+
+=== Console
+
+Starts an irb console with app.rb (and irb completion) loaded. This command
+ignores rack options.
+At the moment, you will have to call `Ramaze.setup_dependencies` after starting
+the session to get full functionality, as it will not actually start your
+application, this should be fixed in the future.
+We might add support for hooking into an already running application (as that
+would be vastly superior for live debugging).
+
+[source,sh]
+--------------------------------------------------------------------------------
+$ ramaze console
+--------------------------------------------------------------------------------
+
+An example session:
+
+[source,ruby]
+--------------------------------------------------------------------------------
+MainController.instance_methods(false)
+self
+# main
+Ramaze.setup_dependencies
+# [Innate::Cache, Innate::Node, Ramaze::Controller, Ramaze::Plugin]
+MainController.instance_methods(false)
+Ramaze::Mock.get('/notemplate').headers
+# {"Content-Type"=>"text/html", "Content-Length"=>"994"}
+Ramaze::Mock.get('/notemplate').status
+# 200
+--------------------------------------------------------------------------------

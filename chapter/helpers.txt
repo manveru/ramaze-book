@@ -207,23 +207,7 @@ This might look like:
 
 [source,ruby]
 --------------------------------------------------------------------------------
-class AdminController < Ramaze::Controller
-  def create_user(name)
-    # ...
-  end
-
-  def delete_user(name)
-    # ...
-  end
-
-  before_all{ redirect_referrer unless user_is_root? }
-
-  private
-
-  def user_is_root?
-    session[:user_is_root]
-  end
-end
+include::source/helpers/aspect/before_all.xmp[tabsize=2]
 --------------------------------------------------------------------------------
 
 == CGI helper

@@ -57,7 +57,7 @@ Creating helpers is simple.
 --------------------------------------------------------------------------------
 module Ramaze
   module Helper
-    module SimleyHelper
+    module SmileyHelper
       FACES = {
         ':)' => '/smilies/smile.gif'
         ';)' => '/smilies/twink.gif'

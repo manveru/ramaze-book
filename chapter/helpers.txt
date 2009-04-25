@@ -207,7 +207,7 @@ This might look like:
 
 [source,ruby]
 --------------------------------------------------------------------------------
-include::source/helpers/aspect/before_all.xmp[tabsize=2]
+include::source/helpers/aspect/before_all.rb[tabsize=2]
 --------------------------------------------------------------------------------
 
 == CGI helper

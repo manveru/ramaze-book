@@ -68,7 +68,7 @@ to, for example, '/foobar', you create a file at 'view/foobar/index.xhtml'.
 
 If you want to make an Action for '/foobar/foo/bar/baz' but want to have the
 view file template provided by the Controller mapped to '/', you can create a
-file at 'view/foobar__foo__bar__baz.xhtml', every double-underscore is
+file at 'view/foobar\__foo\__bar__baz.xhtml', every double-underscore is
 translated into slashes. The same applies for names of methods of that
 Controller.
 

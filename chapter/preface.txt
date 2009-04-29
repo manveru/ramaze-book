@@ -57,7 +57,7 @@ No user-level memory management::
   garbage collector built into the interpreter.
 
 Everything is an object::
-  Ruby is the purely object-oriented language, and was so since its creation.
+  Ruby is a purely object-oriented language, and was so since its creation.
   Even such basic data as integers are seen as objects.
 
 Class, inheritance, and methods::

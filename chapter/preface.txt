@@ -12,7 +12,7 @@ language.
 Ramaze is written in Ruby. This book assumes at least basic knowledge about
 Ruby.
 If you do not know what Ruby is yet, visit {ruby-lang} and find out; but
-beware, it may change your life, it changed mine for sure.
+beware, it may change your life. It changed mine for sure.
 
 It features a readable open source codebase licensed under the Ruby license
 (optionally GPL version 2).

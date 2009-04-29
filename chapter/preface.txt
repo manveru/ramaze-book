@@ -111,8 +111,8 @@ written in Ruby.
 
 One of the surviving frameworks from the time before Rails is IOWA, which is
 focused on discrete reusable components rather than MVC.
-Although it didn't see much changes since 2007, it's still one of the most solid
-implementations of a web framework and used in various contexts.
+Although it hasn't seen many changes since 2007, it's still one of the most
+solid implementations of a web framework and used in various contexts.
 
 Another one is Nitro, which was first released in 2004. Nitro had a large impact
 on the Ramaze project. It was the first web framework that tried to enable

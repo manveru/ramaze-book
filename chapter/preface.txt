@@ -136,7 +136,8 @@ asciidoc source can be found in {book-ramaze-source}.
 
 Naturally, since Ramaze is an open source web framework, most help can be found
 on the web.
-Some links to provide more information on all the topics covered in this book.
+Here are some links which provide more information on all the topics covered in
+this book.
 
 * The offical homepage for the ramaze project: {www-ramaze}.
 * {group-ramaze} where most developers using Ramaze are subscribed and share

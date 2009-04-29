@@ -9,7 +9,7 @@ development simple and fun.
 Making programming fun is a concept popularized by the Ruby programming
 language.
 
-It is written in Ruby. This book assumes at least basic knowledge about
+Ramaze is written in Ruby. This book assumes at least basic knowledge about
 Ruby.
 If you do not know what Ruby is yet, visit {ruby-lang} and find out; but
 beware, it may change your life, it changed mine for sure.

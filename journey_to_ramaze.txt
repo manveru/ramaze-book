@@ -1,6 +1,6 @@
 = Journey to Ramaze
 Michael Fellinger <m.fellinger@gmail.com>
-v0.2, March 2009
+v0.2, May 2009
 
 // Contains links and other snippets used all over the book
 // The attribute entry definition must precede it's usage.

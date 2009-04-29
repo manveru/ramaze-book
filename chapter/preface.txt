@@ -1,7 +1,7 @@
 = Preface
 
 Ramaze is a simple but powerful web application development framework. This
-book is an in-depth walk-through of Ramaze's features and behaviour.
+book is an in-depth walk-through of Ramaze's features and behavior.
 
 Ramaze is a modular web application framework.
 It provides you with just about everything you need to make your daily web
@@ -144,7 +144,7 @@ Some links to provide more information on all the topics covered in this book.
 * {github-ramaze}  provides immediate access to the source and commit-history
   of the project.
 * A wiki to exchange information and sketch out documentation can be found at
-  {wiki-ramaze} 
+  {wiki-ramaze}
 * The automatically generated API documentation for the latest release is at
   {doc-ramaze}
 * The place to report all issues, proposals, and bugs is {bugs-ramaze}

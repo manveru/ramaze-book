@@ -61,7 +61,7 @@ between reading a book and trying stuff in IRB is not comfortable.
 ## Todo
 
 There is still a lot of work to be done, the subject is in dire need of proper
-documentation and there is a lot of topics to be covered.
+documentation and there are a lot of topics to be covered.
 Since I'm a native German speaker and learned English mostly over the interwebs,
 my English skills are somewhat mediocre as well, so I appreciate any
 improvements, be it grammar, spelling, or wording.

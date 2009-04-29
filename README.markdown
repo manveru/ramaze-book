@@ -66,7 +66,7 @@ Since I'm a native German speaker and learned English mostly over the interwebs,
 my English skills are somewhat mediocre as well, so I appreciate any
 improvements, be it grammar, spelling, or wording.
 
-Since this is a technical topic, I try to use US-English, please keep this in
+Since this is a technical topic, I try to use US English, please keep this in
 mind. If you find writing the Queen's English more comfortable I won't be
 opposed to it, but we will have to edit every couple of months.
 

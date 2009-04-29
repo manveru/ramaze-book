@@ -15,6 +15,8 @@ include::chapter/tutorial_introduction.txt[tabsize=2]
 
 include::chapter/middleware.txt[tabsize=2]
 
+include::chapter/configuration.txt[tabsize=2]
+
 include::chapter/sessions.txt[tabsize=2]
 
 include::chapter/helpers.txt[tabsize=2]
@@ -31,8 +33,6 @@ include::chapter/rack.txt[tabsize=2]
 
 ////////////////////////////////////////////////////////////////////////////////
 // chapters below are old content and might need major rewriting
-
-include::chapter/configuration.txt[tabsize=2]
 
 include::chapter/controllers.txt[tabsize=2]
 

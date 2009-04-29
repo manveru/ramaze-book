@@ -1,79 +1,88 @@
 = Configuration
 
-Configuration is mainly done using the Ramaze::Global singleton. It's an instance of Option::Holder, containing a rather large list of options and their defaults. Every option is documented in minimal style and the defaults should make clear in most cases how to set these options.
+Configuration is a big aspect of Ramaze, although it tries to offer your sane
+defaults out of the box, it still gives you many ways to influence just about
+every behaviour.
 
-Configuration can be done three different ways: using environment variables, command-line arguments, or directly in your source code.
+Most commonly, you won't have to configure that much, Ramaze follows the
+"convention over configuration" principle to some extent, but never forces a
+particular way of doing things on you.
 
-Let's look at the three variations of how to set your port. First, in your source code:
+The center of all configuration is in `Ramaze.options`, an instance of
+`Ramaze::Options`. The configuration is self-documenting, by requiring a bit of
+description when you first define an option.
+You may use this also to add custom options to your own application, common
+usage of this would be credentials for an administrator, SMTP options for a
+mailer, or things like a page title or number of items displayed on the
+front-page.
 
+I will first introduce you to some options that are most used in Ramaze,
+changing the web-server and port, changing your caching backend, and cookie
+expiration times.
 
-[source,ruby]
---------------------------------------------------------------------------------
-Ramaze::Global.port = 8080
+There is much more that we don't cover here, I invite you to a short IRB session
+that shows you how to find out more.
 
-Ramaze::Global.setup do |g|
-  g.port = 8080
-end
-
-Ramaze.start :port => 8080
---------------------------------------------------------------------------------
-
-now by commandline arguments:
-
-[source,sh]
---------------------------------------------------------------------------------
-ruby start.rb --port 8080
---------------------------------------------------------------------------------
-
-and finally using an environment variable:
-
-[source,sh]
---------------------------------------------------------------------------------
-RAMAZE_PORT=8080 ruby start.rb
---------------------------------------------------------------------------------
-
-Application with multiple files
-
-The convention for larger applications consists of a basic directory structure. Using this structure is optional; you can specify different directories with special commands.
-
-
-[source,sh]
---------------------------------------------------------------------------------
-/
-  start.rb
-  ramaze.ru
-  public/
-    favicon.ico
-    robots.txt
-  model/
-    user.rb
-  controller/
-    main.rb
-    user.rb
-  view/
-    index.xhtml
-    user/
-      index.xhtml
-      view.xhtml
-      new.xhtml
---------------------------------------------------------------------------------
-
-Although it is up to you to decide whether you want to follow this layout, it is recommended so that it's easier for other people to jump right into your code and understand things.
-
-Some details about the directory conventions
-
-There are two special cases you should be aware of before starting. /public and /view are defaults in Ramaze, set in `Ramaze::Global.public_root` and `Ramaze::Global.view_root` respectively. They are relative to Ramaze::Global.root.
-
-To illustrate this, see following example:
-
+// TODO: This should be done via XMP...
 
 [source,ruby]
 --------------------------------------------------------------------------------
-Ramaze::Global.root        # => '/home/manveru/demo'
-Ramaze::Global.view_root   # => '/home/manveru/demo/view'
-Ramaze::Global.public_root # => '/home/manveru/demo/public'
+Ramaze.options.each_option{|key, value| puts("%-20s: %s" % [key, value[:doc]]) }
+response            : 
+setup               : Will send ::setup to each element during Innate::start
+cache               : Innate::Cache::Memory
+session             : 
+log_hub             : 
+roots               : The directories this application resides in
+helpers_helper      : 
+trap                : Trap this signal to issue shutdown, nil/false to disable trap
+adapter             : 
+views               : Directories containing the view templates
+middleware_compiler : The compiler for middleware
+app                 : 
+prefix              : Prefix used to create relative links
+started             : Innate::start will not start an adapter if true
+layouts             : Directories containing the layout templates
+mode                : Indicates which default middleware to use, (:dev|:live)
+publics             : The directories containing static files to be served
 --------------------------------------------------------------------------------
 
-In practical terms this means that templates are found in the /view directory while static files are served from /public.
+Quite the information overload to get started, so we'll pick a few options for
+further inspection.
 
-The rest of the conventions are not explicitly understood by Ramaze. This entails that, for example, in the file of your application which contains `Ramaze.start` (typically a file called start.rb), you will have to manually require your other .rb files.
+== Basic options
+
+Something you will notice is that some options don't have a documentation, this
+is because they were automatically inserted and are actually their own instance
+of `Ramaze::Option` living on another class.
+So the `:session` lives in `Ramaze::Session::options`, `:adapter` is on
+`Ramaze::Adapter::options`, and so on.
+
+[source,ruby]
+--------------------------------------------------------------------------------
+include::source/configuration/basic/adapter.xmp[tabsize=2]
+--------------------------------------------------------------------------------
+
+Now, that was not so bad. How about inspecting some of the options directly on
+`Ramaze::options` now.
+
+[source,ruby]
+--------------------------------------------------------------------------------
+include::source/configuration/basic/ramaze.xmp[tabsize=2]
+--------------------------------------------------------------------------------
+
+OK, enough of that, let's see how we can change some of these options:
+
+[source, ruby]
+--------------------------------------------------------------------------------
+include::source/configuration/basic/change.xmp[tabsize=2]
+--------------------------------------------------------------------------------
+
+Not so hard as well.
+
+As you can see, options are laid out in a tree structure, where options can be
+nested within options.
+Ramaze uses this functionality to keep the configuration for specific parts of
+the source close to the source itself, instead of defining everything in one
+place and then sending you around hunting for the places where that option might
+be used (that was the way we did it before 2009.04).

@@ -14,7 +14,7 @@ Ruby.
 If you do not know what Ruby is yet, visit {ruby-lang} and find out; but
 beware, it may change your life. It changed mine for sure.
 
-It features a readable open source codebase licensed under the Ruby license
+Ramaze features a readable open source codebase licensed under the Ruby license
 (optionally GPL version 2).
 
 The strengths of Ramaze, as described by its users, are a free style of

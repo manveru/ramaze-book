@@ -72,7 +72,7 @@ Singleton methods::
   methods, if you want to.
 
 Mix-in by modules::
-  Ruby intentionally does not have the multiple inheritance as it is a source of
+  Ruby intentionally does not have multiple inheritance as it is a source of
   confusion.
   Instead, Ruby has the ability to share implementations across the inheritance
   tree. This is often called 'Mix-in'.

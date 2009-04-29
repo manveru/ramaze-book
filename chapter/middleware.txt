@@ -1,0 +1,240 @@
+= Middleware
+
+Ramaze relies to great extend on so-called middleware, that are small pieces of
+code chained together with a simple interface to handle requests and serve
+responses. The concept of middlewares was introduced by WSGI, and consequently
+also used in the design of Rack.
+There are already lots of middlewares available for different purposes, from
+serving static files to handling authentication.
+
+== Building middleware
+
+An example for a middleware would be:
+
+[source,ruby]
+--------------------------------------------------------------------------------
+class Smile
+  def initialize(app)
+    @app = app
+  end
+
+  def call(env)
+    status, header, body = @app.call(env)
+    header['Content-Type'] = 'text/plain'
+    header['Content-Length'] = '2'
+    return status, header, [':)']
+  end
+end
+--------------------------------------------------------------------------------
+
+This discards any response body it receives and replaces it with a smiley. Of
+course that's a rather silly example, but it shows you the basic structure. A
+middleware has to respond to `#call`, just like a Proc.
+That's the reason why a small functional application you can run on Rack may
+even look like following:
+
+[source,ruby]
+--------------------------------------------------------------------------------
+app = lambda{|env|                                            # <1>
+  [200,                                                       # <2>
+    {'Content-Type' => 'text/plain, 'Content-Length' => '2'}, # <3>
+    [':)']] }                                                 # <4>
+
+Rack::Handler::WEBrick.run(app, :Port => 7000)                # <5>
+--------------------------------------------------------------------------------
+
+In this case we don't even bother with an inner application, so this is not a
+middleware but an endpoint.
+Using the curry functionality of Ruby 1.9, we can even make a middleware out of
+a normal Proc.
+
+[source,ruby]
+--------------------------------------------------------------------------------
+hello = lambda{|env| [200, {}, ['Hello', 'World', '!']] }
+
+reverse_middleware = lambda{|app, env|
+  status, header, body = app.call(env)
+  new_body = []
+  body.each{|a| new_body << a.to_s.reverse }
+  new_body.reverse!
+  [status, header, new_body]
+}
+
+app = reverse_middleware.curry[hello]
+
+Rack::Handler::WEBrick.run(app, :Port => 7000)
+--------------------------------------------------------------------------------
+
+This would return a body containing '!dlroWolleH', it's almost equivalent with
+the `Smile` middleware we built above, but works completely without creating a
+class.
+
+NOTE: Yukihiro Matsumoto sees the Proc#curry method as a curiosity at best.
+      I don't think I can agree with that.
+
+
+== Ramaze modes
+
+As said above, Ramaze uses a lot of middleware to provide flexible functionality
+that can be maintained, improved, or replaced independently without even
+touching the Ramaze codebase.
+
+The simplest way to do this is to change the so-called `mode` Ramaze runs in. A
+`mode` describes a set of middlewares and gives it a unique name.
+
+At the moment there are only two modes builtin: `:live` and `:dev`, the `:dev`
+mode is the default and should be changed upon (or before) deployment as it has
+a huge impact on the overall performance of Ramaze.
+
+This option can be changed via `Ramaze.options.mode`, changing it will trigger
+an internal rebuild of the Dispatcher, so you can switch between modes during
+runtime, although this might be used only rarely it can be useful for example to
+adapt your application to peak-load by changing to a more aggressive caching
+strategy.
+
+It is recommended that you maintain your own set of middlewares for larger
+applications so you can influence the behaviour better. We will show later how
+to do this in just a few lines of code.
+
+The harder part of using your own set of middlewares is in figuring out which
+functionality you need and in which order it should be applied, something we
+will try to help you with as well.
+
+=== The :dev and :live modes
+
+In `:dev` mode, short for 'development mode', Ramaze will try to make your
+developing as effortless as possible.
+It automatically reloads your source code in the background on requests, and
+validates your application's behaviour against the Rack specification using
+`Rack::Lint`.
+
+This may not sound like much, but `Rack::Lint` alone usually causes a major
+impact in performance (your application might run around 2-3x slower).
+Once your application is developed, you can disable this functionality safely.
+
+In case you do some really crazy things with Ramaze, you should implement this
+while using the Lint to ensure conformance to the spec and avoid trouble during
+deployment.
+Once you are ready to deploy, Lint will have made sure that you can do safely
+and won't hit any problems.
+
+Although the source-code reloaders are built to perform as well as possible,
+they still have a noticeable impact and increase the amount of disk I/O
+significantly.
+You certainly don't want to have your hardware die earlier on you than
+necessary, so we recommend to avoid source-reloading when you don't use it.
+
+The middlewares used during `:dev` mode are:
+
+* `Rack::Lint`
+* `Rack::CommonLogger`
+* `Ramaze::Reloader`
+* `Rack::ShowStatus`
+* `Rack::RouteExceptions`
+* `Rack::Head`
+* `Rack::ETag`
+* `Rack::ConditionalGet`
+* `Rack::ContentLength`
+
+The middlewares used during `:live` mode are:
+
+* `m.use Rack::CommonLogger`
+* `m.use Rack::RouteExceptions`
+* `m.use Rack::ShowStatus`
+* `m.use Rack::ShowExceptions`
+* `m.use Rack::Head`
+* `m.use Rack::ETag`
+* `m.use Rack::ConditionalGet`
+* `m.use Rack::ContentLength`
+
+=== Your own modes
+
+As mentioned above, add your own modes is a piece of cake once you know how it's
+being done. Let me illustrate that with a little example of an anonymous mode.
+
+[source,ruby]
+--------------------------------------------------------------------------------
+Ramaze.start do |mode|
+  mode.use Rack::CommonLogger
+  mode.use Rack::ShowStatus
+  mode.use Rack::RouteExceptions
+  mode.use Rack::Head
+  mode.use Rack::ETag
+  mode.use Rack::ConditionalGet
+  mode.use Rack::ContentLength
+  mode.run Ramaze::AppMap
+end
+--------------------------------------------------------------------------------
+
+This is an exact replica of the `:live` mode, but now you can shuffle
+middlewares around, insert other ones you like or need, or remove some you won't
+need.
+
+If you want to keep a couple of middlewares handy for fast switching you can
+give them names, that's just as easy, I'll skip the actual mode of the block,
+it's indentical to the above example using `Ramaze::start`:
+
+[source,ruby]
+--------------------------------------------------------------------------------
+Ramaze.middleware :moon do |mode|
+  # ...
+end
+
+Ramaze.middleware :earth do |mode|
+  # ...
+end
+
+Ramaze.middleware :mars do |mode|
+  # ...
+end
+
+Ramaze.options.mode = :earth
+--------------------------------------------------------------------------------
+
+Now that we have multiple modes in place we can freely switch between them and
+tweak each as we need.
+
+
+== Rack middleware
+
+The two main repositories with middlewares ready to use are the {www-rack} and
+{github-rack-contrib} projects.
+Obviously, all the middlewares in Rack are available to you out of the box, as
+Ramaze depends on it, but many more are in rack-contrib, and you can simply
+install the 'rack-contrib' gem and `require 'rack/contrib'` in your application.
+
+As the number of middlewares is constantly growing, I'll just present you with
+some that are commonly used, and leave it up to you to discover more.
+
+=== Rack::Lint
+
+Lint validates your application and the requests and responses according to the
+Rack spec.
+The current Rack spec can always be found on the Rack homepage or may be
+generated by issuing `rake SPEC` in the Rack source.
+
+The spec covers aspects like valid response body, correct response status,
+proper response headers, etc.
+The full spec with some annotations can be found in the Rack chapter.
+
+=== Rack::CommonLogger
+
+The CommonLogger middleware forwards every request to the given app, and logs a
+line in the Apache common log format to the given logger, or `rack.logger` by
+default.
+
+In Ramaze we pass `Ramaze::Log`, an instance of `Ramaze::LogHub`, so we
+integrate cleanly with any middleware that is not aware of Ramaze logging.
+
+An example of the log output would be:
+
+[source,txt]
+--------------------------------------------------------------------------------
+127.0.0.1 - - [29/Apr/2009 18:57:40] "GET /admin/edit/proto%2Fwelcome HTTP/1.1" 500 230231 0.6686
+127.0.0.1 - - [29/Apr/2009 18:57:42] "GET / HTTP/1.1" 200 1301 0.0831
+127.0.0.1 - - [29/Apr/2009 18:57:44] "GET /favicon.ico HTTP/1.1" 304 - 0.0070
+127.0.0.1 - - [29/Apr/2009 18:57:47] "GET /test HTTP/1.1" 200 1301 0.1751
+127.0.0.1 - - [29/Apr/2009 18:58:46] "GET / HTTP/1.1" 200 1301 0.0531
+127.0.0.1 - - [29/Apr/2009 18:58:46] "GET / HTTP/1.1" 200 1301 0.0710
+--------------------------------------------------------------------------------
+

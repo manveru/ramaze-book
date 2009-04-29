@@ -174,7 +174,7 @@ He then applied his knowledge of Ruby and started the Ramaze project in the
 spirit of Nitro, which tried to be a tool that may be utilized in any way a
 developer wishes, not commanding any one true way.
 
-Michael is living in Tokyo, Japan since 2006, but is of Austrian nationality,
-speaking German, English and currently learning Japanese.
+Michael has been living in Tokyo, Japan since 2006, but is of Austrian
+nationality, speaking German, English and currently learning Japanese.
 
 You can reach him by mailing to <m.fellinger@gmail.com>

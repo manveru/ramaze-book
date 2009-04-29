@@ -101,7 +101,7 @@ Dynamic loading::
 
 == Short history of web development
 
-Well until 2005 Ruby didn't get much mainstream use, that changed when Ruby on
+Well until 2005 Ruby didn't get much mainstream use. That changed when Ruby on
 Rails started attracting web-developers that were increasingly annoyed by Java
 and PHP.
 

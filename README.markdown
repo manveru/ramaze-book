@@ -93,7 +93,7 @@ I will concentrate on core topics for the near future:
 
 ## Building
 
-This book is written in AsciiDoc format, this allows for a number of target
+This book is written in AsciiDoc format.  This allows for a number of target
 formats.
 The Rakefile contains instructions to build following formats:
 

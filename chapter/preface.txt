@@ -83,7 +83,7 @@ Iterators::
 Closures::
   In Ruby, you can objectify the procedure.
 
-Text processing and regular expression::
+Text processing and regular expressions::
   Ruby has a bunch of text processing features like in Perl.
 
 Bignums::

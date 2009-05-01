@@ -52,10 +52,7 @@ end
 
 By default, layout file templates are located in a directory called 'layout' in
 the application root.
-Nested inside this directory can be further directories, named after Controller
-mappings.
-The Controller mapped to '/' owns the files at the top of 'layout/', templates
-in 'layout/foo/bar' would belong to a Controller mapped to '/foo/bar'.
+Nested inside this directory can be further directories, if you want a controller to look for layout file templates in a deeper directory, you can use the `map_layouts` method. By default all layout file templates are searched at the top.
 
 It is not very common for applications to utilize more than a few layouts, you
 will find many applications with only a single layout, and even a few without
@@ -92,10 +89,17 @@ used instead.
 
 == Configuration
 
+To get a feeling for the places where Ramaze will search for layouts, you can
+inspect like in the following example.
+
 [source,ruby]
 --------------------------------------------------------------------------------
 include::source/layouts/configuration/possible_paths_for.xmp[tabsize=2]
 --------------------------------------------------------------------------------
+
+There are two options on `Ramaze.options` that influence the lookup, one is the
+`roots`, which is set depending on your application, the other the `layouts`
+which defaults to `[\'/layout\']`.
 
 [source,ruby]
 --------------------------------------------------------------------------------

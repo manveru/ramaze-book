@@ -191,7 +191,7 @@ include::source/layouts/configuration/possible_paths_for.xmp[tabsize=2]
 
 There are two options on `Ramaze.options` that influence the lookup, one is the
 `roots`, which is set depending on your application, the other the `layouts`
-which defaults to `[\'/layout\']`.
+which defaults to `['/layout']`.
 
 [source,ruby]
 --------------------------------------------------------------------------------
@@ -211,7 +211,7 @@ functionality effectively.
 
 [source,ruby]
 --------------------------------------------------------------------------------
-include::source/layouts/provides/smiley.xmp[tabsize=2]
+include::source/layouts/provides/smiley.rb[tabsize=2]
 --------------------------------------------------------------------------------
 
 So we add two provides named `frown` and `smile`, and there is one default
@@ -234,7 +234,7 @@ $ cat layout/default.smile.xhtml
 Following responses will be served on requests:
 
 |===============================================================================
-| '/index'       | ':| emoticons ftw! |:'
+| '/index'       | ':\| emoticons ftw! \|:'
 | '/index.frown' | ':( emoticons ftw! ):'
 | '/index.smile' | ':) emoticons ftw! (:'
 |===============================================================================

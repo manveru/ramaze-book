@@ -80,6 +80,13 @@ $ cat layout/default.xhtml
 
 That's just as easy, but enables you to work easier on larger layouts.
 
+=== Layout directories per controller
+
+Additionally to the '/layout' directory, sub-directories thereof can be
+searched for templates. This lookup is specific to each Controller.
+To control the behaviour you can use the `map_layouts` method, which takes
+multiple arguments.
+
 == Structure
 
 By default, layout file templates are located in a directory called 'layout' in

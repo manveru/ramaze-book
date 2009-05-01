@@ -27,29 +27,55 @@ Since this time, layouts also have their own directory to live in.
 == Usage
 
 This is a collection of small examples that try to give you a taste of what's
-possible with layouts
+possible with layouts.
 
-=== Layout from method
-
-Following example should illustrate a simple use-case for a layout:
+Usually, there will be only one layout per controller, but you can dispatch to
+different layouts depending on the request.
+The `layout` method takes a block, which, depending on the argument to the
+method, behaves differently.
+In the normal case, you will only supply one argument and no block.
 
 [source,ruby]
 --------------------------------------------------------------------------------
-class Box < Ramaze::Controller
-  layout :default
-
-  def index
-    'Hello, World!'
-  end
-
-  def default
-    '{ #{@content} }'
-  end
-end
+layout('default')
 --------------------------------------------------------------------------------
 
-This will wrap every request to '/index' in curly brackets. Not very useful,
-but it should illustrate the basic working principle.
+This will apply the same 'default' layout to all actions.
+
+[source,ruby]
+--------------------------------------------------------------------------------
+layout('default'){|path, wish| !request.xhr? }
+--------------------------------------------------------------------------------
+
+This will apply the 'default' layout only to actions that were not requested
+via AJAX (which sets the 'HTTP_X_REQUESTED_WITH' header to 'XMLHttpRequest').
+This can be very useful if you want to include parts of a page dynamically from
+JavaScript without using a separate controller.
+
+[source,ruby]
+--------------------------------------------------------------------------------
+layout('default'){|path, wish| wish == 'html' }
+--------------------------------------------------------------------------------
+
+Now we apply a layout only if the client wished for html (through using no, or
+the 'html' extension in the URI)
+So a request to '/foo' or '/foo.html' will have the 'default' layout, but a
+request to '/foo.json' won't.
+Please see the section about content representations about more information
+about how Ramaze handles these requests.
+
+[source,ruby]
+--------------------------------------------------------------------------------
+layout{|path, wish| ['red', 'blue', 'green'].choice }
+--------------------------------------------------------------------------------
+
+Now we're getting even more dynamic, choosing a random layout for every request.
+Usually you'll want to put some reasonable logic inside the block, but the
+point of this example is that, if you don't pass an argument, but a block, to
+the `layout` method, it will use the return value of the block as the name for
+the layout.
+This can be useful if you want to let users choose a theme, or have a different
+layout for users that are logged in.
 
 === Layout from template
 
@@ -80,11 +106,38 @@ $ cat layout/default.xhtml
 
 That's just as easy, but enables you to work easier on larger layouts.
 
+=== Layout from method
+
+Following example should illustrate a simple use-case for a layout that uses
+the return value of a method:
+
+[source,ruby]
+--------------------------------------------------------------------------------
+class Box < Ramaze::Controller
+  layout :default
+
+  def index
+    'Hello, World!'
+  end
+
+  def default
+    '{ #{@content} }'
+  end
+end
+--------------------------------------------------------------------------------
+
+This will wrap every request to '/index' in curly brackets. Not very useful,
+but it should illustrate the basic working principle.
+
+NOTE: If you have both a file template and a method for the layout, Ramaze will
+      use the file template and will not call the method.
+      In future versions this behavior might change to call the method as well.
+
 === Layout directories per controller
 
 Additionally to the '/layout' directory, sub-directories thereof can be
 searched for templates. This lookup is specific to each Controller.
-To control the behaviour you can use the `map_layouts` method, which takes
+To control the behavior you can use the `map_layouts` method, which takes
 multiple arguments.
 
 == Structure
@@ -118,7 +171,7 @@ explicitly tell Ramaze which to use.
 To provide flexibility for large projects (and for use-cases I haven't imagined
 yet), I decided to reuse the view file template lookup already in use for
 layouts.
-This ensures that the behaviour of both is indentical and available through a
+This ensures that the behavior of both is indentical and available through a
 consistent API.
 
 === Inline templates
@@ -188,7 +241,7 @@ Following responses will be served on requests:
 
 == Implementation
 
-Sometimes the Ramaze default behaviour won't be what you need, so knowing how
+Sometimes the Ramaze default behavior won't be what you need, so knowing how
 layouts are implemented can help you building custom actions with layouts
 tailored to your needs.
 
@@ -197,4 +250,3 @@ and how it will be rendered, finally we'll cover some more possibilities.
 
 On every request, the layout will be determined and set in the Action, which
 will clone itself.
-

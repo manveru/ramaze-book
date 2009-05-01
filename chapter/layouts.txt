@@ -104,9 +104,44 @@ include::source/layouts/configuration/global.xmp[tabsize=2]
 
 == Content representations
 
-yada yada
+Layouts can also play a role in content representations, and you can add
+layouts for specific provides.
+As we saw above, we were using files like 'feed/default.rss.xhtml' and
+'feed/default.atom.xhtml', they apply to the `rss` and `atom` provides
+respectively.
+
+Let's show this with another little example so you can learn how to use this
+functionality effectively.
+
+[source,ruby]
+--------------------------------------------------------------------------------
+include::source/layouts/provides/smiley.xmp[tabsize=2]
+--------------------------------------------------------------------------------
+
+So we add two provides named `frown` and `smile`, and there is one default
+provide for `html`.
+To take advantage of this, we can add three layout files in our 'layout'
+directory.
+
+[source,txt]
+--------------------------------------------------------------------------------
+$ cat layout/default.xhtml 
+:| #{@content} |:
+$ cat layout/default.frown.xhtml 
+:( #{@content} ):
+$ cat layout/default.smile.xhtml 
+:) #{@content} (:
+--------------------------------------------------------------------------------
+
+Following responses will be served on requests:
+
+|===============================================================================
+| '/index'       | ':| emoticons ftw! |:'
+| '/index.frown' | ':( emoticons ftw! ):'
+| '/index.smile' | ':) emoticons ftw! (:'
+|===============================================================================
 
 == Implementation
 
 On every request, the layout will be determined and set in the Action, which
-will clone itself
+will clone itself.

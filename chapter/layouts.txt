@@ -43,10 +43,42 @@ class Box < Ramaze::Controller
   end
 
   def default
-    '{ @content }'
+    '{ #{@content} }'
   end
 end
 --------------------------------------------------------------------------------
+
+This will wrap every request to '/index' in curly brackets. Not very useful,
+but it should illustrate the basic working principle.
+
+=== Layout from template
+
+Layouts are usually read from a file template that resides in the '/layout'
+directory.
+Following example will search for a file called '/layout/default.xhtml' and, if
+found, wrap the content of the action inside it.
+
+[source,ruby]
+--------------------------------------------------------------------------------
+class Box < Ramaze::Controller
+  layout :default
+
+  def index
+    'Hello, World!'
+  end
+end
+--------------------------------------------------------------------------------
+
+Additionally to this, we will need the file for the layout template to reside
+in, we'll use an identical layout as further above.
+
+[source,txt]
+--------------------------------------------------------------------------------
+$ cat layout/default.xhtml
+{ #{@content} }
+--------------------------------------------------------------------------------
+
+That's just as easy, but enables you to work easier on larger layouts.
 
 == Structure
 

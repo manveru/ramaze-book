@@ -188,5 +188,13 @@ Following responses will be served on requests:
 
 == Implementation
 
+Sometimes the Ramaze default behaviour won't be what you need, so knowing how
+layouts are implemented can help you building custom actions with layouts
+tailored to your needs.
+
+I will start with an arbitrary existing Action, then explain how it was created
+and how it will be rendered, finally we'll cover some more possibilities.
+
 On every request, the layout will be determined and set in the Action, which
 will clone itself.
+

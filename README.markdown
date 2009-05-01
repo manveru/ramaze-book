@@ -61,12 +61,12 @@ between reading a book and trying stuff in IRB is not comfortable.
 ## Todo
 
 There is still a lot of work to be done, the subject is in dire need of proper
-documentation and there is a lot of topics to be covered.
+documentation and there are a lot of topics to be covered.
 Since I'm a native German speaker and learned English mostly over the interwebs,
 my English skills are somewhat mediocre as well, so I appreciate any
 improvements, be it grammar, spelling, or wording.
 
-Since this is a technical topic, I try to use US-English, please keep this in
+Since this is a technical topic, I try to use US English, please keep this in
 mind. If you find writing the Queen's English more comfortable I won't be
 opposed to it, but we will have to edit every couple of months.
 
@@ -93,7 +93,7 @@ I will concentrate on core topics for the near future:
 
 ## Building
 
-This book is written in AsciiDoc format, this allows for a number of target
+This book is written in AsciiDoc format.  This allows for a number of target
 formats.
 The Rakefile contains instructions to build following formats:
 

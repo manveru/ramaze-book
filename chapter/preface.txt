@@ -1,7 +1,7 @@
 = Preface
 
 Ramaze is a simple but powerful web application development framework. This
-book is an in-depth walk-through of Ramaze's features and behaviour.
+book is an in-depth walk-through of Ramaze's features and behavior.
 
 Ramaze is a modular web application framework.
 It provides you with just about everything you need to make your daily web
@@ -9,15 +9,15 @@ development simple and fun.
 Making programming fun is a concept popularized by the Ruby programming
 language.
 
-It is written in Ruby. This book assumes at least basic knowledge about
+Ramaze is written in Ruby. This book assumes at least basic knowledge about
 Ruby.
 If you do not know what Ruby is yet, visit {ruby-lang} and find out; but
-beware, it may change your life, it changed mine for sure.
+beware, it may change your life. It changed mine for sure.
 
-It features a readable open source codebase licensed under the Ruby license
+Ramaze features a readable open source codebase licensed under the Ruby license
 (optionally GPL version 2).
 
-The strengths of Ramaze, as described by its users, are a free style of
+The strength of Ramaze, as described by its users, is a free style of
 development, affording all the benefits of the underlying Ruby programming
 language. It gets out of your way as you do things, helping you along as you
 require it.
@@ -57,7 +57,7 @@ No user-level memory management::
   garbage collector built into the interpreter.
 
 Everything is an object::
-  Ruby is the purely object-oriented language, and was so since its creation.
+  Ruby is a purely object-oriented language, and was so since its creation.
   Even such basic data as integers are seen as objects.
 
 Class, inheritance, and methods::
@@ -72,7 +72,7 @@ Singleton methods::
   methods, if you want to.
 
 Mix-in by modules::
-  Ruby intentionally does not have the multiple inheritance as it is a source of
+  Ruby intentionally does not have multiple inheritance as it is a source of
   confusion.
   Instead, Ruby has the ability to share implementations across the inheritance
   tree. This is often called 'Mix-in'.
@@ -83,7 +83,7 @@ Iterators::
 Closures::
   In Ruby, you can objectify the procedure.
 
-Text processing and regular expression::
+Text processing and regular expressions::
   Ruby has a bunch of text processing features like in Perl.
 
 Bignums::
@@ -101,18 +101,18 @@ Dynamic loading::
 
 == Short history of web development
 
-Well until 2005 Ruby didn't get much mainstream use, that changed when Ruby on
-Rails started attracting web-developers that were increasingly annoyed by Java
+Well until 2005 Ruby didn't get much mainstream use. That changed when Ruby on
+Rails started attracting web developers that were increasingly annoyed by Java
 and PHP.
 
 Although Ruby on Rails has achieved widespread popularity even outside of the
-realms of web-programming, it was by no means the first web framework to be
+realms of web programming, it was by no means the first web framework to be
 written in Ruby.
 
 One of the surviving frameworks from the time before Rails is IOWA, which is
 focused on discrete reusable components rather than MVC.
-Although it didn't see much changes since 2007, it's still one of the most solid
-implementations of a web framework and used in various contexts.
+Although it hasn't seen many changes since 2007, it's still one of the most
+solid implementations of a web framework and used in various contexts.
 
 Another one is Nitro, which was first released in 2004. Nitro had a large impact
 on the Ramaze project. It was the first web framework that tried to enable
@@ -136,7 +136,8 @@ asciidoc source can be found in {book-ramaze-source}.
 
 Naturally, since Ramaze is an open source web framework, most help can be found
 on the web.
-Some links to provide more information on all the topics covered in this book.
+Here are some links which provide more information on all the topics covered in
+this book.
 
 * The offical homepage for the ramaze project: {www-ramaze}.
 * {group-ramaze} where most developers using Ramaze are subscribed and share
@@ -144,7 +145,7 @@ Some links to provide more information on all the topics covered in this book.
 * {github-ramaze}  provides immediate access to the source and commit-history
   of the project.
 * A wiki to exchange information and sketch out documentation can be found at
-  {wiki-ramaze} 
+  {wiki-ramaze}
 * The automatically generated API documentation for the latest release is at
   {doc-ramaze}
 * The place to report all issues, proposals, and bugs is {bugs-ramaze}
@@ -171,9 +172,9 @@ He spent an extensive amount of time studying and using Ruby and Nitro until the
 Nitro project was discontinued.
 He then applied his knowledge of Ruby and started the Ramaze project in the
 spirit of Nitro, which tried to be a tool that may be utilized in any way a
-developer wishes, not commanding the one true way.
+developer wishes, not commanding any one true way.
 
-Michael is living in Tokyo, Japan since 2006, but is of Austrian nationality,
-speaking German, English and currently learning Japanese.
+Michael has been living in Tokyo, Japan since 2006, but is of Austrian
+nationality, speaking German, English and currently learning Japanese.
 
 You can reach him by mailing to <m.fellinger@gmail.com>

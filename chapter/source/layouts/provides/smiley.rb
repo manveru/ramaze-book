@@ -1,5 +1,3 @@
-require 'ramaze'
-
 class Smiley < Ramaze::Controller
   map '/'
   layout :default
@@ -10,5 +8,3 @@ class Smiley < Ramaze::Controller
     'emotions ftw!'
   end
 end
-
-Ramaze.start(:root => './')

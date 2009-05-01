@@ -131,8 +131,10 @@ directory.
 --------------------------------------------------------------------------------
 $ cat layout/default.xhtml 
 :| #{@content} |:
+
 $ cat layout/default.frown.xhtml 
 :( #{@content} ):
+
 $ cat layout/default.smile.xhtml 
 :) #{@content} (:
 --------------------------------------------------------------------------------

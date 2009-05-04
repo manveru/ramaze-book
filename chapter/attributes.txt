@@ -1,5 +1,6 @@
 // misc links
 :ruby-lang: http://ruby-lang.org[the official Ruby programming language website]
+:pickaxe: http://www.rubycentral.com/book/[Programming Ruby]
 
 // chapters
 :ch-developing: <<X400,developing Ramaze>>

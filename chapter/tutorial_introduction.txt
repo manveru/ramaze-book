@@ -8,12 +8,12 @@ feel for it.
 In order to use Ramaze, you will have to install it on your system.
 This is usually fairly straight-forward.
 
-But before we install Ramaze, we need to install Ruby.
+But before we install Ramaze, we need to ensure your system has Ruby,
+since Ramaze is written in the Ruby programming language.  Ruby doesn't
+ship by default with most systems, so you will likely have to install it
+first.
 
 === Installing Ruby
-
-Since Ramaze is written in the Ruby programming language, which doesn't ship by
-default with most systems, you will have to install it first.
 
 For this book we assume an installation of Ruby 1.9.x, which ships with
 RubyGems, the package manager for ruby libraries and applications.

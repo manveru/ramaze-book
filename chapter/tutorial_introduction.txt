@@ -8,7 +8,7 @@ feel for it.
 In order to use Ramaze, you will have to install it on your system.
 This is usually fairly straight-forward.
 
-First of all we need to install Ruby, then Ramaze.
+But before we install Ramaze, we need to install Ruby.
 
 === Installing Ruby
 

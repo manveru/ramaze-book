@@ -19,7 +19,7 @@ For this book we assume an installation of Ruby 1.9.x, which ships with
 RubyGems, the package manager for ruby libraries and applications.
 
 The reasoning behind using 1.9.x is that this book might take some time to get
-finished, by then I hope that all major development in Ruby will happen on the
+finished, and by then I hope that all major development in Ruby will happen on the
 basis of the 1.9 spec.
 
 You can obtain Ruby from {ruby-lang}, they have instructions for installation

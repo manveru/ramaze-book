@@ -3,7 +3,7 @@
 
 The easiest way to get to know Ramaze is by example, so we will start out with
 that, covering installation and a few simple applications so you can get a
-feeling for it.
+feel for it.
 
 In order to use Ramaze, you will have to install it on your system.
 This is usually fairly straight-forward.

@@ -22,7 +22,7 @@ The reasoning behind using 1.9.x is that this book might take some time to get
 finished, and by then I hope that all major development in Ruby will happen on the
 basis of the 1.9 spec.
 
-You can obtain Ruby from {ruby-lang}; they have instructions for installation
+You can obtain Ruby from {ruby-lang}; there are instructions for installation
 on most systems.
 Linux users can simply use their package manager to install Ruby.
 

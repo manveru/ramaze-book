@@ -8,23 +8,38 @@ feel for it.
 In order to use Ramaze, you will have to install it on your system.
 This is usually fairly straight-forward.
 
-But before we install Ramaze, we need to ensure your system has Ruby,
-since Ramaze is written in the Ruby programming language.  Ruby doesn't
-ship by default with most systems, so you will likely have to install it
-first.
+=== Checking for and Installing Ruby
 
-=== Installing Ruby
+Before we install Ramaze, we need to ensure your system has Ruby, since Ramaze
+is written in the Ruby programming language.  Ruby doesn't ship by default with
+most systems, so you will likely have to install it first.
+
+Check your system for Ruby with this command:
+
+[source,sh]
+--------------------------------------------------------------------------------
+$ ruby --version
+--------------------------------------------------------------------------------
+
+If you see output similar to this, you are good to go:
+[source,sh]
+--------------------------------------------------------------------------------
+ruby 1.9.1p0 (2009-01-30 revision 21907) [i686-linux]
+--------------------------------------------------------------------------------
+
+If you see a "command not found" error, or you see a version less than 1.9,
+you'll need to install or upgrade Ruby.
 
 For this book we assume an installation of Ruby 1.9.x, which ships with
-RubyGems, the package manager for ruby libraries and applications.
+RubyGems, the package manager for Ruby libraries and applications.
 
 The reasoning behind using 1.9.x is that this book might take some time to get
 finished, and by then I hope that all major development in Ruby will happen on the
 basis of the 1.9 spec.
 
-You can obtain Ruby from {ruby-lang}; there are instructions for installation
-on most systems.
-Linux users can simply use their package manager to install Ruby.
+Linux users can generally use their package manager to install Ruby. Otherwise,
+you can obtain Ruby from {ruby-lang}, where you will find instructions for
+installation on most systems.
 
 
 === Installing Ramaze

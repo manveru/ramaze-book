@@ -4,7 +4,7 @@
 The term session is used for data associated with a specific client (browser).
 The most common way is to send a cookie to the browser, which sends it back on
 every request.
-This enables us to keep client-state between requests.
+This enables us to keep client state between requests.
 
 Sessions are an essential part of most dynamic web applications, so Ramaze
 tries to make it as comfortable as possible to use them to their full
@@ -12,9 +12,9 @@ potential.
 
 In this chapter we will see how and when sessions are initialized, and how you
 can use them in your Controllers, Views, and Models.
-We will also go into some of the lower level parts in Rack, which will show you
+We will also go into some of the lower-level parts in Rack, which will show you
 how you can manage cookies yourself, which might make sense in very
-light-weight applications.
+lightweight applications.
 
 As usual, we start with a small example before we dive deeper.
 
@@ -212,11 +212,11 @@ key/value pairs that we showed above.
 include::source/session/set_cookie.rb[tabsize=2]
 --------------------------------------------------------------------------------
 
-NOTE: The only required argument is `:value`, all other are optional and the
+NOTE: The only required argument is `:value`, all the others are optional and the
       cookie is valid without them.
 
 Usually you won't need to care about cookies at all, and excessive usage of
-them is considered bad practise.
+them is considered bad practice.
 
 === Limitations
 
@@ -243,7 +243,7 @@ Now that we have a better understanding about cookies, let's investigate the
 way Ramaze utilizes cookies for the session, in particular how to change the
 default behaviour through configuration.
 
-The configuration for sessions are kept at `Ramaze::Session.options`, which is
+The configuration for sessions is kept at `Ramaze::Session.options`, which is
 also reachable through `Ramaze.options.session`.
 
 The defaults are:
@@ -272,7 +272,7 @@ simply returns nil and won't initialize a session cookie either.
 
 The most important option here might be the time of expiration.
 
-By default Ramaze uses the highest allowed value for a Time instance on 32bit systems, which is sometime in the year 2038.
+By default Ramaze uses the highest allowed value for a Time instance on 32bit systems, which is some time in the year 2038.
 
 The expiration time also decides the time-to-live of the server-side value of
 the session, which is expired once the cookie is set to expire.
@@ -293,7 +293,7 @@ By default, sessions are stored in a conventional Hash that is kept in memory,
 this is the fastest way and allows for arbitrary data to be kept in the session
 value, such as instances of Proc or objects with a custom meta-classes.
 
-However, this flexibility has major draw-backs when it comes to scaling your
+However, this flexibility has major drawbacks when it comes to scaling your
 application, so you should avoid storing anything that cannot be fully
 serialized from the get-go to avoid problems down the road.
 
@@ -318,13 +318,13 @@ Ramaze.options.cache.session = Ramaze::Cache::Marshal
 # Using YAML serialization to the file-system
 Ramaze.options.cache.session = Ramaze::Cache::YAML
 
-# Using YAML serialization to the file-system
+# Using DRb serialization to a shared object
 Ramaze.options.cache.session = Ramaze::Cache::DRb
 
-# Using YAML serialization to the file-system
+# Using Memcached serialization to a cloud of shared servers
 Ramaze.options.cache.session = Ramaze::Cache::Memcached
 
-# Using YAML serialization to the file-system
+# Using Sequel serialization to the file-system
 Ramaze.options.cache.session = Ramaze::Cache::Sequel
 --------------------------------------------------------------------------------
 
@@ -338,9 +338,7 @@ The session flash has nothing to do with Adobe Flash (R).
 It is best described as a special-purpose Hash that expires parts of it's
 contents after every request/response cycle.
 
-The purpose of this functionality might be best described explained with the
-way you display results of some action a user invokes in the action coming
-after it.
+The purpose of this functionality might be best explained as a way to display the results of some action a user invokes in the action coming after it.
 
 So let's say an user tries to access a restricted area, and you simply want to
 redirect the user elsewhere, displaying a message that the access was denied.
@@ -411,7 +409,7 @@ It might not be shorter in this case, but over a larger application this
 simplicity comes in handy.
 
 Ramaze also ships with a `Helper::Flash#flashbox`, which automates the display
-of flash messages like they are used in this example.
+of flash messages as  they are used in this example.
 
 The output of flashbox looks like this:
 

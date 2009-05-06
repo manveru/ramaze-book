@@ -6,7 +6,7 @@ that, covering installation and a few simple applications so you can get a
 feel for it.
 
 In order to use Ramaze, you will have to install it on your system.
-This is usually fairly straight-forward.
+This is usually fairly straightforward.
 
 === Checking for and Installing Ruby
 
@@ -74,7 +74,7 @@ include::source/tutorial_introduction/hello_world.rb[tabsize=2]
 
 First we require RubyGems, the package managing wrapper that allows us to
 require the ramaze library and framework. Next we define a Controller and
-method that will show up when accessing 'http://localhost:7000/', `7000` being
+method that will greet us when accessing 'http://localhost:7000/', `7000` being
 the default port of Ramaze.
 
 To start this application we can now simply:
@@ -157,7 +157,7 @@ will show you similar information.
 To create a new application with a basic set of files and directories that get
 you started in no time, we just have to issue a single command.
 
-`ramaze create` creates a new prototype Ramaze application in a directory named
+`ramaze create PROJECT` creates a new prototype Ramaze application in a directory named
 'PROJECT' in the current directory.
 `ramaze create foo` would make './foo' containing an application prototype.
 Rack options are meaningless here.
@@ -172,13 +172,14 @@ library to the argument given. So you will end up with a new directory called
 'blog' which contains a bunch of files.
 
 The contents of this directory are:
+
 [source,txt]
 --------------------------------------------------------------------------------
 include::source/tutorial_introduction/ramaze_create_contents.txt[tabsize=2]
 --------------------------------------------------------------------------------
 
 We will take a look at these files and their purpose soon, but first we'll
-cover other commands of the 'bin/ramaze'.
+cover other commands of 'bin/ramaze'.
 
 === Start
 
@@ -191,7 +192,7 @@ $ ramaze start
 --------------------------------------------------------------------------------
 
 To start your application in the background you should daemonize it with the
-`-D` arugment. This will put the PID of the instance into the pidfile.
+`-D` argument. This will put the PID of the instance into the pidfile.
 
 [source,sh]
 --------------------------------------------------------------------------------

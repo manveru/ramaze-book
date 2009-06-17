@@ -164,12 +164,12 @@ end || #{v}
 
   def final_decoration(code, output)
     warnings = {}
-    output.join.grep(WARNING_RE).map do |x|
+    output.join.lines.grep(WARNING_RE).map do |x|
       md = WARNING_RE.match(x)
       warnings[md[1].to_i] = md[2]
     end
     idx = 0
-    ret = code.map do |line|
+    ret = code.lines.map do |line|
       w = warnings[idx+=1]
       if @warnings
         w ? (line.chomp + " # !> #{w}") : line
@@ -425,8 +425,8 @@ module ProcessParticularLine
   def aref_or_aset?(right_stripped, last_char)
     if last_char == ?[
       case right_stripped
-      when /\]\s*=/: "[]="
-      when /\]/:     "[]"
+      when /\]\s*=/; "[]="
+      when /\]/;     "[]"
       end
     end
   end
@@ -941,7 +941,7 @@ if __FILE__ == $0
                   :use_parentheses => !options.poetry)
 
   case options.mode
-  when :marker     : puts xmp.add_markers(targetcode, options.min_codeline_size)
+  when :marker     ; puts xmp.add_markers(targetcode, options.min_codeline_size)
   when :annotation, :unittest, :rspec
     puts xmp.annotate(targetcode)
   when :completion, :completion_emacs, :completion_vim

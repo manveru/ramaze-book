@@ -18,12 +18,12 @@
 :github-ramaze: http://github.com/manveru/ramaze[Ramaze on Github]
 
 // Links to various formats of the book
-:book-ramaze-html:   http://book.ramaze.net/html[HTML]
+:book-ramaze-html:   http://book.ramaze.net/[HTML]
 :book-ramaze-pdf:    http://book.ramaze.net/pdf/journey_to_ramaze.pdf[PDF]
 :book-ramaze-source: http://github.com/manveru/ramaze-book/[ramaze-book on Github]
 
 // license links
-:cc-license: http://foo.bar[Creative Commons Attribution-ShareAlike]
+:cc-license: http://creativecommons.org/licenses/by-sa/2.1/jp/[Creative Commons Attribution-Share Alike 2.1 Japan License]
 
 // rack links
 :github-rack-contrib: http://github.com/rack/rack-contrib[rack-contrib]

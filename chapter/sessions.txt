@@ -152,7 +152,7 @@ least not enabled by default.
 At this time, advertising companies were already using third-party cookies.
 The recommendation about third-party cookies of RFC 2109 was not followed by
 Netscape and Internet Explorer.
-RFC 2019 was followed by RFC 2965 in Octover 2000.
+RFC 2019 was followed by RFC 2965 in October 2000.
 ____________________________________________________________________
 
 === Structure

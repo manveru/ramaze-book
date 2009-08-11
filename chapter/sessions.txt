@@ -182,7 +182,7 @@ usually contains following elements:
 | domain   | Domain that set the cookie
 | path     | Relative path below which the cookie is used
 | expires  | Point in time when the cookie expires. If no time is given then
-|          | the cookie will be deleted once the browser closes.
+             the cookie will be deleted once the browser closes.
 | secure   | *TODO*
 | HttpOnly | *TODO*
 |===============================================================================

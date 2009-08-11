@@ -52,7 +52,7 @@ view
 --------------------------------------------------------------------------------
 
 This gives us information about the internal structure of the application
-already, there may be controllers mapped to '/', 'financial_report', '/news',
+already, there may be controllers mapped to '/', '/financial_report', '/news',
 and '/portfolio', and all of these files represent a possible Action.
 
 === The index template

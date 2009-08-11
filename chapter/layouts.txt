@@ -171,7 +171,7 @@ explicitly tell Ramaze which to use.
 To provide flexibility for large projects (and for use-cases I haven't imagined
 yet), I decided to reuse the view file template lookup already in use for
 layouts.
-This ensures that the behavior of both is indentical and available through a
+This ensures that the behavior of both is identical and available through a
 consistent API.
 
 === Inline templates

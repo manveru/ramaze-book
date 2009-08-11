@@ -172,7 +172,7 @@ need.
 
 If you want to keep a couple of middlewares handy for fast switching you can
 give them names, that's just as easy, I'll skip the actual mode of the block,
-it's indentical to the above example using `Ramaze::start`:
+it's identical to the above example using `Ramaze::start`:
 
 [source,ruby]
 --------------------------------------------------------------------------------

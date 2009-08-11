@@ -181,9 +181,8 @@ The helpers available by default are:
 We will cover each of them in more detail below.
 
 At the time of writing, there are also around 30 non-default helpers in the
-Ramaze source. I'm not sure yet whether we will be able to give you a full
-coverage of all of them, but I will try to write about some of the most popular
-ones.
+Ramaze source.
+Let us take a look at the most popular ones.
 
 Some of the helpers in Ramaze add functionality to the default helpers of
 Innate, I will simply cover the combined behaviour in these cases, as you are

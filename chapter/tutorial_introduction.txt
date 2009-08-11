@@ -111,16 +111,34 @@ have to use another port to run your application or shutdown the application
 occupying the port.
 
 If you don't know what is running on this port, you can find out by using the
-'lsof' command (on Linux).
+'netstat' command.
+
+The invocation of 'netstat' differs on Windows an Linux, we'll show Linux first.
 
 [source,txt]
 --------------------------------------------------------------------------------
-delta ~/c/ramaze-book;master % lsof -i -P
-COMMAND   PID    USER   FD   TYPE DEVICE SIZE/OFF NODE NAME
-ruby19  17806 manveru    3u  IPv4 462149      0t0  TCP *:7000 (LISTEN)
+delta ~ % netstat -lntp
+Active Internet connections (only servers)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name
+tcp        0      0 0.0.0.0:7000            0.0.0.0:*               LISTEN      11910/ruby
 --------------------------------------------------------------------------------
 
-With this information you know the Process ID, and can, for example `kill 17806`.
+With this information you know the Process ID, and can, for example `kill
+11910` (send TERM signal to the process) or `pkill ruby` (send TERM signal to
+all ruby processes) on Linux.
+
+On Windows, 'netstat' has to be called like this:
+
+[source,txt]
+--------------------------------------------------------------------------------
+C:\> netstat -a -b -o -p TCP
+Active Connections
+ Proto  Local Address          Foreign Address        State           PID
+ TCP    localhost:7000         localhost:0            LISTENING       17806 [ruby.exe]
+--------------------------------------------------------------------------------
+
+Now you can use `taskkill /PID 17806` or `taskkill /IM <process_name>` to get rid of this process.
+
 
 == The ramaze command
 
@@ -196,6 +214,8 @@ $ ramaze start
 
 To start your application in the background you should daemonize it with the
 `-D` argument. This will put the PID of the instance into the pidfile.
+Please note that this is not available on Windows, because of limitations of
+the platform.
 
 [source,sh]
 --------------------------------------------------------------------------------

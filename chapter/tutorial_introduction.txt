@@ -27,7 +27,7 @@ If you see output similar to this, you are good to go:
 ruby 1.9.1p0 (2009-01-30 revision 21907) [i686-linux]
 --------------------------------------------------------------------------------
 
-If you see a "command not found" error, or you see a version less than 1.9,
+If you see a "command not found" error, or you see a version less than 1.8.5,
 you'll need to install or upgrade Ruby.
 
 For this book we assume an installation of Ruby 1.9.x, which ships with

@@ -26,6 +26,6 @@
 :cc-license: http://creativecommons.org/licenses/by-sa/2.1/jp/[Creative Commons Attribution-Share Alike 2.1 Japan License]
 
 // rack links
-:github-rack-contrib: http://github.com/rack/rack-contrib[rack-contrib]
+:github-rack-contrib: http://github.com/rack/rack-contrib[rack-contrib on Github]
 :github-rack: http://github.com/rack/rack[Rack on Github]
-:www-rack: http://rack.rubyforge.orgrack-contrib[rack-contrib on Github]
+:www-rack: http://rack.rubyforge.org[rack on Rubyforge]

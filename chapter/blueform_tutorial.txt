@@ -1,0 +1,483 @@
+== BlueForm Tutorial
+
+BlueForm is a helper whose purpose is to simplify the creation of HTML pages. The HTML produced by BlueForm may be used directly inline in a controller method, or it may be used in a `view` (an XHTML file that is found in a `view` directory). It may be small or large, and may be combined with other HTML to form the final view.
+
+Using BlueForm inside a controller method can avoid the need for a view file. This arrangement is very convenient when creating pages that request a small amount of input, such as a login page, a confirmation page, or any small data request. You don't need to create a view file for these, and that saves time and reduces complexity.
+
+If error messages have been added to the form object, BlueForm will generate code to display them. This is particularly useful when form data is being validated, either through code of your own, or through a model. This feature makes writing an input form with validation very simple, since BlueForm takes care of the complex procedure of creating the HTML when error messages are to be displayed.
+
+BlueForm produces the HTML "on the fly," so it has more overhead than a static view of HTML, but it produces more compact code. For example, in static pages, you would need code to check for, and handle, error messages for any field that might have an error message present in the form object. BlueForm only creates HTML code to display an error message when an error message is present in the object.
+
+BlueForm produces HTML for button, checkbox, color, email, file, hidden, image, number, password, radio, range, reset, select, submit, text, textarea, and URL tags directly, and by using another helper, Gestalt, can produce virtually any other tag, including tags you define, such as <red>...</red>. Some tags defined in HTML5 were not included because they have not yet been widely adopted. Those that were implemented in Firefox or Google Chrome were included at the time of this release of BlueForm.
+
+BlueForm supports three "arrangements," which are "paragraph", "table," or "none." The default is "paragraph" which tells BlueForm to surround each label and input field with paragraph tags (`<p>...</p>`). The table arrangement surrounds each label and input field with `<tr><th><label>...</label></th></td><input ... /></td></tr>` and surrounds all of those with a `<table>...</table>` to get a neater layout. The "none" arrangement omits the paragraph or table code; in the case of "none", you can supply your own arrangement tags.
+
+If a form object is passed to BlueForm, any elements with values will be used to fill in the field values in the form. The object can be a database result object, an OpenStruct object, or a simple class object, as long as it's attributes can be accessed outside of the object using attr_readers (or attr_accessors, if you want BlueForm to also update the fields in the object). This makes loading a form with data simple because you only have to be sure the data is in the form object. If you read a record from the database, for example, the data is in the form object, and BlueForm will use it. If the data is coming from a previous page, two lines of code will recover the data, and BlueForm will use it. Such is the case when building scaffolding code, for example.
+
+BlueForm can produce _compact_ HTML (for efficiency), or _formatted_ HTML (which is more human readable at an additional performance cost). Human readable HTML is usually used only for debugging, but you can choose the one you feel best suits your needs.
+
+There are two ways to call BlueForm: (1) use the `tag` method to generate HTML for any of the types mentioned above; or (2) use the tag-named methods. The methods in alternative (2) are compatible with the first release of BlueForm. For example, consider a call to generate some radio controls (only the BlueForm calls are shown here):
+
+.The _tag_ method
+[source,ruby]
+----
+out = form_for(user, :method=>:post, :action=>:login) do |f|
+  f.tag(:text, :username, {}, {:label=>"Username: "})
+  f.tag(:password, :password, {}, {:label=>"Password: "})
+end.to_html
+----
+
+versus:
+
+.The <tag-named> methods
+[source,ruby]
+----
+out = form_for(user, :method=>:post, :action=>:login) do |f|
+  f.text("Username: ", :username)
+  f.password("Password: ", :password)
+end.to_html
+----
+
+Both of the above methods generate the following HTML (because the `text` and `password` methods are translated into the tag method):
+
+[source,html]
+----
+<form method="post" action="login">
+  <p>
+    <label for="form_username">Username: </label>
+    <input id="form_username" name="username" value="gladys" type="text" />
+  </p>
+  <p>
+    <label for="form_password">Password: </label>
+    <input id="form_password" name="password" value="abc" type="password" />
+  </p>
+</form>
+----
+
+Notice that at the end of each call is `end.to_html`. The `to_html` method produces more human-readable output. To produce more efficient compact code, use `to_s`. If you use the call inside a `#{...}` syntax in a view, you don't need the `to_s` because it's implicit in the `#{...}` syntax.
+
+
+=== Create a Simple BlueForm
+
+Create a demo project (see *TODO!*) using the Ramaze executable, then edit `controller/main.rb` to contain:
+
+[source,ruby]
+----
+class MainController < Controller
+
+  map '/'
+
+  helper :blue_form, :xhtml, :paginate
+
+  def index
+    form_for(nil, :method=>:post, :action=>"login") do |f|
+      f.text("Username: ", :username)
+      f.password("Password: ", :password)
+      f.submit("Login")
+    end # form_for
+  end
+
+  def login
+    "params=>#{session.request.params.inspect}"
+  end
+end
+----
+
+Edit `layout/default.xhtml` and replace with:
+
+[source,html]
+----
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>#{@title}</title>
+    #{css('text')}
+  </head>
+  <body>
+    #{@content}
+  </body>
+</html>
+----
+
+At the command line, start the demo:
+
+[source,bash]
+----
+$ rake ramaze:start
+----
+
+In a browser, enter `http://localhost:7000/` and you should get:
+
+image::chapter/images/helpers/blueform/index.svg["Simple Index Screen"]
+
+Enter "mike" and "abc", and click `Login`, and you should get:
+
+image::chapter/images/helpers/blueform/login.svg["Simple Login Screen."]
+
+You have created your first BlueForm. You will use this starter code to test the remaining examples in BlueForm.
+
+=== Using BlueForm Without a Form Object
+
+You can use BlueForm without any object by simply passing `nil` as the first parameter to `form_for` (as shown in the examples above). Without an object, you can specify the values to be filled in in your form by using the `:value=&gt;"..."` parameter like this:
+
+[source,ruby]
+----
+form_for(nil, :method=>:post, :action=>"login") do |f|
+  f.text("Username: ", :username, :value=>"guest")
+  f.password("Password: ", :password, :value=>"guest-password")
+  f.submit("Login")
+end.to_s # form_for
+----
+
+=== HTML Output
+
+The HTML generated by BlueForm in the first example looks like this:
+
+[source,html]
+----
+<form action="login"><p><label for="form_username">Username: </label><input id="form_username" name="username" type="text" /></p><p><label for="form_password">Password: </label><input id="form_password" name="password" type="password" /></p><p><input value="Login" type="submit" /></p></form>
+----
+
+By adding `.to_html` in place of the `to_s`, BlueForm will
+produce more readable output, like this:
+
+[source,html]
+----
+<form :method="post" action="login">
+ <p>
+  <label for="form_username">
+   Username: 
+  </label>
+  <input id="form_username" name="username" type="text" />
+ </p>
+ <p>
+  <label for="form_password">
+   Password: 
+  </label>
+  <input id="form_password" name="password" type="password" />
+ </p>
+ <p>
+  <input value="Login" type="submit" />
+ </p>
+</form>
+----
+
+but this more human readable format comes at a performance cost, so is _not_ recommended for production use.
+
+=== Arrangements
+
+Did you notice that the label and input tags are wrapped in `<p>...</p>`? This is the default arrangement, but BlueForm can also produce the HTML in a table format by adding an `:arrangement` parameter to the `form_for` call thusly:
+
+[source,ruby]
+----
+form_for(nil, :method=>:post, :action=>"login", :arrangement=>:table) do |f|
+  f.text("Username: ", :username)
+  f.password("Password: ", :password)
+  f.submit("Login")
+end.to_html # form_for
+----
+
+in which case the HTML will look like:
+
+[source,html]
+----
+<form method="post" action="login">
+ <table>
+  <tr>
+   <th>
+    <label for="form_username">
+     Username: 
+    </label>
+   </th>
+   <td>
+    <input id="form_username" name="username" type="text" />
+   </td>
+  </tr>
+  <tr>
+   <th>
+    <label for="form_password">
+     Password: 
+    </label>
+   </th>
+   <td>
+    <input id="form_password" name="password" type="password" />
+   </td>
+  </tr>
+  <tr>
+   <th>
+    <input value="Login" type="submit" />
+   </th>
+  </tr>
+ </table>
+</form>
+----
+
+BlueForm will omit the wrapping with the `:arrangement=&gt;:none` parameter. The `:arrangement=&gt;:paragraph` setting is the default. If no arrangement is specified, or if the arrangement specified is not one of the above, the arrangement value is silently ignored, and the default is used.
+
+=== Adding Custom Elements Inside a Form
+
+BlueForm can generate HTML tags other than input, checkbox, and select by using Gestalt calls, `f.g.tag-name`. For example, to wrap the code in a `div`, use:
+
+[source,ruby]
+----
+form_for(nil, :method=>:post, :action=>"login") do |f|
+  f.g.div(:class=>"control-group") do
+    f.text("Username: ", :username)
+    f.password("Password: ", :password)
+  end
+  f.submit("Login")
+end.to_s # form_for
+----
+
+**Warning:** If this is used with `:arrangement=&gt;:table`, the browser will shift the `div` code _out of the table_, and you will be unlikely to get what you intended. To get the desired result, you'll have to use a view, and include the BlueForm inside a HTML `<div class="control-group">...</div>`. Combining BlueForm and views will be covered later.
+
+=== Gestalt
+
+Notice that the general form of Gestalt statements is:
+
+[source,ruby]
+----
+f.g.tag
+-or-
+f.g.tag(args)
+-or-
+f.g.tag(args) do
+  <blue-form-statements>
+end
+----
+
+The args are stated as hash values (`:attribute-name=&gt;"value"`), and they are added to the tag that is generated. The <blue-form-statements> are placed between the `<tag>...</tag>` HTML statements, if any. If no block follows the `f.g.tag` call, the tag is simply generated as `<tag ... />`.
+
+[TIP]
+ Ramaze Gestalt will generate any tag you give it, so you can use tags you've defined yourself, also. For example, If you have `<red>` defined as `red { color: red; }` (a tag) in your CSS, you can use:
+
+[source,ruby]
+----
+f.g.red do
+  f.text "Username", :username
+end
+----
+
+but if you have red defined as `.red { color: red; }` (a class), you would
+use it like this:
+
+[source,ruby]
+----
+  f.text "Username", :username, :class=>"red"
+----
+
+=== Using BlueForm with a Form Object
+
+BlueForm can also generate HTML to receive data from an object you provide. This is useful for updating database objects, or for creating multi-step input sequences. The object may be a database object, or any Struct such as an OpenStruct record, or a class object, as long as its fields are readable outside of the object. To achieve this, simply add `attr_reader` or `attr_accessor` statements to the class.
+
+Edit `controller/main.rb` to add:
+
+[source,ruby]
+----
+  def initialize
+    @gender_list = {"Male"=>"M", "Female"=>"F"}
+    @country_list = {"CA"=>"Canada", "US"=>"United States", "MX"=>"Mexico",
+    "BZ"=>"Belize", "GT"=>"Guatemala", "HN"=>"Honduras", "SV"=>"El Salvador",
+    "NI"=>"Nicaragua", "CR"=>"Costa Rica", "PA"=>"Panama", "CO"=>"Colombia",
+    "VE"=>"Venezuela", "EC"=>"Ecuador", "GY"=>"Guyana", "SR"=>"Suriname",
+    "GF"=>"French Guiana", "BR"=>"Brazil", "PE"=>"Peru", "BO"=>"Bolivia",
+    "PY"=>"Paraguay", "CL"=>"Chile", "AR"=>"Argentina", "UY"=>"Uruguay"}
+  end
+
+  ...
+
+  class User < BlueFormModel
+    attr_accessor :username, :password, :gender, :country
+  end
+
+  def index2
+    @user = User.new
+    @user.set_fields(session.request.params, [:username, :password, :gender, :country], :missing=>:skip)
+    form_for(@user, :method=>:post, :action=>:login2) do |f|
+      f.text("Username: ", :username)
+      f.password("Password: ", :password)
+      f.radio("Gender: ", :gender, nil, :values=>@gender_list)
+      f.select("Country: ", :country, :values=>@country_list, :size=>1)
+      f.submit("Login")
+    end # form_for
+  end
+
+  def login2
+    @user = User.new
+    @user.set_fields(session.request.params, [:username, :password, :gender, :country], :missing=>:skip)
+    form_for(@user, :method=>:post, :action=>:index2) do |f|
+      f.g.p {"params=>#{session.request.params.inspect}"}
+      f.hidden(:username)
+      f.hidden(:password)
+      f.hidden(:gender)
+      f.hidden(:country)
+      f.submit("Back")
+    end.to_html # form_for
+  end
+----
+
+In a browser, enter `http://localhost:7000/index2` and you should get:
+
+image::chapter/images/helpers/blueform/index2.svg["Second Index Screen"]
+
+Enter "gladys", "abc", click button "Female", select country "El Salvador", and click `Login`, and you should get:
+
+image::chapter/images/helpers/blueform/login2.svg["Second Login Screen"]
+
+Login2 generates HTML like this, filling in the values from the form object '@user':
+
+[source,html]
+----
+<form method="post" action="index2">
+ <p>
+  params=>{"username"=>"gladys", "password"=>"abc", "gender"=>"F", "country"=>"SV"}
+ </p>
+ <input name="username" type="hidden" value="gladys" />
+ <input name="password" type="hidden" value="abc" />
+ <input name="gender" type="hidden" value="F" />
+ <input name="country" type="hidden" value="SV" />
+ <p>
+  <input value="Back" type="submit" />
+ </p>
+</form>
+----
+
+Click the `Back` button, and you should return to the 'index2' page, but with all the values filled in.
+
+=== BlueForm Model
+
+The BlueFormModel class is a non-database class that contains the method `set_fields` (which matches the same method found in Sequel::Model). It exists in order to make multi-page input forms easier to implement. To use it, just create a class and subclass it to BlueFormModel as was done in the last example.
+
+==== The Method `set_fields`
+
+The `set_fields` method has two purposes:
+1. It makes copying data received in session.response.params easier to copy into the form object; and
+2. It prevents a hacker from injecting data into the form object that you don't want.
+
+For example, let's say you have a user object, and the user object contains a `role` field that can be either "user" or "admin". If you have an input form that updates username and password, theoretically, if a hacker knows about the `role` field, he can inject a `role` field into the form before returning it, and update the `role` field in the user object which will presumably be saved, giving the hacker admin privileges.
+
+When the `set_fields` method is used to copy the data from the session.response.params into the user object, at the same time, it skips the `role` field, preventing the field from being updated, like this:
+
+[source,ruby]
+----
+# Suppose the attacker has injected 'role' into the form
+session.request.params # --> (:username=>"gladys", :password=>"my-password", :role=>"admin"}
+
+# Get the object to receive the user input from the database
+user = User.where(...)
+
+# Copy ONLY the username and password -- role will not be copied
+user.set_fields(session.request.params, [:username, :password], :missing=>:skip)
+
+# Validation
+...
+
+# Save the update
+user.save
+----
+
+The `role` field does not get updated, and the attack fails.
+
+What if an attacker tries to pull up a record that doesn't belong to him? He needs to inject an :id into the request, and that's pretty easy to do in a GET request; and it's not impossible in a PUT request either. Such an attack can be thwarted by not passing :id's through the web, but passing them through a session instead. In that way, an attacker can't inject an :id into either HTTP(S) request.
+
+That is also the reason the primary key of the record, traditionally named `:id`, should never be listed in `set_fields`. Only include fields the action method of the form is allowed to update.
+
+=== Validation
+
+BlueForm will automatically generate HTML to display errors, if a field has any.
+
+Edit `controller/main.rb` to add:
+
+[source,ruby]
+----
+  def initialize
+    @gender_list = {"Male"=>"M", "Female"=>"F"}
+    @country_list = {"CA"=>"Canada", "US"=>"United States", "MX"=>"Mexico",
+    "BZ"=>"Belize", "GT"=>"Guatemala", "HN"=>"Honduras", "SV"=>"El Salvador",
+    "NI"=>"Nicaragua", "CR"=>"Costa Rica", "PA"=>"Panama", "CO"=>"Colombia",
+    "VE"=>"Venezuela", "EC"=>"Ecuador", "GY"=>"Guyana", "SR"=>"Suriname",
+    "GF"=>"French Guiana", "BR"=>"Brazil", "PE"=>"Peru", "BO"=>"Bolivia",
+    "PY"=>"Paraguay", "CL"=>"Chile", "AR"=>"Argentina", "UY"=>"Uruguay"}
+  end
+----
+
+at the top under the `helper` statement, and
+
+[source,ruby]
+----
+  class User < BlueFormModel
+    attr_accessor :username, :password, :gender, :country
+  end
+
+  def index3
+    @user = User.new
+    @user.set_fields(session.request.params, [:username, :password, :gender, :country], :missing=>:skip)
+  end
+
+  def login3
+    @user = User.new
+    @user.set_fields(session.request.params, [:username, :password, :gender, :country], :missing=>:skip)
+    @user.errors[:password] = "The password must be at least 4 characters" if @user.password.length<4
+    render_view(if @user.valid? then :valid3 else :index3 end)
+  end
+----
+
+at the end under `login2`.
+
+Create `view/index3.xhtml` and add:
+
+[source,ruby]
+----
+#{ form_for(@user, :method=>:post, :action=>:login3) do |f|
+     f.text("Username: ", :username)
+     f.password("Password: ", :password)
+     f.radio("Gender: ", :gender, nil, :values=>@gender_list)
+     f.select("Country: ", :country, :values=>@country_list, :size=>1)
+     f.submit("Login")
+   end }
+----
+
+Create `view/valid3.xhtml` and add:
+
+[source,ruby]
+----
+#{ form_for(@user, :method=>:post, :action=>:login3) do |f|
+     f.text("Username: ", :username)
+     f.password("Password: ", :password)
+     f.radio("Gender: ", :gender, nil, :values=>@gender_list)
+     f.select("Country: ", :country, :values=>@country_list, :size=>1)
+     f.submit("Login")
+   end }
+----
+
+Here the BlueForm code has been moved into view files. They're not in a directory in `view` because they belong to `MainController` and as such belong in the root of the `view` directory.
+
+Also, note that the first one is named `index3.xhtml` which corresponds to the method `index3` we just created. When we enter `http://localhost:7000/index3` into the browser, the method `index3` will be executed (the two lines of code above), then when it exits, Ramaze will see that there is a view file with the corresponding name, and execute that.
+
+And note that the second file is named `valid3.xhtml` rather than `login3.xhtml`. This is because the last statement of `login3` executes `render_view` which returns an HTML string. If there was a view with the corresponding name, Ramaze would throw out the string produced by `render_view` and render the view file instead. By using a different name, `valid3.xhtml` instead, `render_view` renders one or the other view, as appropriate.
+
+Notice, too, that the `login3` method has a statement (the third one) which tests for the length of the password, and if it is shorter than 4, puts an error message into the form objects `errors` field (which is a Hash). The `valid?` method tests for the presence of errors in that field.
+
+Try this yourself. In a browser, enter `http://localhost:7000/index3` and you should get:
+
+image::chapter/images/helpers/blueform/index3.svg[""]
+
+Enter data on the page, but leave only 3 password characters, then press `Login` and see what happens. It should look like this:
+
+image::chapter/images/helpers/blueform/login3.svg[""]
+
+You'll note that the `login3` method has been executed, and has redisplayed the `input3` page because of an error.
+
+Add a character to the password, and press `Login` again. This time it will display the params received by `login3`.
+
+image::chapter/images/helpers/blueform/valid3.svg[""]
+
+This, in essence, is the process of verification. If you were using a Sequel object, you would use Sequel to verify the object, but the code would be the essentially the same.
+
+=== Multi-Page Input Sequences
+
+The foregoing is a model of the programming you would use to do multi-page inputs also. You can simply choose the part of the form the user is filling out by using `render_view`. If a method were to loop back on itself, it could choose the proper page to display, depending on the navigation buttons, handling the whole multi page input in one method. Alternatively, each page of the multi-page input could be in a different method. At the end, the form object would be left with all the fields from all the screens. I leave this as an exercise for you, the reader, if you want to do it.
+
+One last note about the XHTML files: you can put HTML before and after the `form_for` call, and even inside the `form_for` call (if you use `f.g.<tag-name>(<args>) {<block> }`) to round out the page; and of course, you can decorate it all with CSS.
+

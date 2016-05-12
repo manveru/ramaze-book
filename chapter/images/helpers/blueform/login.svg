@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<!-- Rendered by CSSBox http://cssbox.sourceforge.net -->
+<svg xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve"
+         width="500" height="100px"
+         viewBox="0 0 500 100"
+         zoomAndPan="disable" >
+<image x="0" y="0" width="500" height="100" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAfQAAABkCAYAAABwx8J9AAACMUlEQVR42u3ZoQ0AIBAEQfrvC4OgJbCUsCQzbi3mQn7sNc9La6211v/1OADA9ww6ABh0ACAx6G4QWmuttRs6AFD4oXsCADDoAEBh0N0gtNZaazd0AKDwQ/cEAGDQAYDCoLtBaK211m7oAEDhh+4JAMCgAwCFQXeD0Fprrd3QAYDCD90TAIBBBwAKg+4GobXWWruhAwCFH7onAACDDgAUBt0NQmuttXZDBwAKP3RPAAAGHQAoDLobhNZaa+2GDgAUfuieAAAMOgBQGHQ3CK211toNHQAo/NA9AQAYdACgMOhuEFprrbUbOgBQ+KF7AgAw6ABAYdDdILTWWms3dACg8EP3BABg0AGAwqC7QWittdZu6ABA4YfuCQDAoAMAhUF3g9Baa63d0AGAwg/dEwCAQQcACoPuBqG11lq7oQMAhR+6JwAAgw4AFAbdDUJrrbV2QwcACj90TwAABh0AKAy6G4TWWmvthg4AFH7ongAADDoAUBh0NwittdbaDR0AKPzQPQEAGHQAoDDobhBaa621GzoAUPihewIAMOgAQGHQ3SC01lprN3QAoPBD9wQAYNABgMKgu0ForbXWbugAQOGH7gkAwKADAIVBd4PQWmut3dABgMIP3RMAgEEHAAqD7gahtdZau6EDAIUfuicAAIMOABQG3Q1Ca621dkMHAAo/dE8AAAYdACgMuhuE1lpr7YYOABR+6J4AAAw6AFAYdDcIrbXW2g0dACj80D0BABh0ACDgAv9yvr9B9kAKAAAAAElFTkSuQmCC" />
+<path style="fill:none;stroke:#444444;stroke-width:5" d="M 8,10 L 492,10" />
+<text x="8" y="27" width="384" height="17" style="font-size:14px;font-weight:normal;font-variant:normal;font-family:SansSerif;fill:#444444;stroke:none">params=&gt;{"username"=&gt;"mike", "password"=&gt;"abc"}</text>
+</svg>

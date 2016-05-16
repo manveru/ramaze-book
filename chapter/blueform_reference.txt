@@ -53,8 +53,8 @@ The `login` method will display the username and password that were entered.
 ----
 
 .A Few Things to Note About This Example
-  - There is a hash, errors in the object. That hash is used to collect the error messages, if any, that come from validation of the input.
-  - To prepare the output of user.inspect, the method escape was required.
+  - There is a hash in the object named `user.errors`. That hash is used to collect the error messages, if any, that come from validation of the input.
+  - To prepare the output of user.inspect, the method escape was required. Otherwise, the special characters produced by inspect may be interpreted as HTML.
   - Without the <pre>...</pre>, all the output would just be jammed together.
   - At the end of the form_for ... end there is a to_s. The to_s converts the HTML output array to a String. You can substitute to_html if you want human readable output, but it’s less efficient, so only use it for debugging.
 

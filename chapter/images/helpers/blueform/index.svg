@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<!-- Rendered by CSSBox http://cssbox.sourceforge.net -->
+<svg xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve"
+         width="400" height="200px"
+         viewBox="0 0 400 200"
+         zoomAndPan="disable" >
+<image x="0" y="0" width="400" height="200" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAZAAAADICAYAAADGFbfiAAAECklEQVR42u3YoRGAQBAEQfLPC4MgJbBIasSqbjf2zdb9cV/n86W11lr/6eMBgMCAAGBAABgOiD89rbXWpV0gALQLxBMAYEAA2A2IPz2ttdalXSAAtAvEEwBgQADYDYg/Pa211qVdIAC0C8QTAGBAANgNiD89rbXWpV0gALQLxBMAYEAA2A2IPz2ttdalXSAAtAvEEwBgQADYDYg/Pa211qVdIAC0C8QTAGBAANgNiD89rbXWpV0gALQLxBMAYEAA2A2IPz2ttdalXSAAtAvEEwBgQADYDYg/Pa211qVdIAC0C8QTAGBAANgNiD89rbXWpV0gALQLxBMAYEAA2A2IPz2ttdalXSAAtAvEEwBgQADYDYg/Pa211qVdIAC0C8QTAGBAANgNiD89rbXWpV0gALQLxBMAYEAA2A2IPz2ttdalXSAAtAvEEwBgQADYDYg/Pa211qVdIAC0C8QTAGBAANgNiD89rbXWpV0gALQLxBMAYEAA2A2IPz2ttdalXSAAtAvEEwBgQADYDYg/Pa211qVdIAC0C8QTAGBAANgNiD89rbXWpV0gALQLxBMAYEAA2A2IPz2ttdalXSAAtAvEEwBgQADYDYg/Pa211qVdIAC0C8QTAGBAANgNiD89rbXWpV0gALQLxBMAYEAA2A2IPz2ttdalXSAAtAvEEwBgQADYDYg/Pa211qVdIAC0C8QTAGBAANgNiD89rbXWpV0gALQLxBMAYEAA2A2IPz2ttdalXSAAtAvEEwBgQADYDYg/Pa211qVdIAC0C8QTAGBAANgNiD89rbXWpV0gALQLxBMAYEAA2A2IPz2ttdalXSAAtAvEEwBgQADYDYg/Pa211qVdIAC0C8QTAGBAANgNiD89rbXWpV0gALQLxBMAYEAA2A2IPz2ttdalXSAAtAvEEwBgQADYDYg/Pa211qVdIAC0C8QTAGBAANgNiD89rbXWpV0gALQLxBMAYEAA2A2IPz2ttdalXSAAtAvEEwBgQADYDYg/Pa211qVdIAC0C8QTAGBAANgNiD89rbXWpV0gALQLxBMAYEAA2A2IPz2ttdalXSAAtAvEEwBgQADYDYg/Pa211qVdIAC0C8QTAGBAANgNiD89rbXWpV0gALQLxBMAYEAA2A2IPz2ttdalXSAAtAvEEwBgQADYDYg/Pa211qVdIAC0C8QTAGBAANgNiD89rbXWpV0gALQLxBMAYEAA2A2IPz2ttdalXSAAtAvEEwBgQADYDYg/Pa211qVdIAC0C8QTAGBAANgNiD89rbXWpV0gALQLxBMAYEAA2A2IPz2ttdalXSAAtAvEEwBgQADYDYg/Pa211qVdIAC0C8QTAGBAANgNiD89rbXWpV0gALQLxBMAYEAAmHkBaLsxQBs48dMAAAAASUVORK5CYII=" />
+<path style="fill:none;stroke:#444444;stroke-width:5" d="M 8,10 L 392,10" />
+<text x="8" y="44" width="80" height="17" style="font-size:14px;font-weight:normal;font-variant:normal;font-family:SansSerif;fill:#444444;stroke:none">Username: </text>
+<rect x="88" y="28" width="170" height="24" style="stroke:none;fill-opacity:1;fill:#ffffff" />
+<path style="fill:none;stroke:#000000;stroke-width:1" d="M 88,28 L 258,28" />
+<path style="fill:none;stroke:#eeeeee;stroke-width:1" d="M 258,28 L 258,52" />
+<path style="fill:none;stroke:#eeeeee;stroke-width:1" d="M 88,52 L 258,52" />
+<path style="fill:none;stroke:#000000;stroke-width:1" d="M 88,28 L 88,52" />
+<clipPath id="cssbox-clip-1"><rect x="89" y="29" width="168" height="22" /></clipPath>
+<g id="cssbox-obj-1" clip-path="url(#cssbox-clip-1)">
+</g>
+<text x="8" y="88" width="76" height="17" style="font-size:14px;font-weight:normal;font-variant:normal;font-family:SansSerif;fill:#444444;stroke:none">Password: </text>
+<rect x="84" y="72" width="170" height="24" style="stroke:none;fill-opacity:1;fill:#ffffff" />
+<path style="fill:none;stroke:#000000;stroke-width:1" d="M 84,72 L 254,72" />
+<path style="fill:none;stroke:#eeeeee;stroke-width:1" d="M 254,72 L 254,96" />
+<path style="fill:none;stroke:#eeeeee;stroke-width:1" d="M 84,96 L 254,96" />
+<path style="fill:none;stroke:#000000;stroke-width:1" d="M 84,72 L 84,96" />
+<clipPath id="cssbox-clip-2"><rect x="85" y="73" width="168" height="22" /></clipPath>
+<g id="cssbox-obj-2" clip-path="url(#cssbox-clip-2)">
+</g>
+<rect x="8" y="116" width="42" height="24" style="stroke:none;fill-opacity:1;fill:#dddddd" />
+<path style="fill:none;stroke:#ffffff;stroke-width:1" d="M 8,116 L 50,116" />
+<path style="fill:none;stroke:#000000;stroke-width:1" d="M 50,116 L 50,140" />
+<path style="fill:none;stroke:#000000;stroke-width:1" d="M 8,140 L 50,140" />
+<path style="fill:none;stroke:#ffffff;stroke-width:1" d="M 8,116 L 8,140" />
+<text x="14" y="132" width="30" height="14" style="font-size:11px;font-weight:normal;font-variant:normal;font-family:SansSerif;fill:#000000;stroke:none">Login</text>
+</svg>

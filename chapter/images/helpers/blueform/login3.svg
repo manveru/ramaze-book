@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<!-- Rendered by CSSBox http://cssbox.sourceforge.net -->
+<svg xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve"
+         width="600" height="245px"
+         viewBox="0 0 600 245"
+         zoomAndPan="disable" >
+<image x="0" y="0" width="600" height="245" xlink:href="data:image/png;base64,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" />
+<path style="fill:none;stroke:#444444;stroke-width:5" d="M 8,10 L 592,10" />
+<text x="8" y="44" width="80" height="17" style="font-size:14px;font-weight:normal;font-variant:normal;font-family:SansSerif;fill:#444444;stroke:none">Username: </text>
+<rect x="88" y="28" width="170" height="24" style="stroke:none;fill-opacity:1;fill:#ffffff" />
+<path style="fill:none;stroke:#000000;stroke-width:1" d="M 88,28 L 258,28" />
+<path style="fill:none;stroke:#eeeeee;stroke-width:1" d="M 258,28 L 258,52" />
+<path style="fill:none;stroke:#eeeeee;stroke-width:1" d="M 88,52 L 258,52" />
+<path style="fill:none;stroke:#000000;stroke-width:1" d="M 88,28 L 88,52" />
+<clipPath id="cssbox-clip-1"><rect x="89" y="29" width="168" height="22" /></clipPath>
+<g id="cssbox-obj-1" clip-path="url(#cssbox-clip-1)">
+<text x="89" y="44" width="37" height="14" style="font-size:11px;font-weight:normal;font-variant:normal;font-family:SansSerif;fill:#000000;stroke:none">gladys</text>
+</g>
+<text x="8" y="88" width="76" height="17" style="font-size:14px;font-weight:normal;font-variant:normal;font-family:SansSerif;fill:#444444;stroke:none">Password: </text>
+<rect x="84" y="72" width="170" height="24" style="stroke:none;fill-opacity:1;fill:#ffffff" />
+<path style="fill:none;stroke:#000000;stroke-width:1" d="M 84,72 L 254,72" />
+<path style="fill:none;stroke:#eeeeee;stroke-width:1" d="M 254,72 L 254,96" />
+<path style="fill:none;stroke:#eeeeee;stroke-width:1" d="M 84,96 L 254,96" />
+<path style="fill:none;stroke:#000000;stroke-width:1" d="M 84,72 L 84,96" />
+<clipPath id="cssbox-clip-2"><rect x="85" y="73" width="168" height="22" /></clipPath>
+<g id="cssbox-obj-2" clip-path="url(#cssbox-clip-2)">
+<text x="85" y="88" width="20" height="14" style="font-size:11px;font-weight:normal;font-variant:normal;font-family:SansSerif;fill:#000000;stroke:none">abc</text>
+</g>
+<text x="254" y="88" width="307" height="17" style="font-size:14px;font-weight:normal;font-variant:normal;font-family:SansSerif;fill:#444444;stroke:none"> The password must be at least 4 characters</text>
+<text x="8" y="131" width="61" height="17" style="font-size:14px;font-weight:normal;font-variant:normal;font-family:SansSerif;fill:#444444;stroke:none">Gender: </text>
+<rect x="69" y="122" width="12" height="12" style="stroke:none;fill-opacity:1;fill:#ffffff" />
+<path style="fill:none;stroke:#000000;stroke-width:1" d="M 69,122 L 81,122" />
+<path style="fill:none;stroke:#000000;stroke-width:1" d="M 81,122 L 81,134" />
+<path style="fill:none;stroke:#000000;stroke-width:1" d="M 69,134 L 81,134" />
+<path style="fill:none;stroke:#000000;stroke-width:1" d="M 69,122 L 69,134" />
+<text x="72" y="131" width="3" height="13" style="font-size:10px;font-weight:normal;font-variant:normal;font-family:SansSerif;fill:#000000;stroke:none"> </text>
+<text x="81" y="131" width="36" height="17" style="font-size:14px;font-weight:normal;font-variant:normal;font-family:SansSerif;fill:#444444;stroke:none"> Male</text>
+<rect x="117" y="122" width="12" height="12" style="stroke:none;fill-opacity:1;fill:#ffffff" />
+<path style="fill:none;stroke:#000000;stroke-width:1" d="M 117,122 L 129,122" />
+<path style="fill:none;stroke:#000000;stroke-width:1" d="M 129,122 L 129,134" />
+<path style="fill:none;stroke:#000000;stroke-width:1" d="M 117,134 L 129,134" />
+<path style="fill:none;stroke:#000000;stroke-width:1" d="M 117,122 L 117,134" />
+<text x="120" y="131" width="6" height="13" style="font-size:10px;font-weight:normal;font-variant:normal;font-family:SansSerif;fill:#000000;stroke:none">x</text>
+<text x="129" y="131" width="54" height="17" style="font-size:14px;font-weight:normal;font-variant:normal;font-family:SansSerif;fill:#444444;stroke:none"> Female</text>
+<text x="8" y="174" width="63" height="17" style="font-size:14px;font-weight:normal;font-variant:normal;font-family:SansSerif;fill:#444444;stroke:none">Country: </text>
+<rect x="71" y="158" width="170" height="24" style="stroke:none;fill-opacity:1;fill:#ffffff" />
+<path style="fill:none;stroke:#000000;stroke-width:1" d="M 71,158 L 241,158" />
+<path style="fill:none;stroke:#eeeeee;stroke-width:1" d="M 241,158 L 241,182" />
+<path style="fill:none;stroke:#eeeeee;stroke-width:1" d="M 71,182 L 241,182" />
+<path style="fill:none;stroke:#000000;stroke-width:1" d="M 71,158 L 71,182" />
+<clipPath id="cssbox-clip-3"><rect x="72" y="159" width="168" height="22" /></clipPath>
+<g id="cssbox-obj-3" clip-path="url(#cssbox-clip-3)">
+<text x="72" y="174" width="43" height="14" style="font-size:11px;font-weight:normal;font-variant:normal;font-family:SansSerif;fill:#000000;stroke:none">Canada</text>
+</g>
+<rect x="8" y="202" width="42" height="24" style="stroke:none;fill-opacity:1;fill:#dddddd" />
+<path style="fill:none;stroke:#ffffff;stroke-width:1" d="M 8,202 L 50,202" />
+<path style="fill:none;stroke:#000000;stroke-width:1" d="M 50,202 L 50,226" />
+<path style="fill:none;stroke:#000000;stroke-width:1" d="M 8,226 L 50,226" />
+<path style="fill:none;stroke:#ffffff;stroke-width:1" d="M 8,202 L 8,226" />
+<text x="14" y="218" width="30" height="14" style="font-size:11px;font-weight:normal;font-variant:normal;font-family:SansSerif;fill:#000000;stroke:none">Login</text>
+</svg>

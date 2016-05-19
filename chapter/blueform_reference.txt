@@ -1,0 +1,975 @@
+== BlueForm Reference
+
+=== [yellow-background]#def form_for(form_object, options = {}, &block)#
+
+The form method generates the basic structure of the form. You can think of this as the outer "shell" of your call to BlueForm. The HTML5 that BlueForm generates will be returned from this call, and since it’s not automatically sent to the browser, you have to do that yourself by returning it from the controller, or combining it with other HTML5 you’re returning from the controller. See the example below of a controller which creates a simple login form.
+
+.`form_for` Parameters
+[options="header"]
+|====
+|Parameter Name|Class|Description
+|`form_object`|Object|Object containing the values for each form field.
+|`options`|Hash|A hash containing any additional form attributes such as the method, action, enctype and so on. To choose an arrangement of paragraph, table, or none, use :arrangement\=>:paragraph, et.al.
+|_returns_|Array|The generated HTML5. Use to_s or to_html to convert it into the final string.
+|====
+
+.A login controller example using BlueForm
+[source,ruby]
+----
+class MainController < Controller
+
+  helper :blue_form, :xhtml, :paginate
+
+  class User < BlueFormModel
+    attr_accessor :username
+    attr_accessor :password
+  end
+
+  # the index action is called automatically when no other action is specified
+  def index
+    form_for(nil, :method=>:post, :action=>:login) do |f|
+      f.text 'Username', :username
+      f.password 'Password', :password
+      f.submit 'Login'
+    end.to_s
+  end
+
+  # the login is processed here
+  def login
+    user = User.new
+    user.set_fields(session.request.params, [:username, :password], :missing=>:skip)
+    # do the login action -- 'user' will have the login information entered by the user
+    "<pre>#{user.inspect.escape}</pre>"
+  end
+end
+----
+
+The `login` method will display the username and password that were entered.
+
+.Displayed Value
+[source,ruby]
+----
+#<MainController::User:0x007efc3c4c5970 @errors={}, @username="xxx", @password="yyy">
+----
+
+.A Few Things to Note About This Example
+  - There is a hash in the object named `user.errors`. That hash is used to collect the error messages, if any, that come from validation of the input.
+  - To prepare the output of user.inspect, the method escape was required. Otherwise, the special characters produced by inspect may be interpreted as HTML.
+  - Without the <pre>...</pre>, all the output would just be jammed together.
+  - At the end of the form_for ... end there is a to_s. The to_s converts the HTML output array to a String. You can substitute to_html if you want human readable output, but it’s less efficient, so only use it for debugging.
+
+This little technique may come in handy for you in other (debugging) situations.
+
+=== A Word About Args and Opts
+
+In the tag call (which will be described later), the args (arguments) and opts (options) are passed as distinct parameters, but in the tag-named calls which we examine first, they are mixed together in one hash at the end of the call. Args for any given tag can be found in the http://www.w3schools.com/tags/default.asp[W3 Schools HTML Reference]. Opts are summarized in the parameter descriptions.
+
+Args are values that are inserted into the tag body which is generated.
+
+.Args Example
+[source,ruby]
+----
+f.text 'Username', :username, :value => 'mrboo'
+----
+\=>
+[source,html]
+----
+<input type="text" name="username" id="form_username" value="mrboo" />
+----
+
+Note that the `:value\=>"mrboo"` is added to the input tag body.
+
+Opts are values which aid in the definition and construction of the tag, but are not themselves placed into the tag body.
+
+.Opts Example
+[source,ruby]
+----
+f.checkbox 'Assigned', :assigned, nil, :show_value=>false
+----
+\=>
+[source,html]
+----
+<span class="checkbox_wrap"><input type="checkbox" ... value="bacon" /></span>
+----
+
+Note that the displayed value, which would normally appear just before the </span> is missing. The :show_value is not itself placed into the tag body.
+
+
+.Permissable Opts
+[options="header"]
+|====
+|Option Name|Class|Description
+|`:label`|String|The :label option will cause BlueForm to add a <label> tag in front of a control, except for types :button, :image, :reset, :submit, and :hidden.
+|`:value`|Symbol|The :value option is different when used as an option, as opposed to an args parameter. The :value option is only used in a :textarea control where it specifies what will be encapsulated by the :textarea control. The :textarea control doesn’t use a value attribute in the body of the tag (which is where it would go if :value were placed into args).
+|`:span_class`|String|The :span_class option is used to specify the class of a <span class="spanclass">…​</span> encapsulating the input control. If the :span_class is omitted, no span tags are generated, except for :checkbox which will default to :span_class⇒"checkbox_wrap". The :span_class option is valid for types :checkbox, :color, :email, :file, :number, :password, :radio, :range, :text, :textarea, and :url.
+|`:show_label`|TrueClass or FalseClass|The :show_label option defaults to true, and simply states whether or not the label should be shown. The :show_label is depreciated because the label can be suppressed simply by not supplying one in the opts parameter.
+|`:show_value`|TrueClass or FalseClass|The :show_value option defaults to true, and simply states whether or not the control should have it’s value prefilled. This may be useful for situations where a form object has a value, but you don’t want BlueForm to automatically fill the value in (because you’re going to force the user to enter it every time). It is valid only for :checkbox and :radio types.
+|`:checked`|String or Array|The :checked option is used to select one or more checkboxes, or one radio button.
+|`:selected`|String or Array|The :selected option is used to select one or more options in a :select box.
+|_returns_|Array|The generated HTML5.
+|====
+
+
+
+=== Automatic Value Insertion
+
+  - All the tag types except :button, :image, :reset, and :submit automatically extract the value from the form object under the following circumstances:
+  * The control has a name;
+  * The control has no given value;
+  * There is a form object; and
+  * The form object has a field by the name name given in the call to tag.
+
+If we call form_for thusly:
+
+[source,ruby]
+----
+class Data < BlueFormModel
+  attr_accessor :username
+end
+
+data = Data.new
+data.username = 'gladys'
+
+form_for(data, :method => :post, :action=>"test") do |f|
+  f.tag :text, :username
+  f.tag :submit, nil, :value=>"Go"
+end.to_html
+----
+
+the result will be
+
+[source,html]
+----
+<form method="post" action="test">
+ <p>
+  <input id="form_username" name="username" value="gladys" type="text" />
+ </p>
+ <p>
+  <input value="Go" type="submit" />
+ </p>
+</form>
+----
+
+Notice the addition of the `value="gladys"` attribute in the tag body of the first `<input ...>`.
+
+=== Automatically Generated IDs
+
+  - All the tag types except :button, :image, :reset, :submit, and :hidden automatically default the `:args\=>{:id\=>_id}` if none is given. There are two possible defaults:
+  * If the `name` parameter is passed as an option in the `form_for` call, the default :id is in the format "<form-name>_<field-name>" in lower case, with dashes converted to underscores.
+  * Otherwise, it is in the format "form_<field-name>" in lower case, with dashes converted to underscores.
+
+=== [yellow-background]#def form_error(name, message)#
+
+The `form_error` method is used to add an error message to the `errors` hash of the form object that we pointed out in the example above.
+
+.`form_error` Parameters
+[options="header"]
+|====
+|Parameter Name|Class|Description
+|`form_field`|String|The name of the form field to which the error belongs.
+|`message`|String|The error message which is to be displayed after the input field named.
+|====
+
+
+=== [yellow-background]#def form_errors#
+
+This method returns the hash containing all existing errors and allows other methods to set new errors by using this method as if it were a hash. In other words, it returns the errors object within the form, which is a hash, and which you can manipulate like a hash.
+
+
+.`form_errors` Parameters
+[options="header"]
+|====
+|Parameter Name|Class|Description
+|_returns_|Hash|The errors hash from the object.
+|====
+
+=== [yellow-background]#def form_errors_from_model(obj)#
+
+The form_errors_from_model method retrieves all the form errors from the specified model and adds them to the form object.
+
+.`form_errors_from_model` Parameters
+[options="header"]
+|====
+|Parameter Name|Class|Description
+|obj|Object|An object which contains an errors hash to be copied.
+|_returns_||None.
+|====
+
+=== [yellow-background]#def build(form_errors = {})#
+
+This method is used internally. You should have no need to call it directly.
+
+.`build` Parameters
+[options="header"]
+|====
+|Parameter Name|Class|Description
+|`form_errors`|Hash|A hash containing all form errors (if any).
+|_returns_||None.
+|====
+
+=== [yellow-background]#def legend(text)#
+
+This method generates a legend tag. This method is used internally. You should have no need to call it directly.
+
+.`legend` Parameters
+[options="header"]
+|====
+|Parameter Name|Class|Description
+|`text`|String|The text to be displayed as the prompt for the input field.
+|_returns_|Array|The generated HTML5.
+|====
+
+=== [yellow-background]#def fieldset(&block)#
+
+This method generates a fieldset. This method is used internally. You should have no need to call it directly.
+
+.`fieldset` Parameters
+[options="header"]
+|====
+|Parameter Name|Class|Description
+|`block`|Proc|The BlueForm calls being encapsulated.
+|_returns_|Array|The generated HTML5.
+|====
+
+=== [yellow-background]#def button(value = nil, args = {})#
+
+This method generates a button tag (without a label). A button tag is a button that once it’s clicked will call a javascript function.
+
+.`button` Parameters
+[options="header"]
+|====
+|Parameter Name|Class|Description
+|`value`|String|The button name, or nil if none.
+|_returns_|Array|The generated HTML5.
+|====
+
+.A `button` Example
+[source,ruby]
+----
+out = form_for(data, :method => :get) do |f|
+  f.button 'Accept', :onclick=>'fcn()'
+end
+----
+\=>
+[source,html]
+----
+<form method="get">
+  <p><input value="Accept" type="button" onclick="fcn()" /></p>
+</form>
+----
+
+=== [yellow-background]#def checkbox(label, name, checked = nil, args = {})#
+
+This method generates one or more checkboxes, depending on the inputs.
+
+.`checkbox` Parameters
+[options="header"]
+|====
+|`label`|String|The text to display inside the label tag.
+|`name`|Symbol|The name of the field in the form object.
+|`checked`|String or Array|(Optional) The value or values that will be checked initially, if any. If you don’t want to initially check any values, set this to nil, or if there are no args, omit it.
+|`:id`|String|The value of the id field. If no :id is specified, Blueform will generate a default :id.
+|`:span_class`|String or Symbol|The class to use for the <span> element that’s wrapped around the checkbox.
+|`:show_value`|TrueClass or FalseClass|When set to false the value of each checkbox won’t be displayed to the right of the checkbox. This option is set to true by default.
+|`:show_label`|TrueClass or FalseClass|When set to true (default) the label for the checkbox will be displayed. Setting this to false will hide it.
+|`:values`|Array or Hash|In the case of an array, the values will also be used as text for each checkbox. When using a hash, the key will be displayed and the value will be the value of the checkbox.
+|_returns_|Array|The generated HTML5.
+|====
+
+.A `checkbox` Example
+[source,ruby]
+----
+out = form_for(data, :method => :get) do |f|
+  f.checkbox 'Assigned', :assigned, ['boo'], :values => ['boo', 'foo']
+end
+----
+\=>
+----
+<form method="get">
+  <p>
+    <label for="form_assigned_0">Assigned</label>
+    <span class="checkbox_wrap"><input type="checkbox" name="assigned[]" id="form_assigned_0" checked="checked" value="boo" /> boo</span>
+    <span class="checkbox_wrap"><input type="checkbox" name="assigned[]" id="form_assigned_1" value="foo" /> foo</span>
+  </p>
+</form>
+----
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+=== [yellow-background]#def color(label, name, args = {})#
+
+If the browser supports HTML5, this method displays a color box from which the user selects a color. Otherwise, it displays an input box for the user to enter a color; for example, #336655.
+
+.`color` Parameters
+[options="header"]
+|====
+|`label`|String|The text to display inside the label tag.
+|`name`|Symbol|The name of the field in the form object.
+|_returns_|Array|The generated HTML5.
+|====
+
+.A `color` Example
+[source,ruby]
+----
+out = form_for(data, :method => :get) do |f|
+  f.color 'Choose a color', :my_color
+end
+----
+\=>
+[source,html]
+----
+<form method="get">
+  <p>
+    <label for="form_my_color">Choose a color</label>
+    <input id="form_my_color" name="my_color" type="color" />
+  </p>
+</form>
+----
+
+=== [yellow-background]#def dropdown(label, name, args = {})#
+
+This method is the same as `def select` except that it presets the :size argument to 1, causing the browser to display a dropdown box in lieu of a select box. See `def select` below for args and opts.
+
+.`dropdown` Parameters
+[options="header"]
+|====
+|Parameter Name|Class|Description
+|`label`|String|The text to display inside the label tag.
+|`name`|Symbol|The name of the field in the form object.
+|_returns_|Array|The generated HTML5.
+|====
+
+.A `dropdown` Example
+[source,ruby]
+----
+data.person = "chuck"
+out = form_for(data, :method => :get) do |f|
+	form_error(:person, "This person has not validated his email.")
+  f.select 'Person', :person, :values => {'chuck' => 'Chuck', 'bob' => 'Bob'}
+end
+----
+\=>
+[source,html]
+----
+<form method="get">
+  <p>
+    <label for="form_person">Person</label>
+    <select size="1" name="person" id="form_person">
+      <option value="chuck" selected="selected">Chuck</option>
+      <option value="bob">Bob</option>
+    </select>
+  </p>
+</form>
+----
+
+.Note
+The `dropdown` method inserts a `:size\=>1` and calls the `select` method. Dropdown is just a convenience method.
+
+
+=== [yellow-background]#def email(label, name, args = {})#
+
+If the browser supports HTML5, this method generates a text box and verifies that the user input has the form of an email address. Otherwise, the browser just creates a text box.
+
+.`email` Parameters
+[options="header"]
+|====
+|Parameter Name|Class|Description
+|`label`|String|The text to display inside the label tag.
+|`name`|Symbol|The name of the field in the form object.
+|_returns_|Array|The generated HTML5.
+|====
+
+.An `email` Example
+[source,ruby]
+----
+out = form_for(data, :method => :get) do |f|
+  f.email 'Email', :email
+end
+----
+\=>
+[source,html]
+----
+<form method="get">
+  <p>
+    <label for="form_email">Email</label>
+    <input id="form_email" name="email" type="email" />
+  </p>
+</form>
+----
+
+
+=== [yellow-background]#def file(label, name, args = {})#
+
+This method generates a file upload request. The browser will display a file browser window to choose a file, then the browser will upload that file. See the http://www.w3schools.com/tags/default.asp[W3 Schools HTML Reference] for more information.
+
+.`file` Parameters
+[options="header"]
+|====
+|Parameter Name|Class|Description
+|`label`|String|The text to display inside the label tag.
+|`name`|Symbol|The name of the field in the form object.
+|_returns_|Array|The generated HTML5.
+|====
+
+.A `file` Example
+[source,ruby]
+----
+out = form_for(data, :method => :get) do |f|
+  f.file 'File', :file
+end
+----
+\=>
+[source,html]
+----
+<form method="get">
+  <p>
+    <label for="form_file">File</label>
+    <input type="file" name="file" id="form_file" />
+  </p>
+</form>
+----
+
+
+=== [yellow-background]#def hidden(name, value = nil, args = {})#
+
+This method generates one or more hidden fields in the form. Hidden fields are used to pass values which will not be displayed.
+
+[WARNING]
+It's considered bad practice to pass the primary key of a database record in a hidden field. If a hacker knows, for example, that an update method passes the primary key of the reord to be updated, he can spoof another key into an otherwise legal update, and update a record to which he may not legitimately have access. Information that needs to be secure should be passed in the session object.
+
+.`hidden` Parameters
+[options="header"]
+|====
+|Parameter Name|Class|Description
+|`label`|String|The text to display inside the label tag.
+|`name`|Symbol|The name of the field in the form object.
+|`args`|Hash|A list of :name\=>"value", ... to be passed as hidden fields.
+|_returns_|Array|The generated HTML5.
+|====
+
+.A `hidden` Example
+[source,ruby]
+----
+out = form_for(data, :method => :get) do |f|
+  f.hidden :username
+end
+----
+\=>
+[source,html]
+----
+<form method="get">
+  <input type="hidden" name="username" value="mrfoo" />
+</form>
+----
+
+
+=== [yellow-background]#def image(src, args = {})#
+
+This method generates an image tag. An image tag is a submit button that once it's clicked will send the form data to the server.
+
+.A Quick Tip
+  - If you want a reset button instead, include the argument `:type\=>:reset`.
+
+.`image` Parameters
+[options="header"]
+|====
+|Parameter Name|Class|Description
+|`src`|String|The file name of the image file to be displayed.
+|_returns_|Array|The generated HTML5.
+|====
+
+.An `image` Example
+[source,ruby]
+----
+out = form_for(data, :method => :get) do |f|
+  f.image "http://www.w3schools.com/tags/img_submit.gif", :alt=>"Submit"
+end
+----
+\=>
+[source,html]
+----
+<form method="get">
+    <p>
+      <input alt="Submit" src="http://www.w3schools.com/tags/img_submit.gif" type="image" />
+    </p>
+</form>
+----
+
+
+=== [yellow-background]#def number(label, name, args = {})#
+
+If the browser supports HTML5, this method generates a spinner with the specified range. Otherwise, the browser just creates a text box.
+
+.`number` Parameters
+[options="header"]
+|====
+|Parameter Name|Class|Description
+|`label`|String|The text to display inside the label tag.
+|`name`|Symbol|The name of the field in the form object.
+|`:min`|String|The lower end of the spinner range.
+|`:max`|String|The upper end of the spinner range.
+|_returns_|Array|The generated HTML5.
+|====
+
+.A `number` Example
+[source,ruby]
+----
+out = form_for(data, :method => :get) do |f|
+  f.number 'Age', :age, :min=>1, :max=>120
+end
+----
+\=>
+[source,html]
+----
+<form method="get">
+  <p>
+    <label for="form_age">Age</label>
+    <input min="1" max="120" id="form_age" name="age" type="number" />
+  </p>
+</form>
+----
+
+
+=== [yellow-background]#def password(label, name, args = {})#
+
+This method generates a text box, except the browser hides the user input.
+
+.`password` Parameters
+[options="header"]
+|====
+|Parameter Name|Class|Description
+|`label`|String|The text to display inside the label tag.
+|`name`|Symbol|The name of the field in the form object.
+|_returns_|Array|The generated HTML5.
+|====
+
+.A `password` Example
+[source,ruby]
+----
+out = form_for(nil , :method => :get) do |f|
+  f.password 'Password', :password
+end
+----
+\=>
+[source,html]
+----
+<form method="get">
+  <p>
+    <label for="form_password">Password</label>
+    <input type="password" name="password" id="form_password" />
+  </p>
+</form>
+----
+
+
+=== [yellow-background]#def radio(label, name, checked = nil, args = {})#
+
+This method generates one or more radio buttons. Radio buttons are similar to checkboxes, except only one radio button can be selected at a time.
+
+.`radio` Parameters
+[options="header"]
+|====
+|Parameter Name|Class|Description
+|`label`|String|The text to display inside the label tag.
+|`name`|Symbol|The name of the field in the form object.
+|`checked`|String|(Optional) The value that will be checked initially, if any. If you don't want to initially check any value, set this to `nil`, or if there are no args, omit it.
+|`:id`|String|The value of the id field. If no :id is specified, Blueform will generate a default :id.
+|`:span_class`|String or Symbol|The class to use for the `<span>` element that's wrapped around the radio button.
+|`:show_value`|TrueClass or FalseClass|When set to false the value of each radio button won't be displayed to the right of the radio button. This option is set to true by default.
+|`:show_label`|TrueClass or FalseClass|When set to true (default) the label for the radio button will be displayed. Setting this to false will hide it.
+|`:values`|Array or Hash|In the case of an array, the values will also be used as text for each radio button.  When using a hash, the key will be displayed and the value will be the value of the radio button.
+|_returns_|Array|The generated HTML5.
+|====
+
+.A `radio` Example
+[source,ruby]
+----
+out = form_for(data, :method => :get) do |f|
+  f.radio 'Assigned', :assigned
+end
+----
+\=>
+[source,html]
+----
+<form method="get">
+  <p>
+    <label for="form_assigned_0">Assigned</label>
+    <span class="radio_wrap"><input type="radio" name="assigned" id="form_assigned_0" value="bacon" /> bacon</span>
+    <span class="radio_wrap"><input type="radio" name="assigned" id="form_assigned_1" value="steak" /> steak</span>
+  </p>
+</form>
+----
+
+
+=== [yellow-background]#def range(label, name, args = {})#
+
+This method generates a slider bar whose endpoints are :min and :max.
+
+.A Quick Tip
+  - The browser may not actually display the position of the thumb on the slider as a number separate from the slider.
+
+.`range` Parameters
+[options="header"]
+|====
+|Parameter Name|Class|Description
+|`label`|String|The text to display inside the label tag.
+|`name`|Symbol|The name of the field in the form object.
+|`:min`|String|The lower end of the spinner range.
+|`:max`|String|The upper end of the spinner range.
+|_returns_|Array|The generated HTML5.
+|====
+
+.A `range` Example
+[source,ruby]
+----
+out = form_for(data, :method => :get) do |f|
+  f.range 'Cost', :cost, :min=>0, :max=>100
+end
+----
+\=>
+[source,html]
+----
+<form method="get">
+  <p>
+    <label for="form_cost">Cost</label>
+    <input min="0" max="100" id="form_cost" name="cost" type="range" />
+  </p>
+</form>
+----
+
+
+=== [yellow-background]#def reset(value = nil, args = {})#
+
+This method generates a reset button. The reset button resets the fields in the form back to their initial values.
+
+.A Couple of Quick Tips
+  - The reset button is not a "clear all" button; it doesn't "clear," but resets to the initial value (which may have been blank or a value).
+  - If you want to use your own image, see the `image` button above.
+
+.`reset` Parameters
+[options="header"]
+|====
+|Parameter Name|Class|Description
+|`value`|String|The name of the button.
+|_returns_|Array|The generated HTML5.
+|====
+
+.A `reset` Example
+[source,ruby]
+----
+out = form_for(data, :method => :get) do |f|
+  f.reset
+end
+----
+\=>
+[source,html]
+----
+<form method="get">
+    <p>
+      <input type="reset" />
+    </p>
+</form>
+----
+
+
+=== [yellow-background]#def select(label, name, args = {})#
+
+This method generates a select box. 
+
+.`select` Parameters
+[options="header"]
+|====
+|Parameter Name|Class|Description
+|`label`|String|The text to display inside the label tag.
+|`name`|Symbol|The name of the field in the form object.
+|`:size`|Numeric|The size of the select box. If the size is not specified, it defaults to the number of elements in the `:values` list.
+|`values`|Array or Hash|The values with which the select box will be filled.
+|`:multiple`|TrueClass or FalseClass|If true, multiple elements may be selected; otherwise, only one.
+|_returns_|Array|The generated HTML5.
+|====
+
+.A `select` Example
+[source,ruby]
+----
+out = form_for(data, :method => :get) do |f|
+  f.select 'People', :people_hash, :values => {:chuck => 'Chuck', :bob => 'Bob'}, :selected => :chuck
+end
+----
+\=>
+[source,html]
+----
+<form method="get">
+  <p>
+    <label for="form_people_hash">People</label>
+    <select id="form_people_hash" size="2" name="people_hash">
+      <option value="chuck" selected="selected">Chuck</option>
+      <option value="bob">Bob</option>
+    </select>
+  </p>
+</form>
+----
+
+.A Few Things to Note
+  - If the `:size` is 1, the select box will default to a dropdown box. If you want a dropdown box, you may prefer to use the `dropdown()` call for readability.
+  - If the `:values` take the form of a Hash, the hash _value_ will be displayed, but the hash _key_ will be returned.
+  - If the `:values` take the form of an Array, the array _value_ will both be displayed and returned.
+  - If `:multiple` is omitted or false, a String will be returned.
+  - If `:multiple` is true, an Array will be returned.
+  - If you use a hash for the values, the `:selected` value must be the _key_, not the _value_.
+
+
+=== [yellow-background]#def submit(value = nil, args = {})#
+
+This method generates a submit button which when pressed, sends the form back to the server.
+
+.`submit` Parameters
+[options="header"]
+|====
+|Parameter Name|Class|Description
+|`value`|String|The name of the submit button, if any.
+|_returns_|Array|The generated HTML5.
+|====
+
+.A `submit` Example
+[source,ruby]
+----
+out = form_for(data, :method => :get) do |f|
+  f.submit 'Send'
+end
+----
+\=>
+[source,html]
+----
+<form method="get">
+  <p>
+    <input type="submit" value="Send" />
+  </p>
+</form>
+----
+
+.A Couple of Quick Tips
+  - If you don't specify a name for the button, the browser will use "Submit."
+  - If you want to use your own image for the submit button, see the `image` button above.
+
+
+=== [yellow-background]#def text(label, name, args = {})#
+
+This method generates a plain text box. This input box only takes one line of text, and is what you'd normally use for char or varchar in the database.
+
+.`text` Parameters
+[options="header"]
+|====
+|Parameter Name|Class|Description
+|`label`|String|The text to display inside the label tag.
+|`name`|Symbol|The name of the field in the form object.
+|_returns_|Array|The generated HTML5.
+|====
+
+.A `text` Example
+[source,ruby]
+----
+out = form_for(data, :method => :get) do |f|
+  f.textarea 'Message', :message
+end
+----
+\=>
+[source,html]
+----
+<form method="get">
+  <p>
+    <label for="form_message">Message</label>
+    <textarea name="message" id="form_message">Hello, textarea!</textarea>
+  </p>
+</form>
+----
+
+
+=== [yellow-background]#def textarea(label, name, args = {})#
+
+This method generates a text area. A text area is similar to a text box, but the box can hold multiply lines and is resizable in the browser. This input box is what you'd normally use for a memo field in the database.
+
+.`textarea` Parameters
+[options="header"]
+|====
+|Parameter Name|Class|Description
+|`label`|String|The text to display inside the label tag.
+|`name`|Symbol|The name of the field in the form object.
+|_returns_|Array|The generated HTML5.
+|====
+
+.A `textarea` Example
+[source,ruby]
+----
+out = form_for(data, :method => :get) do |f|
+  f.textarea 'Message', :message, :value => 'stuff'
+end
+----
+\=>
+[source,html]
+----
+<form method="get">
+  <p>
+    <label for="form_message">Message</label>
+    <textarea name="message" id="form_message">stuff</textarea>
+  </p>
+</form>
+----
+
+
+=== [yellow-background]#def url(label, name, args = {})#
+
+This method generates a text box for a URL. If the browswer supports HTML5, it will validate the basic syntax of the URL. Otherwise, this box functions identically to a `text` box.
+
+.`url` Parameters
+[options="header"]
+|====
+|Parameter Name|Class|Description
+|`label`|String|The text to display inside the label tag.
+|`name`|Symbol|The name of the field in the form object.
+|_returns_|Array|The generated HTML5.
+|====
+
+.A `url` Example
+[source,ruby]
+----
+out = form_for(data, :method => :get) do |f|
+  f.url 'URL', :url, :value=>"http://www.w3schools.com/tags/default.asp"
+end
+----
+\=>
+[source,html]
+----
+<form method="get">
+  <p>
+    <label for="form_url">URL</label>
+    <input id="form_url" name="url" type="url" value="http://www.w3schools.com/tags/default.asp" />
+  </p>
+</form>
+----
+
+
+=== [yellow-background]#def tag(type, name, args={}, opts={})#
+
+This method is the base method wich generates _all_ of the controls listed above. You can call it directly, if you prefer.
+
+It differs only in that the control type must be specified, and the args and opts are specified separately. Otherwise, the parameter descriptions in the controls above also work here.
+
+.`tag` Parameters
+[options="header"]
+|====
+|Parameter Name|Class|Description
+|`label`|String|The text to display inside the label tag.
+|`name`|Symbol|The name of the field in the form object.
+|`args`|Hash|Any arguments passed in the call must be specified here.
+|`opts`|Hash|Any options passed in the call must be specified here.
+|_returns_|Array|The generated HTML5.
+|====
+
+.A `tag :text` Example
+[source,ruby]
+----
+class Data < BlueFormModel
+  attr_accessor :username
+end
+
+data = Data.new
+data.username = 'gladys'
+
+form_for(data, :method => :post, :action=>"test") do |f|
+  f.tag :text, :username
+  f.tag :submit, nil, :value=>"Go"
+end
+----
+\=>
+[source,html]
+----
+<form method="post" action="test">
+ <p>
+  <input id="form_username" name="username" value="gladys" type="text" />
+ </p>
+ <p>
+  <input value="Go" type="submit" />
+ </p>
+</form>
+----
+
+.A `tag :checkbox` Example
+[source,ruby]
+----
+out = form_for(data, :method => :get) do |f|
+  f.tag(:checkbox, :assigned, {}, {:label=>"Assigned"})
+end
+----
+\=>
+[source,html]
+----
+<form method="get">
+  <p>
+    <label for="form_assigned_0">Assigned</label>
+    <span class="checkbox_wrap"><input type="checkbox" name="assigned[]" id="form_assigned_0" value="bacon" /> bacon</span>
+    <span class="checkbox_wrap"><input type="checkbox" name="assigned[]" id="form_assigned_1" value="steak" /> steak</span>
+  </p>
+</form>
+----
+
+.A `tag :submit` Example
+[source,ruby]
+----
+out = form_for(data, :method => :get) do |f|
+  f.tag(:submit, nil, {:value=>"Send"}, {})
+end
+----
+\=>
+[source,html]
+----
+<form method="get">
+  <p>
+    <input type="submit" value="Send" />
+  </p>
+</form>
+----
+
+.A `tag :select` Example
+[source,ruby]
+----
+out = form_for(data, :method => :get) do |f|
+  f.tag(:select, :servers_hash, {}, {:label=>"Server"})
+end
+----
+\=>
+[source,html]
+----
+<form method="get">
+  <p>
+    <label for="form_servers_hash">Server</label>
+    <select id="form_servers_hash" size="3" name="servers_hash">
+      <option value="webrick">WEBrick</option>
+      <option value="mongrel">Mongrel</option>
+      <option value="thin">Thin</option>
+    </select>
+  </p>
+</form>
+----
+
+.A `tag :radio` Example
+[source,ruby]
+----
+out = form_for(data, :method => :get) do |f|
+  f.tag(:radio, :assigned, {:type=>:radio}, {:label=>"Assigned", :span_class=>"radio_wrap"})
+end
+----
+\=>
+[source,html]
+----
+<form method="get">
+  <p>
+    <label for="form_assigned_0">Assigned</label>
+    <span class="radio_wrap"><input type="radio" name="assigned" id="form_assigned_0" value="bacon" /> bacon</span>
+    <span class="radio_wrap"><input type="radio" name="assigned" id="form_assigned_1" value="steak" /> steak</span>
+  </p>
+</form>
+----
+
+[WARNING]
+If there are _no_ args, but there _are_ opts, an empty hash `{}` must be present in the argument list as a place holder. If the empty args hash is omitted, any opts will be placed into the args hash, and the opts hash will be treated as omitted, which will result in lots of strange errors.
+

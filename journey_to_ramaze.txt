@@ -9,6 +9,11 @@ include::chapter/attributes.txt[tabsize=2]
 // Don't use a dedication chapter, dblatex fails.
 include::chapter/preface.txt[tabsize=2]
 
+// new chapters that are up-to-date
+
+include::chapter/blueform_tutorial.txt[tabsize=2]
+include::chapter/blueform_reference.txt[tabsize=2]
+
 // partial chapters that are in sync with current Ramaze functionality
 
 include::chapter/tutorial_introduction.txt[tabsize=2]

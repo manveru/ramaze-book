@@ -3,7 +3,7 @@
 :pickaxe: http://www.rubycentral.com/book/[Programming Ruby]
 
 // chapters
-:ch-developing: <<X400,developing Ramaze>>
+//:ch-developing: <<X400,developing Ramaze>>
 
 // API links
 :request-api: http://doc.ramaze.net/classes/Ramaze/Request.html[API docs for Ramaze::Request]

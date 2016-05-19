@@ -1,48 +1,35 @@
 = Tutorial introduction to Ramaze
+
 == Installation
 
-The easiest way to get to know Ramaze is by example, so we will start out with
-that, covering installation and a few simple applications so you can get a
-feel for it.
+The easiest way to get to know Ramaze is by example, so we'll start out with that, covering installation and a few simple applications so you can get a feel for it.
 
-In order to use Ramaze, you will have to install it on your system.
-This is usually fairly straightforward.
+In order to use Ramaze, you will have to install it on your system. This is usually fairly straight forward.
 
 === Checking for and Installing Ruby
 
-Before we install Ramaze, we need to ensure your system has Ruby, since Ramaze
-is written in the Ruby programming language.  Ruby doesn't ship by default with
-most systems, so you will likely have to install it first.
+Before we install Ramaze, we need to ensure your system has Ruby, since Ramaze is written in the Ruby programming language.  Ruby doesn't ship by default with most systems, so you will likely have to install it first.
 
 Check your system for Ruby with this command:
 
 [source,sh]
---------------------------------------------------------------------------------
+----
 $ ruby --version
---------------------------------------------------------------------------------
+----
 
-If you see output similar to this, you are good to go:
+If you see output similar to this, you're good to go:
 [source,sh]
---------------------------------------------------------------------------------
+----
 ruby 1.9.1p0 (2009-01-30 revision 21907) [i686-linux]
---------------------------------------------------------------------------------
+----
 
-If you see a "command not found" error, or you see a version less than 1.8.5,
-you'll need to install or upgrade Ruby.
+If you see a "command not found" error, or you see a version less than 1.9.1, you'll need to install or upgrade Ruby.
 
-For this book we assume an installation of Ruby 1.9.x, which ships with
-RubyGems, the package manager for Ruby libraries and applications.
+For this book we assume an installation of Ruby 1.9.x, which ships withRubyGems, the package manager for Ruby libraries and applications.
 
-The reasoning behind using 1.9.x is that this book might take some time to get
-finished, and by then I hope that all major development in Ruby will happen on the
-basis of the 1.9 spec.
+As of May 2016, the latest version of Ruby is 2.2.2, but Linux distributions have been slow to pick up the newest version. In Linux Mint 17.3 "Qiana" (Ubuntu 14.04), the version of Ruby in the official distribution was still 1.9.1. If your system distribution doesn't have the latest version of Ruby, you'll have to install it from {ruby-lang}.
 
-For some reason people have the impression that Ramaze will only work on 1.9,
-we still keep it backwards-compatible to 1.8.6 for some time.
-
-Linux users can generally use their package manager to install Ruby. Otherwise,
-you can obtain Ruby from {ruby-lang}, where you will find instructions for
-installation on most systems.
+Ramaze will remain compatible with Ruby back to version 1.9.x, and back to 1.8.6 as long as is practical, but you would be strongly advised to update your Ruby to at least 1.9.1.
 
 
 === Installing Ramaze
@@ -50,222 +37,223 @@ installation on most systems.
 Once Ruby is installed correctly, you can install Ramaze simply by:
 
 [source,sh]
---------------------------------------------------------------------------------
+----
 $ gem install ramaze
---------------------------------------------------------------------------------
+----
 
-This will take care of installing all dependencies as well.
-There are a lot of libraries that we will install in the course of this book,
-but installing them is usually just a command away, so we defer it to when we
-actually need them.
+This will take care of installing all dependencies as well. There are a lot of libraries that we will install in the course of this book, but installing them is usually just a command away, so we defer it to when we actually need them.
 
-Ramaze is a project that is developed in an open manner by the community.
-In order to work together we utilize git for revision control. You can obtain
-your own copy of the repository if you are interested in helping the
-development or simply would like to browse through the project history.
-We will cover this subject in {ch-developing}.
+Ramaze is an open-source project that is developed by a community of Ramaze enthusiasts. In order to work together, we utilize git for revision control. You can obtain your own copy of the repository if you are interested in helping the development, or simply would like to browse through the project history. We will cover this subject in {ch-developing}.
 
 == Hello, World!
 
-A short introductory example is always "Hello world". In Ramaze this looks like
-following.
+Following tradition, let's build a "Hello, World" example application. Create a file called hello.rb, and put this into it, and save it.
 
 [source,ruby]
---------------------------------------------------------------------------------
+----
 include::source/tutorial_introduction/hello_world.rb[tabsize=2]
---------------------------------------------------------------------------------
+----
 
-First we require RubyGems, the package managing wrapper that allows us to
-require the ramaze library and framework. Next we define a Controller and
-method that will greet us when accessing 'http://localhost:7000/', `7000` being
-the default port of Ramaze.
-
-To start this application we can now simply:
+To start this application we can now simply use the command:
 
 [source,sh]
---------------------------------------------------------------------------------
-$ ruby start.rb
---------------------------------------------------------------------------------
+----
+$ ruby hello.rb
+----
 
-That will start an instance of Ruby and start the WEBrick HTTP server that
-ships with Ruby.
-
-This will output something along the lines of:
+This is what you'll see when Ramaze starts:
 
 [source,txt]
---------------------------------------------------------------------------------
+----
 include::source/tutorial_introduction/start_output.txt[tabsize=2]
---------------------------------------------------------------------------------
+----
 
-Now you can open your browser, and go to http://localhost:7000/.
+You can see some interesting information here:
 
-Sometimes you will get an error when starting Ramaze that looks like:
+  - We got an warning `No explicit root folder found` message, which you can ignore. All it says is that we didn't define a special "starting" file.
+  - We're using webrick as the HTTP server.
+  - We're running Ruby 1.9.3.
+  - The server is running on localhost (127.0.0.1), port 7000 (Ramaze's default).
+  - The PID for this running server is 5011. 
+
+Now, start your browser and enter `localhost:7000` into the address bar, and this should display, showing that the hello.rb application is running.
+
+[source,html]
+----
+Hello, World
+----
+
+Now that you've entered and run your first Ramaze application, you can see how simple it is to build one.
+
+.Let's take a look at the source
+  - First we require Ramaze, the ramaze library and framework.
+  - Next we define a Controller. The usual convention is to give the controller a name, followed by 'Controller'. You're not required to follow this convention, but it makes reading code easier. So, let's use HelloController here.
+  - Then we use the `map` call to define this controller as the root controller. If this call is omitted, since there is no "MainController," this controller will default to the root controller. We're just adding this for clairity. We'll cover more on routing in another chapter.
+  - The next 3 lines define the index method (which is the default). The "Hello, World" string is returned by the index method, and Ramaze sends that back to the browser. We'll cover controllers and views in another chapter also.
+  - The last statement will start an instance of Ruby and start the WEBrick HTTP server that ships with Ruby.
+
+Sometimes when you run your application, you'll get an error when starting Ramaze that looks like:
 
 [source,txt]
---------------------------------------------------------------------------------
+----
 include::source/tutorial_introduction/start_eaddrinuse.txt[tabsize=2]
---------------------------------------------------------------------------------
+----
 
-This means that you already have a server running on this port, and you will
-have to use another port to run your application or shutdown the application
-occupying the port.
+This means that you already have a server running on this port, and you will have to use another port to run your application or shutdown the application occupying the port.
 
-If you don't know what is running on this port, you can find out by using the
-'netstat' command.
+If you don't know what is running on this port, you can find out by using the 'netstat' command.
 
 The invocation of 'netstat' differs on Windows an Linux, we'll show Linux first.
 
 [source,txt]
---------------------------------------------------------------------------------
-delta ~ % netstat -lntp
+----
+$ netstat -lntp
+(Not all processes could be identified, non-owned process info
+ will not be shown, you would have to be root to see it all.)
 Active Internet connections (only servers)
 Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name
-tcp        0      0 0.0.0.0:7000            0.0.0.0:*               LISTEN      11910/ruby
---------------------------------------------------------------------------------
+  ...
+tcp        0      0 127.0.0.1:7000          0.0.0.0:*               LISTEN      6957/ruby
+  ...
+----
 
-With this information you know the Process ID, and can, for example `kill
-11910` (send TERM signal to the process) or `pkill ruby` (send TERM signal to
-all ruby processes) on Linux.
+With this information you know the Process ID, and can, for example `kill -s abrt 6957` (send SIGABRT signal to the process) on Linux. Note that a `kill 6957` would be trapped by Ramaze, and Ramaze would not shutdown.
 
 On Windows, 'netstat' has to be called like this:
 
 [source,txt]
---------------------------------------------------------------------------------
+----
 C:\> netstat -a -b -o -p TCP
 Active Connections
  Proto  Local Address          Foreign Address        State           PID
  TCP    localhost:7000         localhost:0            LISTENING       17806 [ruby.exe]
---------------------------------------------------------------------------------
+----
 
 Now you can use `taskkill /PID 17806` or `taskkill /IM <process_name>` to get rid of this process.
 
 
 == The ramaze command
 
-Ramaze ships with an executable called 'ramaze'.
-This little tool helps you creating, controlling, and debugging your
-applications.
-The executable was created by the {rubyists}, most prominently TJ Vanderpoel.
+Ramaze ships with an executable called 'ramaze'. You've probably guessed that a Ramaze application can be simple, like the hello.rb application above, but to build a complex project, you'll need more. This little tool helps you to create your applications with everything you'll need to get started on a full scale Ramaze project, and it does it in seconds.
 
-It tightly integrates with both Ramaze and the Rack executable 'rackup', so you
-will be able to take advantage of both.
+From now on, we will call the 'ramaze' executable 'bin/ramaze' because that's what it's commonly called in the Ramaze community.
 
-From now on we will call the 'ramaze' executable 'bin/ramaze', that's what it
-is commonly called in the Ramaze community as well.
+.Getting help with bin/ramaze
 
-Many commands of 'bin/ramaze' rely on a so-called pidfile, which is a tiny file
-that only contains the process-ID of a currently running Ramaze application.
-The name of this file defaults to the name of the directory your application is
-in, suffixed with '.pid'.
-So if you made an application called 'blog' in a 'blog' directory, the pidfile
-will be called 'blog.pid'.
-If you see such a file, it usually means that the application is already
-running in the background.
-You can see whether that is the case:
+To get help, just use `ramaze --help`. To get help with a command, use `ramaze <command> --help`. For example, this is what you get when you ask for help with `ramaze create --help`:
 
 [source,sh]
---------------------------------------------------------------------------------
-delta ~ramaze/blog % ps `cat blog.pid`
-  PID TTY      STAT   TIME COMMAND
-32578 ?        SNl    0:00 /usr/bin/ruby /home/manveru/bin/rackup config.ru -P blog.pid -D
---------------------------------------------------------------------------------
+----
+$ ramaze create --help
+Allows developers to easily create new Ramaze applications based on the
+prototype that ships with Ramaze.
 
-Future versions of `bin/ramaze` might provide a `ramaze status` command, that
-will show you similar information.
+Usage:
+  ramaze create [NAME] [OPTIONS]
 
-=== Create
+Example:
+  ramaze create --help # this message
+  ramaze create blog # create a project named blog
+  ramaze create blog -a mysql2 -d blog_dev -u bloguser -p dFLaWp3uts97pFwcdz7 # same, but with database
 
-To create a new application with a basic set of files and directories that get
-you started in no time, we just have to issue a single command.
+Options:
+  -a, --adapter adapter            Specifies the database adapter name [no default]
+  -s, --server server              Specifies the database server(host) name [default: localhost]
+  -d, --dbname dbname              Specifies the database dbname [default: your_dbname]
+  -u, --username username          Specifies the database username [default: your_username]
+  -p, --password password          Specifies the database password [default: your_password]
+  -f, --force                      Overwrites existing directories
+  -h, --help                       Shows this help message
+----
 
-`ramaze create PROJECT` creates a new prototype Ramaze application in a directory named
-'PROJECT' in the current directory.
-`ramaze create foo` would make './foo' containing an application prototype.
-Rack options are meaningless here.
+.Getting the Ramaze version
 
-[source,sh]
---------------------------------------------------------------------------------
-$ ramaze create blog
---------------------------------------------------------------------------------
-
-What it does is simply copying a bunch of files from 'lib/proto' in the ramaze
-library to the argument given. So you will end up with a new directory called
-'blog' which contains a bunch of files.
-
-The contents of this directory are:
-
-[source,txt]
---------------------------------------------------------------------------------
-include::source/tutorial_introduction/ramaze_create_contents.txt[tabsize=2]
---------------------------------------------------------------------------------
-
-We will take a look at these files and their purpose soon, but first we'll
-cover other commands of 'bin/ramaze'.
-
-=== Start
-
-Start an instance of your application with `ramaze start`.
-Supply a pidfile name if you do not want it to use the default (PROJECT.pid).
+Just use the -v or --version option:
 
 [source,sh]
---------------------------------------------------------------------------------
-$ ramaze start
---------------------------------------------------------------------------------
+----
+$ ramaze -v
+2016.05.17
+----
 
-To start your application in the background you should daemonize it with the
-`-D` argument. This will put the PID of the instance into the pidfile.
-Please note that this is not available on Windows, because of limitations of
-the platform.
 
-[source,sh]
---------------------------------------------------------------------------------
-$ ramaze start -D
---------------------------------------------------------------------------------
+=== Creating Projects with bin/ramaze
 
-=== Stop
+To create a new application with a basic set of files and directories that get you started in no time, you just have to issue a single command. There's three kinds of projects you can create:
 
-Stop a running instance of this application with `ramaze stop`.
-Supply a pidfile name if you started it with a pidfile other than the default
-(PROJECT.pid).
+  - A plain web application with no database support;
+  - A web application with MySQL and Sequel support; or 
+  - A web application with Sqlite and Sequel support.
 
-=== Restart
+.Note: PostgreSQL coming soon
+Support for building projects with PostgreSQL is coming soon, but for now, you can build a MySQL project and modify the model/init.rb file to open a PostgreSQL database instead of MySQL.
 
-Stop a running instance of this application, then starts it back up with
-`ramaze restart`.
-Pidfile (if supplied) is used for both stop and start.
+.Creating a non-database Ramaze project
+
+To build a non-database Ramaze project, simply change directories to the place where you want to create the new project, then use
 
 [source,sh]
---------------------------------------------------------------------------------
-$ ramaze restart -D
---------------------------------------------------------------------------------
+----
+$ ramaze create <project-name>
+----
 
-=== Console
+There are no options.
 
-Starts an irb console with app.rb (and irb completion) loaded. This command
-ignores rack options.
-At the moment, you will have to call `Ramaze.setup_dependencies` after starting
-the session to get full functionality, as it will not actually start your
-application, this should be fixed in the future.
-We might add support for hooking into an already running application (as that
-would be vastly superior for live debugging).
+.Creating a Ramaze project with MySQL support
+
+To build a Ramaze project with MySQL support built in, you'll need to have:
+
+  - MySQL installed and running on some computer.
+  - A database already created (see the MySQL documentation for that).
+  - (optionally) the `host` address or name of the MySQL server; for example, it may be `localhost`, or another machine on your local network like `192.168.1.2`, or a name from your /etc/hosts file like `server`, or any other location for which you have a valid URL. The default for this parameter is `localhost`, which is most commonly what people want.
+  - The name of the database.
+  - The username for the logon which Sequel will use.
+  - The password for the logon.
+
+To build a MySQL Ramaze project, simply change directories to the place where you want to create the new project, then use
 
 [source,sh]
---------------------------------------------------------------------------------
-$ ramaze console
---------------------------------------------------------------------------------
+----
+$ ramaze create <project-name> -a mysql2 <options>
+----
 
-An example session:
+For example,
 
-[source,ruby]
---------------------------------------------------------------------------------
-MainController.instance_methods(false)
-self
-# main
-Ramaze.setup_dependencies
-# [Innate::Cache, Innate::Node, Ramaze::Controller, Ramaze::Plugin]
-MainController.instance_methods(false)
-Ramaze::Mock.get('/notemplate').headers
-# {"Content-Type"=>"text/html", "Content-Length"=>"994"}
-Ramaze::Mock.get('/notemplate').status
-# 200
---------------------------------------------------------------------------------
+[source,sh]
+----
+$ ramaze create blog -a mysql2 -d blog_dev -u bloguser -p dFLaWp3uts97pFwcdz7
+----
+
+If the database is active, the first time you run your new project, the main screen will verify if the connection was made.
+
+
+
+.Creating a Ramaze project with Sqlite3 support
+
+To build a Ramaze project with Sqlite3 support built in, you'll need to have:
+
+  - Sqlite3 installed on your computer.
+  - The name of the database.
+
+To build a Sqlite Ramaze project, simply change directories to the place where you want to create the new project, then use
+
+[source,sh]
+----
+$ ramaze create <project-name> -a sqlite <options>
+----
+
+For example,
+
+[source,sh]
+----
+$ ramaze create blog -a sqlite -d blog_dev
+----
+
+.Caveats
+[WARNING]
+====
+  - If the database name you give Sqlite doesn't exist, it'll create the database, but it won't be saved until some permanent change is made to it. What this means is, if you make a mistake in the name, you'll find an empty database (which can be disconcerting if you expected to find data), and if you save important data, it'll go to the incorrectly-named database instead of the one you actually wanted.
+  - If you have an existing database, specify `-d <full-path-name>`. If you don't give a pathname, the database will be created at the root of your project. If you put data in it, then delete and re-create your project, the database will be deleted also, and you'll lose the data you put in.
+  - If you back up your project with git, and you let the database be created inside the project, git can back it up for you.
+====
+
